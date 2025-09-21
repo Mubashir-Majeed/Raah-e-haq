@@ -278,6 +278,12 @@
             font-size: 0.9rem;
         }
 
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
         .form-input {
             width: 100%;
             padding: 1rem 1rem 1rem 3rem;
@@ -309,10 +315,11 @@
             transition: color 0.3s ease;
             z-index: 2;
             pointer-events: none;
-        }
-
-        .form-input:focus + .input-icon {
-            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
         }
 
         .form-input:focus ~ .input-icon {
@@ -541,16 +548,18 @@
                 <!-- Email Address -->
                 <div class="form-group">
                     <label for="email" class="form-label">Email Address</label>
-                    <input id="email" 
-                           class="form-input @error('email') border-red-500 @enderror" 
-                           type="email" 
-                           name="email" 
-                           value="{{ old('email') }}" 
-                           required 
-                           autofocus 
-                           autocomplete="username"
-                           placeholder="Enter your email">
-                    <i class="fas fa-envelope input-icon"></i>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input id="email" 
+                               class="form-input @error('email') border-red-500 @enderror" 
+                               type="email" 
+                               name="email" 
+                               value="{{ old('email') }}" 
+                               required 
+                               autofocus 
+                               autocomplete="username"
+                               placeholder="Enter your email">
+                    </div>
                     @error('email')
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
@@ -562,14 +571,16 @@
                 <!-- Password -->
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
-                    <input id="password" 
-                           class="form-input @error('password') border-red-500 @enderror"
-                           type="password"
-                           name="password"
-                           required 
-                           autocomplete="current-password"
-                           placeholder="Enter your password">
-                    <i class="fas fa-lock input-icon"></i>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input id="password" 
+                               class="form-input @error('password') border-red-500 @enderror"
+                               type="password"
+                               name="password"
+                               required 
+                               autocomplete="current-password"
+                               placeholder="Enter your password">
+                    </div>
                     @error('password')
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>

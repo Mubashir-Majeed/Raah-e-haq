@@ -308,6 +308,12 @@
             transform: translateY(-2px);
         }
 
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
         .input-icon {
             position: absolute;
             left: 1rem;
@@ -318,10 +324,11 @@
             transition: color 0.3s ease;
             z-index: 2;
             pointer-events: none;
-        }
-
-        .form-input:focus + .input-icon {
-            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
         }
 
         .form-input:focus ~ .input-icon {
@@ -715,15 +722,17 @@
         <!-- Email Address -->
                 <div class="form-group">
                     <label for="email" class="form-label">Email Address</label>
-                    <input id="email" 
-                           class="form-input @error('email') border-red-500 @enderror" 
-                           type="email" 
-                           name="email" 
-                           value="{{ old('email') }}" 
-                           required 
-                           autocomplete="username"
-                           placeholder="Enter your email address">
-                    <i class="fas fa-envelope input-icon"></i>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input id="email" 
+                               class="form-input @error('email') border-red-500 @enderror" 
+                               type="email" 
+                               name="email" 
+                               value="{{ old('email') }}" 
+                               required 
+                               autocomplete="username"
+                               placeholder="Enter your email address">
+                    </div>
                     @error('email')
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
@@ -735,14 +744,16 @@
         <!-- Password -->
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
-                    <input id="password" 
-                           class="form-input @error('password') border-red-500 @enderror"
-                            type="password"
-                            name="password"
-                           required 
-                           autocomplete="new-password"
-                           placeholder="Create a strong password">
-                    <i class="fas fa-lock input-icon"></i>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input id="password" 
+                               class="form-input @error('password') border-red-500 @enderror"
+                                type="password"
+                                name="password"
+                               required 
+                               autocomplete="new-password"
+                               placeholder="Create a strong password">
+                    </div>
                     @error('password')
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
@@ -760,14 +771,16 @@
         <!-- Confirm Password -->
                 <div class="form-group">
                     <label for="password_confirmation" class="form-label">Confirm Password</label>
-                    <input id="password_confirmation" 
-                           class="form-input @error('password_confirmation') border-red-500 @enderror"
-                           type="password"
-                           name="password_confirmation" 
-                           required 
-                           autocomplete="new-password"
-                           placeholder="Confirm your password">
-                    <i class="fas fa-lock input-icon"></i>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input id="password_confirmation" 
+                               class="form-input @error('password_confirmation') border-red-500 @enderror"
+                               type="password"
+                               name="password_confirmation" 
+                               required 
+                               autocomplete="new-password"
+                               placeholder="Confirm your password">
+                    </div>
                     @error('password_confirmation')
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
@@ -836,22 +849,26 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="form-group">
                             <label for="phone" class="form-label">Phone Number</label>
-                            <input id="phone" 
-                                   class="form-input" 
-                                   type="tel" 
-                                   name="phone" 
-                                   placeholder="+92 300 1234567">
-                            <i class="fas fa-phone input-icon"></i>
+                            <div class="input-wrapper">
+                                <i class="fas fa-phone input-icon"></i>
+                                <input id="phone" 
+                                       class="form-input" 
+                                       type="tel" 
+                                       name="phone" 
+                                       placeholder="+92 300 1234567">
+                            </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="cnic" class="form-label">CNIC Number</label>
-                            <input id="cnic" 
-                                   class="form-input" 
-                                   type="text" 
-                                   name="cnic" 
-                                   placeholder="12345-1234567-1">
-                            <i class="fas fa-id-card input-icon"></i>
+                            <div class="input-wrapper">
+                                <i class="fas fa-id-card input-icon"></i>
+                                <input id="cnic" 
+                                       class="form-input" 
+                                       type="text" 
+                                       name="cnic" 
+                                       placeholder="12345-1234567-1">
+                            </div>
                         </div>
                         
                         <div class="form-group md:col-span-2">
