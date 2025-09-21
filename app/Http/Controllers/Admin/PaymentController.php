@@ -154,13 +154,13 @@ class PaymentController extends Controller
         $request->validate([
             'type' => 'required|in:add,deduct',
             'amount' => 'required|numeric|min:0.01',
-            'description' => 'required|string|max:500',
+            'description' => 'nullable|string|max:500',
         ]);
 
         try {
             $amount = $request->amount;
             $type = $request->type;
-            $description = $request->description;
+            $description = $request->description ?: ($type === 'add' ? "Add PKR {$amount} to wallet balance" : "Deduct PKR {$amount} from wallet balance");
             $previousBalance = $wallet->balance;
 
             // Check for insufficient balance when deducting

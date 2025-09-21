@@ -223,7 +223,7 @@
 </div>
 
 <!-- Adjust Wallet Modal -->
-<div id="adjustModal" class="fixed inset-0 bg-black bg-opacity-60 hidden z-[9999] flex items-center justify-center p-2" style="backdrop-filter: blur(4px);">
+<div id="adjustModal" class="fixed inset-0 bg-black bg-opacity-60 hidden z-[9999] flex items-center justify-center p-2">
     <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xs sm:max-w-sm max-h-[95vh] overflow-hidden transform transition-all duration-300 ease-out scale-95 opacity-0" id="adjustModalContent">
         <!-- Header -->
         <div class="px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 text-white rounded-t-3xl">
@@ -331,9 +331,9 @@
                     <label class="block text-sm font-semibold text-gray-700 mb-2">
                         <i class="fas fa-file-text mr-2 text-indigo-600"></i>Description
                     </label>
-                    <textarea name="description" rows="3" required 
+                    <textarea name="description" rows="3" 
                               class="w-full px-3 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none text-sm"
-                              placeholder="Reason for adjustment (e.g., Refund, Bonus, Penalty)"></textarea>
+                              placeholder="Reason for adjustment (optional - e.g., Refund, Bonus, Penalty)"></textarea>
                 </div>
             </form>
         </div>
@@ -355,7 +355,7 @@
 </div>
 
 <!-- Transactions Modal -->
-<div id="transactionsModal" class="fixed inset-0 bg-black bg-opacity-60 hidden z-[9999] flex items-center justify-center p-2" style="backdrop-filter: blur(4px);">
+<div id="transactionsModal" class="fixed inset-0 bg-black bg-opacity-60 hidden z-[9999] flex items-center justify-center p-2">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl sm:max-w-3xl max-h-[95vh] flex flex-col transform transition-all duration-300 ease-out scale-95 opacity-0" id="transactionsModalContent">
         <!-- Header -->
         <div class="px-6 py-5 border-b border-gray-200 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-t-2xl flex-shrink-0">
@@ -735,7 +735,9 @@ function submitAdjustForm() {
     // Validate form
     const amount = parseFloat(document.querySelector('input[name="amount"]').value) || 0;
     const type = document.querySelector('input[name="type"]:checked')?.value;
-    const description = document.querySelector('textarea[name="description"]').value.trim();
+    let description = document.querySelector('textarea[name="description"]').value.trim();
+    
+    console.log('Form validation data:', { amount, type, description });
     
     if (!type) {
         showToast('error', 'Please select an action (Add or Deduct)');
@@ -748,8 +750,9 @@ function submitAdjustForm() {
     }
     
     if (!description) {
-        showToast('error', 'Please provide a description for this adjustment');
-        return;
+        // Provide a default description if none is given
+        description = `${type === 'add' ? 'Add' : 'Deduct'} PKR ${amount} to wallet balance`;
+        document.querySelector('textarea[name="description"]').value = description;
     }
     
     // Show loading state
@@ -760,17 +763,49 @@ function submitAdjustForm() {
     const formData = new FormData(form);
     const url = form.action;
     
+    console.log('Submitting to:', url);
+    console.log('Form data:', Object.fromEntries(formData));
+    
+    // Validate URL
+    if (!url || url.includes(':id')) {
+        showToast('error', 'Invalid wallet ID. Please refresh the page and try again.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        return;
+    }
+    
     // Submit via AJAX
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    console.log('CSRF Token:', csrfToken);
+    
+    if (!csrfToken) {
+        showToast('error', 'CSRF token not found. Please refresh the page and try again.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        return;
+    }
+    
     fetch(url, {
         method: 'POST',
         body: formData,
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            'X-CSRF-TOKEN': csrfToken
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        return response.json();
+    })
     .then(data => {
+        console.log('Response data:', data);
+        
         if (data.success) {
             // Show success message
             showToast('success', data.message);
@@ -788,12 +823,13 @@ function submitAdjustForm() {
                 window.location.reload();
             }, 1500);
         } else {
-            showToast('error', data.message);
+            showToast('error', data.message || 'Operation failed');
         }
     })
     .catch(error => {
-        console.error('Error:', error);
-        showToast('error', 'An error occurred. Please try again.');
+        console.error('Error details:', error);
+        console.error('Error message:', error.message);
+        showToast('error', `Error: ${error.message}. Please check console for details.`);
     })
     .finally(() => {
         // Reset button state
@@ -866,7 +902,16 @@ function showToast(type, message) {
     
     // Create toast element
     const toast = document.createElement('div');
-    toast.className = `toast-notification fixed top-4 right-4 z-[10000] px-6 py-4 rounded-xl shadow-2xl transition-all duration-300 transform translate-x-full max-w-sm`;
+    toast.className = `toast-notification fixed top-4 right-4 z-[99999] px-6 py-4 rounded-xl shadow-2xl transition-all duration-300 transform translate-x-full max-w-sm`;
+    toast.style.cssText = `
+        position: fixed !important;
+        top: 1rem !important;
+        right: 1rem !important;
+        z-index: 99999 !important;
+        max-width: 24rem !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    `;
     
     if (type === 'success') {
         toast.classList.add('bg-gradient-to-r', 'from-green-500', 'to-green-600', 'text-white', 'border-l-4', 'border-green-400');
@@ -901,17 +946,19 @@ function showToast(type, message) {
     // Animate in
     setTimeout(() => {
         toast.classList.remove('translate-x-full');
+        toast.style.transform = 'translateX(0)';
     }, 100);
     
-    // Remove after 4 seconds
+    // Remove after 5 seconds
     setTimeout(() => {
         toast.classList.add('translate-x-full', 'opacity-0');
+        toast.style.transform = 'translateX(100%)';
         setTimeout(() => {
             if (toast.parentNode) {
                 toast.parentNode.removeChild(toast);
             }
         }, 300);
-    }, 4000);
+    }, 5000);
 }
 </script>
 @endsection
