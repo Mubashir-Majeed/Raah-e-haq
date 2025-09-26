@@ -3,291 +3,252 @@
 @section('title', 'Referral Analytics')
 
 @section('content')
-<div class="container-fluid">
+<div class="fade-in">
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showToast('{{ session('success') }}', 'success');
+            });
+        </script>
+    @endif
+
+    @if(session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showToast('{{ session('error') }}', 'error');
+            });
+        </script>
+    @endif
+
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-6">
+    <div class="flex items-center justify-between mb-8">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 mb-2">Referral Analytics</h1>
-            <p class="text-gray-600">Comprehensive analytics and insights for the referral system</p>
+            <h1 class="text-3xl font-bold text-gray-900">Referral Analytics</h1>
+            <p class="text-gray-600 mt-2">Comprehensive analytics and insights for referral program performance</p>
         </div>
-        <div class="flex gap-3">
-            <a href="{{ route('admin.referrals.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200">
+        <div class="flex items-center space-x-4">
+            <a href="{{ route('admin.referrals.index') }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200 hover-scale">
                 <i class="fas fa-arrow-left mr-2"></i>Back to Referrals
             </a>
         </div>
     </div>
 
-    <!-- Key Metrics Cards -->
+    <!-- Analytics Overview Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <!-- Total Referrals -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <div class="flex items-center">
-                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                    <i class="fas fa-users text-blue-600 text-xl"></i>
-                </div>
+        <div class="stat-card rounded-2xl p-6 card-hover slide-in-left" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%); backdrop-filter: blur(15px); border: 1px solid rgba(1, 28, 114, 0.15); box-shadow: 0 8px 32px rgba(1, 28, 114, 0.1);">
+            <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-gray-600">Total Referrals</p>
-                    <p class="text-2xl font-bold text-gray-900">{{ number_format($analytics['total_referrals']) }}</p>
+                    <p class="text-3xl font-bold text-primary">{{ $analytics['total_referrals'] }}</p>
+                </div>
+                <div class="w-12 h-12 gradient-primary rounded-full flex items-center justify-center">
+                    <i class="fas fa-users text-white text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Completed Referrals -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <div class="flex items-center">
-                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
-                    <i class="fas fa-check-circle text-green-600 text-xl"></i>
-                </div>
+        <div class="stat-card rounded-2xl p-6 card-hover slide-in-left" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%); backdrop-filter: blur(15px); border: 1px solid rgba(1, 28, 114, 0.15); box-shadow: 0 8px 32px rgba(1, 28, 114, 0.1);">
+            <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-gray-600">Completed</p>
-                    <p class="text-2xl font-bold text-gray-900">{{ number_format($analytics['completed_referrals']) }}</p>
+                    <p class="text-3xl font-bold text-green-600">{{ $analytics['completed_referrals'] }}</p>
+                </div>
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-check-circle text-green-600 text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Pending Referrals -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <div class="flex items-center">
-                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
-                    <i class="fas fa-clock text-yellow-600 text-xl"></i>
-                </div>
+        <div class="stat-card rounded-2xl p-6 card-hover slide-in-left" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%); backdrop-filter: blur(15px); border: 1px solid rgba(1, 28, 114, 0.15); box-shadow: 0 8px 32px rgba(1, 28, 114, 0.1);">
+            <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-gray-600">Pending</p>
-                    <p class="text-2xl font-bold text-gray-900">{{ number_format($analytics['pending_referrals']) }}</p>
+                    <p class="text-3xl font-bold text-yellow-600">{{ $analytics['pending_referrals'] }}</p>
+                </div>
+                <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-clock text-yellow-600 text-xl"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Total Rewards Paid -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <div class="flex items-center">
-                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
-                    <i class="fas fa-gift text-purple-600 text-xl"></i>
-                </div>
+        <div class="stat-card rounded-2xl p-6 card-hover slide-in-left" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%); backdrop-filter: blur(15px); border: 1px solid rgba(1, 28, 114, 0.15); box-shadow: 0 8px 32px rgba(1, 28, 114, 0.1);">
+            <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-gray-600">Rewards Paid</p>
-                    <p class="text-2xl font-bold text-gray-900">PKR {{ number_format($analytics['total_rewards_paid'], 2) }}</p>
+                    <p class="text-sm font-medium text-gray-600">Success Rate</p>
+                    <p class="text-3xl font-bold text-blue-600">{{ $analytics['success_rate'] }}%</p>
+                </div>
+                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-percentage text-blue-600 text-xl"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Additional Stats Row -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <!-- Cancelled Referrals -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <div class="flex items-center">
-                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
-                    <i class="fas fa-times-circle text-red-600 text-xl"></i>
-                </div>
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Cancelled</p>
-                    <p class="text-2xl font-bold text-gray-900">{{ number_format($analytics['cancelled_referrals']) }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pending Rewards -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <div class="flex items-center">
-                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
-                    <i class="fas fa-hourglass-half text-orange-600 text-xl"></i>
-                </div>
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Pending Rewards</p>
-                    <p class="text-2xl font-bold text-gray-900">PKR {{ number_format($analytics['pending_rewards'], 2) }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Expired Rewards -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <div class="flex items-center">
-                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mr-4">
-                    <i class="fas fa-calendar-times text-gray-600 text-xl"></i>
-                </div>
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Expired Rewards</p>
-                    <p class="text-2xl font-bold text-gray-900">PKR {{ number_format($analytics['expired_rewards'], 2) }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Completion Rate -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <div class="flex items-center">
-                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
-                    <i class="fas fa-percentage text-indigo-600 text-xl"></i>
-                </div>
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Completion Rate</p>
-                    <p class="text-2xl font-bold text-gray-900">
-                        {{ $analytics['total_referrals'] > 0 ? number_format(($analytics['completed_referrals'] / $analytics['total_referrals']) * 100, 1) : 0 }}%
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Charts and Detailed Analytics -->
+    <!-- Charts Row -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         <!-- Monthly Referrals Chart -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <div class="flex items-center">
-                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
-                        <i class="fas fa-chart-line text-blue-600"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-900">Monthly Referrals</h3>
-                        <p class="text-gray-600 text-sm">Referral trends over the last 12 months</p>
-                    </div>
-                </div>
-            </div>
-            <div class="p-6">
-                @if($monthlyReferrals->count() > 0)
-                    <div class="space-y-4">
-                        @foreach($monthlyReferrals as $month)
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm font-medium text-gray-600">{{ \Carbon\Carbon::createFromFormat('Y-m', $month->month)->format('M Y') }}</span>
-                            <div class="flex items-center">
-                                <div class="w-32 bg-gray-200 rounded-full h-2 mr-3">
-                                    <div class="bg-blue-600 h-2 rounded-full" style="width: {{ ($month->count / $monthlyReferrals->max('count')) * 100 }}%"></div>
-                                </div>
-                                <span class="text-sm font-bold text-gray-900">{{ $month->count }}</span>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                @else
-                    <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-chart-line text-4xl mb-4"></i>
-                        <p>No referral data available for the selected period</p>
-                    </div>
-                @endif
+        <div class="stat-card rounded-2xl p-6 card-hover slide-in-left" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%); backdrop-filter: blur(15px); border: 1px solid rgba(1, 28, 114, 0.15); box-shadow: 0 8px 32px rgba(1, 28, 114, 0.1);">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Monthly Referrals Trend</h3>
+            <div class="h-64 flex items-center justify-center">
+                <canvas id="monthlyReferralsChart"></canvas>
             </div>
         </div>
 
-        <!-- Referral Levels Distribution -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <div class="flex items-center">
-                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
-                        <i class="fas fa-sitemap text-green-600"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-900">Referral Levels</h3>
-                        <p class="text-gray-600 text-sm">Distribution across referral levels</p>
-                    </div>
-                </div>
-            </div>
-            <div class="p-6">
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                        <div class="flex items-center">
-                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-3">1</div>
-                            <span class="font-medium text-gray-900">Level 1 Referrals</span>
-                        </div>
-                        <span class="text-lg font-bold text-blue-600">{{ number_format($analytics['level_1_referrals']) }}</span>
-                    </div>
-                    <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                        <div class="flex items-center">
-                            <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold mr-3">2</div>
-                            <span class="font-medium text-gray-900">Level 2 Referrals</span>
-                        </div>
-                        <span class="text-lg font-bold text-green-600">{{ number_format($analytics['level_2_referrals']) }}</span>
-                    </div>
-                    <div class="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
-                        <div class="flex items-center">
-                            <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold mr-3">3</div>
-                            <span class="font-medium text-gray-900">Level 3 Referrals</span>
-                        </div>
-                        <span class="text-lg font-bold text-purple-600">{{ number_format($analytics['level_3_referrals']) }}</span>
-                    </div>
-                </div>
+        <!-- Referral Status Distribution -->
+        <div class="stat-card rounded-2xl p-6 card-hover slide-in-left" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%); backdrop-filter: blur(15px); border: 1px solid rgba(1, 28, 114, 0.15); box-shadow: 0 8px 32px rgba(1, 28, 114, 0.1);">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Referral Status Distribution</h3>
+            <div class="h-64 flex items-center justify-center">
+                <canvas id="statusDistributionChart"></canvas>
             </div>
         </div>
     </div>
 
     <!-- Top Referrers Table -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
-        <div class="px-6 py-4 border-b border-gray-200">
-            <div class="flex items-center">
-                <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
-                    <i class="fas fa-trophy text-yellow-600"></i>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-900">Top Referrers</h3>
-                    <p class="text-gray-600 text-sm">Users with the most successful referrals</p>
-                </div>
-            </div>
-        </div>
+    <div class="stat-card rounded-2xl p-6 card-hover slide-in-left" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%); backdrop-filter: blur(15px); border: 1px solid rgba(1, 28, 114, 0.15); box-shadow: 0 8px 32px rgba(1, 28, 114, 0.1);">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">Top Referrers</h3>
         <div class="overflow-x-auto">
             <table class="w-full">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Referrals</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <thead>
+                    <tr class="border-b border-gray-200">
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700">User</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700">Email</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700">Total Referrals</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700">Completed</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700">Success Rate</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @forelse($topReferrers as $index => $referrer)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                                @if($index < 3)
-                                    <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3
-                                        @if($index === 0) bg-yellow-100 text-yellow-600
-                                        @elseif($index === 1) bg-gray-100 text-gray-600
-                                        @else bg-orange-100 text-orange-600 @endif">
-                                        <i class="fas fa-trophy text-sm"></i>
+                <tbody>
+                    @forelse($topReferrers as $referrer)
+                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 gradient-primary rounded-full flex items-center justify-center">
+                                        <span class="text-white text-sm font-bold">{{ substr($referrer->name, 0, 1) }}</span>
                                     </div>
-                                @else
-                                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                                        <span class="text-sm font-bold text-gray-600">{{ $index + 1 }}</span>
-                                    </div>
-                                @endif
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
-                                    {{ substr($referrer->name, 0, 1) }}
+                                    <span class="font-medium text-gray-900">{{ $referrer->name }}</span>
                                 </div>
-                                <div>
-                                    <div class="text-sm font-medium text-gray-900">{{ $referrer->name }}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $referrer->email }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-bold text-gray-900">{{ $referrer->referrals_count }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                @if($referrer->status === 'active') bg-green-100 text-green-800
-                                @elseif($referrer->status === 'pending') bg-yellow-100 text-yellow-800
-                                @else bg-gray-100 text-gray-800 @endif">
-                                {{ ucfirst($referrer->status) }}
-                            </span>
-                        </td>
-                    </tr>
+                            </td>
+                            <td class="py-3 px-4 text-gray-600">{{ $referrer->email }}</td>
+                            <td class="py-3 px-4">
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                                    {{ $referrer->referrals_count }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4">
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                                    {{ $referrer->referrals->where('status', 'completed')->count() }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4">
+                                @php
+                                    $completed = $referrer->referrals->where('status', 'completed')->count();
+                                    $total = $referrer->referrals_count;
+                                    $rate = $total > 0 ? round(($completed / $total) * 100, 1) : 0;
+                                @endphp
+                                <span class="px-2 py-1 bg-purple-100 text-purple-800 text-sm font-medium rounded-full">
+                                    {{ $rate }}%
+                                </span>
+                            </td>
+                            <td class="py-3 px-4">
+                                <a href="{{ route('admin.referrals.user-referrals', $referrer) }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                                    View Details
+                                </a>
+                            </td>
+                        </tr>
                     @empty
-                    <tr>
-                        <td colspan="5" class="px-6 py-12 text-center text-gray-500">
-                            <i class="fas fa-users text-4xl mb-4"></i>
-                            <p>No referrers found</p>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="6" class="py-8 text-center text-gray-500">
+                                <i class="fas fa-users text-4xl mb-4"></i>
+                                <p>No referrers found</p>
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Monthly Referrals Chart
+    const monthlyCtx = document.getElementById('monthlyReferralsChart').getContext('2d');
+    new Chart(monthlyCtx, {
+        type: 'line',
+        data: {
+            labels: {!! json_encode(array_keys($monthlyReferrals)) !!},
+            datasets: [{
+                label: 'Referrals',
+                data: {!! json_encode(array_values($monthlyReferrals)) !!},
+                borderColor: '#011c72ff',
+                backgroundColor: 'rgba(1, 28, 114, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            }
+        }
+    });
+
+    // Status Distribution Chart
+    const statusCtx = document.getElementById('statusDistributionChart').getContext('2d');
+    new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Completed', 'Pending', 'Cancelled'],
+            datasets: [{
+                data: [
+                    {{ $analytics['completed_referrals'] }},
+                    {{ $analytics['pending_referrals'] }},
+                    {{ $analytics['cancelled_referrals'] ?? 0 }}
+                ],
+                backgroundColor: [
+                    '#10B981',
+                    '#F59E0B',
+                    '#EF4444'
+                ],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
 @endsection

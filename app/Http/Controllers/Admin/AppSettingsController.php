@@ -185,4 +185,26 @@ class AppSettingsController extends Controller
         $status = $banner->is_active ? 'activated' : 'deactivated';
         return redirect()->back()->with('success', "Banner {$status} successfully!");
     }
+
+    public function showNotification(Notification $notification)
+    {
+        return view('admin.settings.show-notification', compact('notification'));
+    }
+
+    public function deleteNotification(Notification $notification)
+    {
+        $notification->delete();
+        return redirect()->route('admin.settings.notifications')->with('success', 'Notification deleted successfully!');
+    }
+
+    public function showBanner(Banner $banner)
+    {
+        return view('admin.settings.show-banner', compact('banner'));
+    }
+
+    public function deleteBanner(Banner $banner)
+    {
+        $banner->delete();
+        return redirect()->route('admin.settings.banners')->with('success', 'Banner deleted successfully!');
+    }
 }

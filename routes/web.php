@@ -65,10 +65,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('/settings/notifications/create', [AppSettingsController::class, 'createNotification'])->name('settings.notifications.create');
     Route::post('/settings/notifications', [AppSettingsController::class, 'storeNotification'])->name('settings.notifications.store');
     Route::post('/settings/notifications/{notification}/send', [AppSettingsController::class, 'sendNotification'])->name('settings.notifications.send');
+    Route::get('/settings/notifications/{notification}', [AppSettingsController::class, 'showNotification'])->name('settings.notifications.show');
+    Route::delete('/settings/notifications/{notification}', [AppSettingsController::class, 'deleteNotification'])->name('settings.notifications.delete');
     Route::get('/settings/banners', [AppSettingsController::class, 'banners'])->name('settings.banners');
     Route::get('/settings/banners/create', [AppSettingsController::class, 'createBanner'])->name('settings.banners.create');
     Route::post('/settings/banners', [AppSettingsController::class, 'storeBanner'])->name('settings.banners.store');
+    Route::get('/settings/banners/{banner}', [AppSettingsController::class, 'showBanner'])->name('settings.banners.show');
     Route::post('/settings/banners/{banner}/toggle', [AppSettingsController::class, 'toggleBanner'])->name('settings.banners.toggle');
+    Route::delete('/settings/banners/{banner}', [AppSettingsController::class, 'deleteBanner'])->name('settings.banners.delete');
     
     // Security & Audit Routes
     Route::get('/security', [SecurityController::class, 'securityDashboard'])->name('security.dashboard');
@@ -106,6 +110,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::post('/referrals/rewards/{reward}/cancel', [ReferralController::class, 'cancelReward'])->name('referrals.cancel-reward');
     Route::get('/referrals/user/{user}', [ReferralController::class, 'userReferrals'])->name('referrals.user-referrals');
     Route::get('/referrals/analytics', [ReferralController::class, 'analytics'])->name('referrals.analytics');
+    
+    // Debug route
+    Route::get('/debug-referrals', function() {
+        return response()->json(['message' => 'Referrals route works']);
+    });
     
     // Support Ticket Management Routes
     Route::get('/support-tickets', [SupportTicketController::class, 'index'])->name('support-tickets.index');
