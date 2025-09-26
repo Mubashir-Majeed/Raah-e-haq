@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DriverVerificationController;
@@ -14,9 +15,12 @@ use App\Http\Controllers\Admin\ReferralController;
 use App\Http\Controllers\Admin\SupportTicketController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+// Include auth routes
+require __DIR__.'/auth.php';
+
+Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::post('/contact', [LandingController::class, 'contact'])->name('contact');
+Route::get('/stats', [LandingController::class, 'getStats'])->name('stats');
 
 Route::get('/dashboard', function () {
     if (auth()->user()->hasRole('admin')) {

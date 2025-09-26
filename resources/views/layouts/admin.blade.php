@@ -23,8 +23,33 @@
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#011c72ff',
+                        'secondary': 'orange',
+                        'gold': '#D4AF37',
+                        'platinum': '#C0C0C0',
+                        'success': '#058a0bee',
+                        'warning': '#ce0a0aff',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS -->
+    <style>
+        .gradient-primary { background: linear-gradient(135deg, #011c72ff 0%, #1a237e 100%); }
+        .gradient-secondary { background: linear-gradient(135deg, orange 0%, #ff8c00 100%); }
+        .gradient-gold { background: linear-gradient(135deg, #D4AF37 0%, #ffd700 100%); }
+        .gradient-success { background: linear-gradient(135deg, #058a0bee 0%, #00c851 100%); }
+        .gradient-warning { background: linear-gradient(135deg, #ce0a0aff 0%, #ff4444 100%); }
+    </style>
     
     <style>
         :root {
@@ -96,6 +121,12 @@
             z-index: 1000;
             display: flex;
             flex-direction: column;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        /* Desktop sidebar toggle */
+        .sidebar.hidden {
+            transform: translateX(-100%);
         }
         
         /* Professional Header */
@@ -103,6 +134,11 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(1, 28, 114, 0.1);
+        }
+        
+        /* Main content transition */
+        .main-content {
+            transition: margin-left 0.3s ease-in-out;
         }
         
         /* Brand Color Overrides */
@@ -125,6 +161,7 @@
             border: 1px solid rgba(1, 28, 114, 0.1);
             box-shadow: 0 4px 15px rgba(1, 28, 114, 0.05);
             transition: all 0.2s ease;
+            z-index: 1;
         }
         .stat-card:hover {
             transform: translateY(-2px);
@@ -171,7 +208,7 @@
             border-radius: 12px !important;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25) !important;
             min-width: 220px !important;
-            z-index: 2147483647 !important;
+            z-index: 9999999 !important;
             display: none !important;
             border: 1px solid #e5e7eb !important;
             overflow: hidden !important;
@@ -184,7 +221,7 @@
             visibility: visible !important;
             opacity: 1 !important;
             position: fixed !important;
-            z-index: 2147483647 !important;
+            z-index: 9999999 !important;
             animation: dropdownFadeIn 0.2s ease-out !important;
             top: 70px !important;
             right: 20px !important;
@@ -271,6 +308,156 @@
         body .user-dropdown {
             z-index: 2147483647 !important;
         }
+
+        /* Hide mobile menu button on desktop */
+        .mobile-menu-btn {
+            display: none;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            /* Mobile Sidebar */
+            .sidebar {
+                width: 100%;
+                height: 100vh;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 9999;
+                display: flex;
+            }
+            
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            
+            /* Override desktop hidden class on mobile */
+            .sidebar.hidden {
+                transform: translateX(-100%);
+            }
+            
+            /* Mobile Header */
+            .header {
+                padding: 1rem;
+                position: relative;
+            }
+            
+            .header .flex {
+                justify-content: space-between;
+            }
+            
+            /* Mobile Menu Button */
+            .mobile-menu-btn {
+                display: block !important;
+                background: none;
+                border: none;
+                color: var(--primary);
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 0.5rem;
+            }
+            
+            /* Hide desktop menu button on mobile */
+            .desktop-menu-btn {
+                display: none;
+            }
+            
+            /* Mobile Content Area */
+            .main-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+                padding: 1rem;
+            }
+            
+            
+            /* Mobile Cards */
+            .stat-card {
+                margin-bottom: 1rem;
+            }
+            
+            /* Mobile Tables */
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Mobile Forms */
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            /* Mobile Buttons */
+            .btn-mobile {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            
+            /* Mobile Navigation Items */
+            .nav-hover {
+                padding: 1rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            /* Mobile Logo */
+            .sidebar .flex.items-center {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem 0;
+            }
+            
+            .sidebar .flex.items-center h1 {
+                font-size: 1.25rem;
+                margin-top: 0.5rem;
+            }
+            
+            .sidebar .flex.items-center p {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Extra small screens */
+            .header {
+                padding: 0.75rem;
+            }
+            
+            .main-content {
+                padding: 0.75rem;
+            }
+            
+            .stat-card {
+                padding: 1rem;
+            }
+            
+            .sidebar .flex.items-center h1 {
+                font-size: 1.125rem;
+            }
+            
+            .sidebar .flex.items-center p {
+                font-size: 0.625rem;
+            }
+            
+            .nav-hover {
+                padding: 0.75rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Mobile Overlay */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9998;
+        }
+        
+        .mobile-overlay.show {
+            display: block;
+        }
         
         html .user-dropdown {
             z-index: 2147483647 !important;
@@ -321,6 +508,9 @@
     </style>
 </head>
 <body class="font-sans antialiased bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100">
+    <!-- Mobile Overlay -->
+    <div id="mobile-overlay" class="mobile-overlay" onclick="closeMobileSidebar()"></div>
+    
     <div class="min-h-screen flex">
         <!-- Professional Sidebar -->
         <div id="sidebar" class="w-64 sidebar">
@@ -411,15 +601,20 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col ml-64">
+        <div class="flex-1 flex flex-col ml-64 main-content">
             <!-- Professional Header -->
             <header class="header">
                 <div class="px-6 py-4 flex items-center justify-between">
                     <div class="flex items-center space-x-4">
-                        <button id="sidebar-toggle" class="text-primary hover:text-secondary focus:outline-none transition-colors duration-200">
+                        <!-- Desktop Menu Button -->
+                        <button id="sidebar-toggle" class="desktop-menu-btn text-primary hover:text-secondary focus:outline-none transition-colors duration-200">
                             <i class="fas fa-bars text-xl"></i>
                         </button>
-                        <h2 class="text-2xl font-bold text-primary">@yield('title', 'Dashboard')</h2>
+                        <!-- Mobile Menu Button -->
+                        <button id="mobile-menu-toggle" class="mobile-menu-btn text-primary hover:text-secondary focus:outline-none transition-colors duration-200">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                        <h2 class="text-xl sm:text-2xl font-bold text-primary">@yield('title', 'Dashboard')</h2>
                     </div>
                     
                     <div class="flex items-center space-x-6">
@@ -473,9 +668,9 @@
                                 
                                 <div class="border-t border-gray-200"></div>
                                 
-                                <form method="POST" action="{{ route('logout') }}" class="user-dropdown-item">
+                                <form method="POST" action="{{ route('logout') }}" id="header-logout-form" class="user-dropdown-item">
                                     @csrf
-                                    <button type="submit" class="w-full text-left flex items-center space-x-3 text-red-600 hover:text-red-700">
+                                    <button type="submit" id="header-logout-btn" class="w-full text-left flex items-center space-x-3 text-red-600 hover:text-red-700 transition-colors duration-200 focus:outline-none">
                                         <i class="fas fa-sign-out-alt w-4"></i>
                                         <span>Sign Out</span>
                                     </button>
@@ -521,14 +716,6 @@
     </div>
 
     <script>
-        // Sidebar toggle functionality
-        document.getElementById('sidebar-toggle').addEventListener('click', function() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.querySelector('.flex-1.flex.flex-col');
-            
-            sidebar.classList.toggle('-ml-64');
-            mainContent.classList.toggle('ml-0');
-        });
 
         // User dropdown functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -540,62 +727,100 @@
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    // Position dropdown relative to button
-                    const rect = userMenuToggle.getBoundingClientRect();
-                    userDropdown.style.top = (rect.bottom + 8) + 'px';
-                    userDropdown.style.right = (window.innerWidth - rect.right) + 'px';
-                    userDropdown.style.zIndex = '2147483647';
-                    userDropdown.style.position = 'fixed';
-                    userDropdown.style.display = 'block';
-                    userDropdown.style.visibility = 'visible';
-                    userDropdown.style.opacity = '1';
-                    userDropdown.style.transform = 'translateZ(0)';
-                    userDropdown.style.willChange = 'transform';
-                    
-                    // Force all styles to be applied
-                    userDropdown.setAttribute('style', userDropdown.getAttribute('style') + '; z-index: 2147483647 !important; position: fixed !important; display: block !important; visibility: visible !important; opacity: 1 !important;');
-                    
-                    // Move dropdown to body to avoid z-index issues
-                    if (userDropdown.parentElement !== document.body) {
-                        document.body.appendChild(userDropdown);
-                    }
-                    
+                    // Toggle dropdown
                     userDropdown.classList.toggle('show');
                     
-                    // Debug: Check if dropdown is visible
-                    setTimeout(() => {
-                        const computedStyle = window.getComputedStyle(userDropdown);
-                        console.log('Dropdown z-index:', computedStyle.zIndex);
-                        console.log('Dropdown position:', computedStyle.position);
-                        console.log('Dropdown display:', computedStyle.display);
-                        console.log('Dropdown visibility:', computedStyle.visibility);
-                        console.log('Dropdown opacity:', computedStyle.opacity);
-                        console.log('Dropdown parent:', userDropdown.parentElement);
-                    }, 100);
+                    if (userDropdown.classList.contains('show')) {
+                        // Move dropdown to body to avoid z-index issues
+                        if (userDropdown.parentElement !== document.body) {
+                            document.body.appendChild(userDropdown);
+                        }
+                        
+                        // Position dropdown relative to button
+                        const rect = userMenuToggle.getBoundingClientRect();
+                        userDropdown.style.top = (rect.bottom + 8) + 'px';
+                        userDropdown.style.right = (window.innerWidth - rect.right) + 'px';
+                        userDropdown.style.zIndex = '9999999';
+                        userDropdown.style.position = 'fixed';
+                        userDropdown.style.display = 'block';
+                        userDropdown.style.visibility = 'visible';
+                        userDropdown.style.opacity = '1';
+                    } else {
+                        // Hide dropdown
+                        userDropdown.style.display = 'none';
+                    }
                 });
                 
                 // Close dropdown when clicking outside
                 document.addEventListener('click', function(e) {
                     if (!userMenuToggle.contains(e.target) && !userDropdown.contains(e.target)) {
                         userDropdown.classList.remove('show');
+                        userDropdown.style.display = 'none';
                     }
                 });
                 
-                // Prevent dropdown from closing when clicking inside it
+                // Prevent dropdown from closing when clicking inside it (except forms)
                 userDropdown.addEventListener('click', function(e) {
-                    e.stopPropagation();
+                    // Don't stop propagation for form elements
+                    if (!e.target.closest('form')) {
+                        e.stopPropagation();
+                    }
                 });
+                
+                // Handle dropdown items
+                const dropdownItems = userDropdown.querySelectorAll('.user-dropdown-item');
+                dropdownItems.forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        // Don't close if it's the sign out form
+                        if (!item.querySelector('form')) {
+                            userDropdown.classList.remove('show');
+                            userDropdown.style.display = 'none';
+                        }
+                    });
+                });
+                
+                
+                // Handle header sign out button specifically
+                const headerLogoutBtn = document.getElementById('header-logout-btn');
+                const headerLogoutForm = document.getElementById('header-logout-form');
+                
+                if (headerLogoutBtn && headerLogoutForm) {
+                    headerLogoutBtn.addEventListener('click', function(e) {
+                        e.preventDefault(); // Prevent default first
+                        
+                        console.log('Header logout button clicked');
+                        console.log('Form action:', headerLogoutForm.action);
+                        console.log('Form method:', headerLogoutForm.method);
+                        
+                        // Show loading state
+                        this.disabled = true;
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Signing Out...';
+                        
+                        // Close dropdown
+                        userDropdown.classList.remove('show');
+                        userDropdown.style.display = 'none';
+                        
+                        // Submit the form manually
+                        setTimeout(() => {
+                            console.log('Submitting form...');
+                            headerLogoutForm.submit();
+                        }, 100);
+                    });
+                }
                 
                 // Close dropdown when pressing Escape
                 document.addEventListener('keydown', function(e) {
                     if (e.key === 'Escape') {
                         userDropdown.classList.remove('show');
+                        userDropdown.style.display = 'none';
                     }
                 });
                 
                 // Close dropdown on window resize
                 window.addEventListener('resize', function() {
                     userDropdown.classList.remove('show');
+                    userDropdown.style.display = 'none';
                 });
             }
         });
@@ -719,6 +944,58 @@
 
         // Make showToast globally available
         window.showToast = showToast;
+
+        // Mobile Sidebar Functions
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('show');
+        }
+
+        function closeMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('show');
+        }
+
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', toggleMobileSidebar);
+            }
+            
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    // Desktop sidebar toggle logic
+                    const sidebar = document.getElementById('sidebar');
+                    const mainContent = document.querySelector('.main-content');
+                    
+                    sidebar.classList.toggle('hidden');
+                    
+                    // Toggle margin-left for main content
+                    if (sidebar.classList.contains('hidden')) {
+                        mainContent.style.marginLeft = '0';
+                    } else {
+                        mainContent.style.marginLeft = '256px';
+                    }
+                });
+            }
+        });
+
+        // Close mobile sidebar when clicking on nav items
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-hover');
+            navItems.forEach(item => {
+                item.addEventListener('click', closeMobileSidebar);
+            });
+        });
     </script>
 </body>
 </html>
