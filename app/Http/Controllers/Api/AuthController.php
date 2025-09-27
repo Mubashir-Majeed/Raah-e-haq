@@ -63,6 +63,10 @@ class AuthController extends Controller
         }
         $token = $user->createToken('auth-token')->plainTextToken;
 
+        // Get user roles
+        $roles = $user->roles->pluck('name')->toArray();
+        $primaryRole = $roles[0] ?? null;
+
         return response()->json([
             'success' => true,
             'message' => 'Login successful',
@@ -73,6 +77,8 @@ class AuthController extends Controller
                     'email' => $user->email,
                     'phone' => $user->phone,
                     'status' => $user->status,
+                    'role' => $primaryRole,
+                    'roles' => $roles,
                 ],
                 'token' => $token,
                 'token_type' => 'Bearer'
@@ -189,6 +195,10 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth-token')->plainTextToken;
 
+        // Get user roles
+        $roles = $user->roles->pluck('name')->toArray();
+        $primaryRole = $roles[0] ?? null;
+
         return response()->json([
             'success' => true,
             'message' => 'OTP verified successfully',
@@ -199,6 +209,8 @@ class AuthController extends Controller
                     'email' => $user->email,
                     'phone' => $user->phone,
                     'status' => $user->status,
+                    'role' => $primaryRole,
+                    'roles' => $roles,
                 ],
                 'token' => $token,
                 'token_type' => 'Bearer'
@@ -212,6 +224,10 @@ class AuthController extends Controller
     public function profile(Request $request): JsonResponse
     {
         $user = $request->user();
+        
+        // Get user roles
+        $roles = $user->roles->pluck('name')->toArray();
+        $primaryRole = $roles[0] ?? null;
 
         return response()->json([
             'success' => true,
@@ -229,6 +245,8 @@ class AuthController extends Controller
                     'license_number' => $user->license_number,
                     'vehicle_type' => $user->vehicle_type,
                     'preferred_payment' => $user->preferred_payment,
+                    'role' => $primaryRole,
+                    'roles' => $roles,
                     'created_at' => $user->created_at,
                     'updated_at' => $user->updated_at,
                 ]
@@ -354,6 +372,10 @@ class AuthController extends Controller
                 ]);
             }
 
+            // Get user roles
+            $roles = $user->roles->pluck('name')->toArray();
+            $primaryRole = $roles[0] ?? null;
+
             return response()->json([
                 'success' => true,
                 'message' => 'Registration successful! Your account is pending admin approval. You will be able to login once approved.',
@@ -363,6 +385,8 @@ class AuthController extends Controller
                         'name' => $user->name,
                         'email' => $user->email,
                         'user_type' => $request->user_type,
+                        'role' => $primaryRole,
+                        'roles' => $roles,
                         'status' => $user->status,
                         'created_at' => $user->created_at,
                     ]
