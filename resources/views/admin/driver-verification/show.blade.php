@@ -191,22 +191,26 @@
 
                         @if($vehicle->verification_status === 'pending')
                             <div class="mt-4 space-y-2">
-                                <form method="POST" action="{{ route('admin.driver-verification.approve', $driver) }}" class="inline">
+                                <form method="POST" action="{{ route('admin.driver-verification.approve', $driver) }}" class="inline" id="approve-vehicle-form-{{ $vehicle->id }}">
                                     @csrf
                                     <input type="hidden" name="verification_type" value="vehicle">
                                     <input type="hidden" name="item_id" value="{{ $vehicle->id }}">
-                                    <button type="submit" 
-                                            class="w-full px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600 transition-colors">
+                                    <button type="button" 
+                                            class="w-full px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600 transition-colors approve-vehicle-btn"
+                                            data-vehicle-id="{{ $vehicle->id }}"
+                                            data-vehicle-info="{{ $vehicle->make }} {{ $vehicle->model }}">
                                         <i class="fas fa-check mr-1"></i>Approve Vehicle
                                     </button>
                                 </form>
-                                <form method="POST" action="{{ route('admin.driver-verification.reject', $driver) }}" class="inline">
+                                <form method="POST" action="{{ route('admin.driver-verification.reject', $driver) }}" class="inline" id="reject-vehicle-form-{{ $vehicle->id }}">
                                     @csrf
                                     <input type="hidden" name="verification_type" value="vehicle">
                                     <input type="hidden" name="item_id" value="{{ $vehicle->id }}">
-                                    <button type="submit" 
-                                            class="w-full px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600 transition-colors"
-                                            onclick="return confirm('Are you sure you want to reject this vehicle?')">
+                                    <input type="hidden" name="rejection_reason" id="rejection-reason-{{ $vehicle->id }}" value="">
+                                    <button type="button" 
+                                            class="w-full px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600 transition-colors reject-vehicle-btn"
+                                            data-vehicle-id="{{ $vehicle->id }}"
+                                            data-vehicle-info="{{ $vehicle->make }} {{ $vehicle->model }}">
                                         <i class="fas fa-times mr-1"></i>Reject Vehicle
                                     </button>
                                 </form>
@@ -385,6 +389,82 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Reject form submitting');
         });
     }
+    
+    // Vehicle approval/reject handlers
+    document.querySelectorAll('.approve-vehicle-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const vehicleId = this.getAttribute('data-vehicle-id');
+            const vehicleInfo = this.getAttribute('data-vehicle-info');
+            
+            Swal.fire({
+                title: 'Approve Vehicle?',
+                text: `Are you sure you want to approve this vehicle: ${vehicleInfo}?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#10b981',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Yes, approve vehicle',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true,
+                focusCancel: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Show loading state
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Approving...';
+                    
+                    // Submit form
+                    setTimeout(() => {
+                        document.getElementById(`approve-vehicle-form-${vehicleId}`).submit();
+                    }, 500);
+                }
+            });
+        });
+    });
+    
+    document.querySelectorAll('.reject-vehicle-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const vehicleId = this.getAttribute('data-vehicle-id');
+            const vehicleInfo = this.getAttribute('data-vehicle-info');
+            
+            Swal.fire({
+                title: 'Reject Vehicle?',
+                text: `Are you sure you want to reject this vehicle: ${vehicleInfo}?`,
+                icon: 'warning',
+                input: 'textarea',
+                inputLabel: 'Rejection Reason',
+                inputPlaceholder: 'Please provide a reason for rejection...',
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'You need to provide a rejection reason!';
+                    }
+                },
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Yes, reject vehicle',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true,
+                focusCancel: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Set rejection reason
+                    document.getElementById(`rejection-reason-${vehicleId}`).value = result.value;
+                    
+                    // Show loading state
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Rejecting...';
+                    
+                    // Submit form
+                    setTimeout(() => {
+                        document.getElementById(`reject-vehicle-form-${vehicleId}`).submit();
+                    }, 500);
+                }
+            });
+        });
+    });
 });
 </script>
 @endsection

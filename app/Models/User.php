@@ -102,6 +102,11 @@ class User extends Authenticatable
         if (is_string($role)) {
             $role = Role::where('name', $role)->first();
         }
+        
+        if (!$role) {
+            throw new \Exception("Role not found: " . ($role ?? 'null'));
+        }
+        
         return $this->roles()->syncWithoutDetaching([$role->id]);
     }
 

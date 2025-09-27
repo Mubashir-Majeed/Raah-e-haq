@@ -40,6 +40,7 @@ class DriverVerificationController extends Controller
         if ($request->verification_type === 'driver') {
             $driver->update(['status' => 'active']);
             \Log::info('Driver status updated to active', ['driver_id' => $driver->id]);
+            $message = 'Driver verification approved successfully!';
         } elseif ($request->verification_type === 'vehicle') {
             $vehicle = Vehicle::findOrFail($request->item_id);
             $vehicle->update([
@@ -47,6 +48,8 @@ class DriverVerificationController extends Controller
                 'verified_at' => now(),
                 'verified_by' => auth()->id(),
             ]);
+            \Log::info('Vehicle approved', ['vehicle_id' => $vehicle->id, 'driver_id' => $driver->id]);
+            $message = 'Vehicle approved successfully!';
         } elseif ($request->verification_type === 'document') {
             $document = DriverDocument::findOrFail($request->item_id);
             $document->update([
@@ -54,9 +57,11 @@ class DriverVerificationController extends Controller
                 'verified_at' => now(),
                 'verified_by' => auth()->id(),
             ]);
+            \Log::info('Document approved', ['document_id' => $document->id, 'driver_id' => $driver->id]);
+            $message = 'Document approved successfully!';
         }
 
-        return redirect()->back()->with('success', 'Driver verification approved successfully!');
+        return redirect()->back()->with('success', $message);
     }
 
     public function rejectDriver(Request $request, User $driver)
@@ -75,6 +80,7 @@ class DriverVerificationController extends Controller
         if ($request->verification_type === 'driver') {
             $driver->update(['status' => 'inactive']);
             \Log::info('Driver status updated to inactive', ['driver_id' => $driver->id]);
+            $message = 'Driver verification rejected successfully!';
         } elseif ($request->verification_type === 'vehicle') {
             $vehicle = Vehicle::findOrFail($request->item_id);
             $vehicle->update([
@@ -83,6 +89,8 @@ class DriverVerificationController extends Controller
                 'verified_at' => now(),
                 'verified_by' => auth()->id(),
             ]);
+            \Log::info('Vehicle rejected', ['vehicle_id' => $vehicle->id, 'driver_id' => $driver->id, 'reason' => $request->rejection_reason]);
+            $message = 'Vehicle rejected successfully!';
         } elseif ($request->verification_type === 'document') {
             $document = DriverDocument::findOrFail($request->item_id);
             $document->update([
@@ -91,8 +99,10 @@ class DriverVerificationController extends Controller
                 'verified_at' => now(),
                 'verified_by' => auth()->id(),
             ]);
+            \Log::info('Document rejected', ['document_id' => $document->id, 'driver_id' => $driver->id, 'reason' => $request->rejection_reason]);
+            $message = 'Document rejected successfully!';
         }
 
-        return redirect()->back()->with('success', 'Driver verification rejected successfully!');
+        return redirect()->back()->with('success', $message);
     }
 }

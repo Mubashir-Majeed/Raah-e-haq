@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Vehicle;
 use App\Models\Otp;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
@@ -300,6 +301,12 @@ class AuthController extends Controller
             'emergency_contact' => 'nullable|string|max:20',
             'license_number' => 'nullable|string|max:50',
             'vehicle_type' => 'nullable|string|max:50',
+            'vehicle_make' => 'nullable|string|max:100',
+            'vehicle_model' => 'nullable|string|max:100',
+            'vehicle_year' => 'nullable|integer|min:1990|max:2025',
+            'vehicle_color' => 'nullable|string|max:50',
+            'license_plate' => 'nullable|string|max:20|unique:vehicles',
+            'registration_number' => 'nullable|string|max:50',
             'preferred_payment' => 'nullable|string|max:50',
         ]);
 
@@ -331,6 +338,21 @@ class AuthController extends Controller
 
             // Assign role based on user type
             $user->assignRole($request->user_type);
+
+            // Create vehicle record for drivers
+            if ($request->user_type === 'driver' && $request->vehicle_type) {
+                Vehicle::create([
+                    'driver_id' => $user->id,
+                    'vehicle_type' => $request->vehicle_type,
+                    'make' => $request->vehicle_make,
+                    'model' => $request->vehicle_model,
+                    'year' => $request->vehicle_year,
+                    'color' => $request->vehicle_color,
+                    'license_plate' => $request->license_plate,
+                    'registration_number' => $request->registration_number,
+                    'verification_status' => 'pending',
+                ]);
+            }
 
             return response()->json([
                 'success' => true,

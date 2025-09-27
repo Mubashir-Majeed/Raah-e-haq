@@ -69,6 +69,8 @@ class SupportTicketController extends Controller
 
     public function create()
     {
+        \Log::info('Support ticket create page accessed');
+        
         $users = User::whereHas('roles', function($q) {
             $q->whereIn('name', ['driver', 'passenger']);
         })->get();
@@ -77,11 +79,20 @@ class SupportTicketController extends Controller
             $q->where('name', 'admin');
         })->get();
 
+        \Log::info('Users loaded for ticket creation', [
+            'users_count' => $users->count(),
+            'admins_count' => $admins->count()
+        ]);
+
         return view('admin.support-tickets.create', compact('users', 'admins'));
     }
 
     public function store(Request $request)
     {
+        \Log::info('=== TICKET FORM SUBMITTED ===');
+        \Log::info('All request data:', $request->all());
+        
+        // Basic validation
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'subject' => 'required|string|max:255',
@@ -89,9 +100,11 @@ class SupportTicketController extends Controller
             'category' => 'required|in:technical,billing,account,ride_issue,driver_issue,general,complaint,suggestion',
             'priority' => 'required|in:low,medium,high,urgent',
             'source' => 'required|in:web,mobile_app,email,phone,chat',
-            'assigned_to' => 'nullable|exists:users,id',
         ]);
 
+        \Log::info('Validation passed, creating ticket...');
+
+        // Create ticket
         $ticket = SupportTicket::createTicket(
             $request->user_id,
             $request->subject,
@@ -99,16 +112,13 @@ class SupportTicketController extends Controller
             $request->category,
             $request->priority,
             $request->source,
-            $request->only(['metadata'])
+            []
         );
 
-        // Assign ticket if specified
-        if ($request->assigned_to) {
-            $ticket->assignTo($request->assigned_to, auth()->id());
-        }
+        \Log::info('Ticket created successfully!', ['ticket_id' => $ticket->id]);
 
         return redirect()->route('admin.support-tickets.show', $ticket)
-            ->with('success', 'Support ticket created successfully');
+            ->with('success', 'Support ticket created successfully!');
     }
 
     public function updateStatus(Request $request, SupportTicket $supportTicket)

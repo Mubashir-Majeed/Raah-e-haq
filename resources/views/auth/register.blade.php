@@ -612,6 +612,26 @@
             animation: slideDown 0.3s ease-out;
         }
 
+        .section-header {
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 0.5rem;
+            font-size: 1rem;
+        }
+
         @keyframes slideDown {
             from {
                 opacity: 0;
@@ -676,7 +696,7 @@
                     <h3 class="user-type-title">Choose Your Role</h3>
                     <div class="user-type-options">
                         <div class="user-type-option">
-                            <input type="radio" id="driver" name="user_type" value="driver" required>
+                            <input type="radio" id="driver" name="user_type" value="driver" required checked>
                             <label for="driver" class="user-type-label">
                                 <div class="user-type-icon driver-icon">
                                     <i class="fas fa-car"></i>
@@ -701,16 +721,18 @@
         <!-- Name -->
                 <div class="form-group">
                     <label for="name" class="form-label">Full Name</label>
-                    <input id="name" 
-                           class="form-input @error('name') border-red-500 @enderror" 
-                           type="text" 
-                           name="name" 
-                           value="{{ old('name') }}" 
-                           required 
-                           autofocus 
-                           autocomplete="name"
-                           placeholder="Enter your full name">
-                    <i class="fas fa-user input-icon"></i>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user input-icon"></i>
+                        <input id="name" 
+                               class="form-input @error('name') border-red-500 @enderror" 
+                               type="text" 
+                               name="name" 
+                               value="{{ old('name') }}" 
+                               required 
+                               autofocus 
+                               autocomplete="name"
+                               placeholder="Enter your full name">
+                    </div>
                     @error('name')
                         <div class="error-message">
                             <i class="fas fa-exclamation-circle"></i>
@@ -795,47 +817,158 @@
                         <i class="fas fa-id-card mr-2"></i>Driver Information
                     </h4>
                     
+                    <!-- Personal Information Section -->
+                    <div class="section-header">
+                        <h5 class="section-title">
+                            <i class="fas fa-user mr-2"></i>Personal Information
+                        </h5>
+                    </div>
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="form-group">
                             <label for="license_number" class="form-label">Driving License</label>
-                            <input id="license_number" 
-                                   class="form-input" 
-                                   type="text" 
-                                   name="license_number" 
-                                   placeholder="License Number">
-                            <i class="fas fa-id-badge input-icon"></i>
+                            <div class="input-wrapper">
+                                <i class="fas fa-id-badge input-icon"></i>
+                                <input id="license_number" 
+                                       class="form-input" 
+                                       type="text" 
+                                       name="license_number" 
+                                       placeholder="License Number">
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- Vehicle Information Section -->
+                    <div class="section-header">
+                        <h5 class="section-title">
+                            <i class="fas fa-car mr-2"></i>Vehicle Information
+                        </h5>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label for="vehicle_type" class="form-label">Vehicle Type</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-car input-icon"></i>
+                                <select id="vehicle_type" class="form-input" name="vehicle_type">
+                                    <option value="">Select Vehicle Type</option>
+                                    <option value="car">Car</option>
+                                    <option value="motorcycle">Motorcycle</option>
+                                    <option value="bike">Bike</option>
+                                    <option value="rickshaw">Rickshaw</option>
+                                    <option value="van">Van</option>
+                                </select>
+                            </div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="vehicle_type" class="form-label">Vehicle Type</label>
-                            <select id="vehicle_type" class="form-input" name="vehicle_type">
-                                <option value="">Select Vehicle Type</option>
-                                <option value="car">Car</option>
-                                <option value="motorcycle">Motorcycle</option>
-                                <option value="auto">Auto Rickshaw</option>
-                            </select>
-                            <i class="fas fa-car input-icon"></i>
+                            <label for="vehicle_make" class="form-label">Vehicle Make</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-industry input-icon"></i>
+                                <input id="vehicle_make" 
+                                       class="form-input" 
+                                       type="text" 
+                                       name="vehicle_make" 
+                                       placeholder="e.g., Toyota, Honda, Suzuki">
+                            </div>
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="vehicle_model" class="form-label">Vehicle Model</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-car-side input-icon"></i>
+                                <input id="vehicle_model" 
+                                       class="form-input" 
+                                       type="text" 
+                                       name="vehicle_model" 
+                                       placeholder="e.g., Corolla, Civic, Mehran">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="vehicle_year" class="form-label">Vehicle Year</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-calendar input-icon"></i>
+                                <input id="vehicle_year" 
+                                       class="form-input" 
+                                       type="number" 
+                                       name="vehicle_year" 
+                                       min="1990" 
+                                       max="2025"
+                                       placeholder="2020">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="vehicle_color" class="form-label">Vehicle Color</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-palette input-icon"></i>
+                                <input id="vehicle_color" 
+                                       class="form-input" 
+                                       type="text" 
+                                       name="vehicle_color" 
+                                       placeholder="e.g., White, Black, Red">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="license_plate" class="form-label">License Plate</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-id-card input-icon"></i>
+                                <input id="license_plate" 
+                                       class="form-input" 
+                                       type="text" 
+                                       name="license_plate" 
+                                       placeholder="e.g., KHI-2023-1234">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registration_number" class="form-label">Registration Number</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-file-alt input-icon"></i>
+                                <input id="registration_number" 
+                                       class="form-input" 
+                                       type="text" 
+                                       name="registration_number" 
+                                       placeholder="Vehicle Registration Number">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact & Payment Section -->
+                    <div class="section-header">
+                        <h5 class="section-title">
+                            <i class="fas fa-phone mr-2"></i>Contact & Payment
+                        </h5>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         
                         <div class="form-group">
                             <label for="emergency_contact" class="form-label">Emergency Contact</label>
-                            <input id="emergency_contact" 
-                                   class="form-input" 
-                                   type="tel" 
-                                   name="emergency_contact" 
-                                   placeholder="+92 300 1234567">
-                            <i class="fas fa-phone-alt input-icon"></i>
+                            <div class="input-wrapper">
+                                <i class="fas fa-phone-alt input-icon"></i>
+                                <input id="emergency_contact" 
+                                       class="form-input" 
+                                       type="tel" 
+                                       name="emergency_contact" 
+                                       placeholder="+92 300 1234567">
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label for="preferred_payment" class="form-label">Preferred Payment</label>
-                            <select id="preferred_payment" class="form-input" name="preferred_payment">
-                                <option value="">Select Payment Method</option>
-                                <option value="cash">Cash</option>
-                                <option value="card">Credit/Debit Card</option>
-                                <option value="mobile">Mobile Payment</option>
-                            </select>
-                            <i class="fas fa-credit-card input-icon"></i>
+                            <div class="input-wrapper">
+                                <i class="fas fa-credit-card input-icon"></i>
+                                <select id="preferred_payment" class="form-input" name="preferred_payment">
+                                    <option value="">Select Payment Method</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="card">Credit/Debit Card</option>
+                                    <option value="mobile">Mobile Payment</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -845,6 +978,13 @@
                     <h4 class="form-label" style="margin-bottom: 1rem; color: var(--primary);">
                         <i class="fas fa-user mr-2"></i>Passenger Information
                     </h4>
+                    
+                    <!-- Personal Information Section -->
+                    <div class="section-header">
+                        <h5 class="section-title" style="color: var(--primary);">
+                            <i class="fas fa-user mr-2"></i>Personal Information
+                        </h5>
+                    </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="form-group">
@@ -873,34 +1013,49 @@
                         
                         <div class="form-group md:col-span-2">
                             <label for="address" class="form-label">Address</label>
-                            <textarea id="address" 
-                                      class="form-input" 
-                                      name="address" 
-                                      rows="3" 
-                                      placeholder="Enter your complete address"
-                                      style="padding-top: 2.5rem; resize: vertical;"></textarea>
-                            <i class="fas fa-map-marker-alt input-icon" style="top: 2rem; z-index: 2; pointer-events: none;"></i>
+                            <div class="input-wrapper">
+                                <i class="fas fa-map-marker-alt input-icon" style="top: 2rem; z-index: 2; pointer-events: none;"></i>
+                                <textarea id="address" 
+                                          class="form-input" 
+                                          name="address" 
+                                          rows="3" 
+                                          placeholder="Enter your complete address"
+                                          style="padding-top: 2.5rem; resize: vertical;"></textarea>
+                            </div>
                         </div>
-                        
+                    </div>
+                    
+                    <!-- Contact & Payment Section -->
+                    <div class="section-header">
+                        <h5 class="section-title" style="color: var(--primary);">
+                            <i class="fas fa-phone mr-2"></i>Contact & Payment
+                        </h5>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="form-group">
                             <label for="emergency_contact" class="form-label">Emergency Contact</label>
-                            <input id="emergency_contact" 
-                                   class="form-input" 
-                                   type="tel" 
-                                   name="emergency_contact" 
-                                   placeholder="+92 300 1234567">
-                            <i class="fas fa-phone-alt input-icon"></i>
-        </div>
+                            <div class="input-wrapper">
+                                <i class="fas fa-phone-alt input-icon"></i>
+                                <input id="emergency_contact" 
+                                       class="form-input" 
+                                       type="tel" 
+                                       name="emergency_contact" 
+                                       placeholder="+92 300 1234567">
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label for="preferred_payment" class="form-label">Preferred Payment</label>
-                            <select id="preferred_payment" class="form-input" name="preferred_payment">
-                                <option value="">Select Payment Method</option>
-                                <option value="cash">Cash</option>
-                                <option value="card">Credit/Debit Card</option>
-                                <option value="mobile">Mobile Payment</option>
-                            </select>
-                            <i class="fas fa-credit-card input-icon"></i>
+                            <div class="input-wrapper">
+                                <i class="fas fa-credit-card input-icon"></i>
+                                <select id="preferred_payment" class="form-input" name="preferred_payment">
+                                    <option value="">Select Payment Method</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="card">Credit/Debit Card</option>
+                                    <option value="mobile">Mobile Payment</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -944,6 +1099,10 @@
         const userTypeRadios = document.querySelectorAll('input[name="user_type"]');
         const driverFields = document.getElementById('driverFields');
         const passengerFields = document.getElementById('passengerFields');
+
+        // Initialize: Show driver fields by default since driver is selected by default
+        driverFields.classList.add('show');
+        passengerFields.classList.remove('show');
 
         // User type selection handler
         userTypeRadios.forEach(radio => {

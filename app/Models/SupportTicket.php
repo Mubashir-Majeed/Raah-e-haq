@@ -58,6 +58,7 @@ class SupportTicket extends Model
             'description' => $description,
             'category' => $category,
             'priority' => $priority,
+            'status' => 'open',
             'source' => $source,
             'metadata' => $metadata,
         ]);
