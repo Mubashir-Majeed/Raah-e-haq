@@ -17,85 +17,6 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
-    <!-- Toast Notification System -->
-    <script>
-        function showToast(message, type = 'success', duration = 5000) {
-            // Create toast container if it doesn't exist
-            let toastContainer = document.getElementById('toast-container');
-            if (!toastContainer) {
-                toastContainer = document.createElement('div');
-                toastContainer.id = 'toast-container';
-                toastContainer.className = 'fixed top-4 right-4 z-50 space-y-2';
-                document.body.appendChild(toastContainer);
-            }
-
-            // Create toast element
-            const toast = document.createElement('div');
-            toast.className = `toast-notification transform transition-all duration-300 ease-in-out translate-x-full opacity-0`;
-            
-            // Set colors based on type
-            let bgColor, textColor, icon;
-            switch(type) {
-                case 'success':
-                    bgColor = 'bg-green-500';
-                    textColor = 'text-white';
-                    icon = 'fas fa-check-circle';
-                    break;
-                case 'error':
-                    bgColor = 'bg-red-500';
-                    textColor = 'text-white';
-                    icon = 'fas fa-exclamation-circle';
-                    break;
-                case 'warning':
-                    bgColor = 'bg-yellow-500';
-                    textColor = 'text-white';
-                    icon = 'fas fa-exclamation-triangle';
-                    break;
-                case 'info':
-                    bgColor = 'bg-blue-500';
-                    textColor = 'text-white';
-                    icon = 'fas fa-info-circle';
-                    break;
-                default:
-                    bgColor = 'bg-gray-500';
-                    textColor = 'text-white';
-                    icon = 'fas fa-bell';
-            }
-
-            toast.innerHTML = `
-                <div class="${bgColor} ${textColor} px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3 min-w-80 max-w-96">
-                    <i class="${icon} text-xl"></i>
-                    <span class="flex-1">${message}</span>
-                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200 transition-colors">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            `;
-
-            // Add to container
-            toastContainer.appendChild(toast);
-
-            // Animate in
-            setTimeout(() => {
-                toast.classList.remove('translate-x-full', 'opacity-0');
-                toast.classList.add('translate-x-0', 'opacity-100');
-            }, 100);
-
-            // Auto remove
-            setTimeout(() => {
-                toast.classList.add('translate-x-full', 'opacity-0');
-                setTimeout(() => {
-                    if (toast.parentElement) {
-                        toast.remove();
-                    }
-                }, 300);
-            }, duration);
-        }
-
-        // Make showToast globally available
-        window.showToast = showToast;
-    </script>
-    
     <style>
         :root {
             --primary: #011c72ff;
@@ -127,7 +48,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            padding: 2rem 0;
+            padding: 2rem 1rem;
         }
 
         .floating-shapes {
@@ -179,14 +100,6 @@
             animation-delay: 1s;
         }
 
-        .shape:nth-child(5) {
-            width: 90px;
-            height: 90px;
-            top: 40%;
-            left: 5%;
-            animation-delay: 3s;
-        }
-
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(180deg); }
@@ -197,9 +110,9 @@
             backdrop-filter: blur(20px);
             border-radius: 24px;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-            padding: 3rem;
+            padding: 2rem;
             width: 100%;
-            max-width: 700px;
+            max-width: 800px;
             position: relative;
             z-index: 10;
             animation: slideUp 0.8s ease-out;
@@ -218,454 +131,401 @@
             }
         }
 
-        .logo-section {
-            text-align: center;
-            margin-bottom: 2rem;
+        .step-content { display: none; }
+        .step-content.active { display: block; }
+        
+        .progress-bar {
+            height: 6px;
+            background: rgba(1, 28, 114, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 20px 0;
         }
-
-        .logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary), var(--gold));
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            box-shadow: 0 10px 30px rgba(1, 28, 114, 0.3);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .logo-img {
-            width: 100%;
+        
+        .progress-fill {
             height: 100%;
-            object-fit: cover;
-            border-radius: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
         }
-
-        .brand-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        
+        .input-wrapper { 
+            position: relative; 
+            margin-bottom: 1.75rem;
         }
-
-        .brand-subtitle {
-            color: var(--light-muted);
-            font-size: 1rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-
-        .brand-description {
-            color: var(--light-muted);
-            font-size: 0.875rem;
-            font-weight: 400;
-            line-height: 1.4;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 600;
-            color: var(--light-text);
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            font-size: 1rem;
+        .input-wrapper i { 
+            position: absolute; 
+            left: 20px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: var(--primary); 
+            z-index: 10;
+            font-size: 18px;
             transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 1;
-            box-sizing: border-box;
+            line-height: 1;
+            display: inline-block;
+            vertical-align: middle;
         }
-
-        .form-input:focus {
+        .input-wrapper input, 
+        .input-wrapper select, 
+        .input-wrapper textarea { 
+            width: 100%;
+            padding: 18px 24px 18px 56px;
+            border: 2px solid #e5e7eb;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #1f2937;
+            background: #ffffff;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .input-wrapper input:focus, 
+        .input-wrapper select:focus, 
+        .input-wrapper textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(1, 28, 114, 0.1);
+            box-shadow: 0 0 0 4px rgba(1, 28, 114, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
         }
-
-        .input-wrapper {
-            position: relative;
+        .input-wrapper input:focus + i,
+        .input-wrapper select:focus + i,
+        .input-wrapper textarea:focus + i {
+            color: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .input-wrapper input:hover,
+        .input-wrapper select:hover,
+        .input-wrapper textarea:hover {
+            border-color: rgba(1, 28, 114, 0.4);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .input-wrapper label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: #374151;
+            font-size: 15px;
+            letter-spacing: 0.025em;
+        }
+        .input-wrapper small {
+            display: block;
+            margin-top: 6px;
+            color: #6b7280;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .input-wrapper textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .input-wrapper textarea + i {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .input-wrapper input.error,
+        .input-wrapper select.error,
+        .input-wrapper textarea.error {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+        }
+        .error-message {
+            color: #ef4444;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 6px;
             display: flex;
             align-items: center;
         }
-
-        .input-icon {
+        .error-message::before {
+            content: "⚠";
+            margin-right: 6px;
+            font-size: 12px;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+        .form-section {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .form-section:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .form-section h3 {
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid rgba(1, 28, 114, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        .form-section h3 i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .file-upload {
+            border: 2px dashed rgba(1, 28, 114, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: rgba(1, 28, 114, 0.05);
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .file-upload:hover {
+            border-color: var(--primary);
+            background-color: rgba(1, 28, 114, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(1, 28, 114, 0.15);
+        }
+        .file-upload.dragover {
+            border-color: var(--primary);
+            background-color: rgba(1, 28, 114, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(1, 28, 114, 0.25);
+        }
+        .file-upload i {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+        .file-upload p {
+            margin: 4px 0;
+        }
+        .file-upload .text-sm {
+            font-weight: 600;
+            color: #374151;
+        }
+        .file-upload .text-xs {
+            color: #6b7280;
+        }
+        .preview-container {
+            position: relative;
+            display: inline-block;
+            margin: 8px;
+        }
+        .preview-image {
+            max-width: 120px;
+            max-height: 120px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: block;
+        }
+        .remove-preview {
             position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--light-muted);
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
-            z-index: 2;
-            pointer-events: none;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 20px;
-            height: 20px;
-        }
-
-        .form-input:focus ~ .input-icon {
-            color: var(--primary);
-        }
-
-        /* Ensure form fields stay within card boundaries */
-        .form-group {
-            overflow: hidden;
-        }
-
-        .form-input {
-            max-width: 100%;
-        }
-
-        /* Special styling for textarea with icons */
-        textarea.form-input {
-            padding-top: 2.5rem;
-            resize: vertical;
-        }
-
-        .error-message {
-            color: var(--warning);
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            display: flex;
-            align-items: center;
-            animation: shake 0.5s ease-in-out;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        .error-message i {
-            margin-right: 0.5rem;
-        }
-
-        .password-strength {
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-        }
-
-        .strength-bar {
-            height: 4px;
-            background: #e5e7eb;
-            border-radius: 2px;
-            overflow: hidden;
-            margin-top: 0.25rem;
-        }
-
-        .strength-fill {
-            height: 100%;
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-
-        .strength-weak { background: var(--warning); width: 25%; }
-        .strength-fair { background: var(--secondary); width: 50%; }
-        .strength-good { background: var(--gold); width: 75%; }
-        .strength-strong { background: var(--success); width: 100%; }
-
-        .register-btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, var(--primary), #1a237e);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
             cursor: pointer;
+            font-size: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(1, 28, 114, 0.3);
-            margin-bottom: 2rem;
+            z-index: 10;
         }
-
-        .register-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(1, 28, 114, 0.4);
+        .remove-preview:hover {
+            background: #dc2626;
+            transform: scale(1.1);
         }
-
-        .register-btn:active {
-            transform: translateY(0);
+        .remove-preview i {
+            font-size: 10px;
+            line-height: 1;
         }
-
-        .register-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+        .file-upload.uploaded {
+            border-color: var(--success);
+            background-color: rgba(5, 138, 11, 0.1);
         }
-
-        .register-btn:hover::before {
-            left: 100%;
+        .file-upload.uploaded i {
+            color: var(--success);
         }
-
-        .login-link {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid #e5e7eb;
+        
+        /* Fix for hidden file inputs to prevent focus errors */
+        .file-upload input[type="file"] {
+            position: absolute !important;
+            left: -9999px !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
         }
-
-        .login-link p {
-            color: var(--light-muted);
-            margin-bottom: 1rem;
-        }
-
-        .login-btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.75rem 2rem;
-            background: linear-gradient(135deg, var(--gold), #f4a261);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
-            color: white;
-        }
-
-        .login-btn i {
-            margin-right: 0.5rem;
-        }
-
-        .terms-checkbox {
+        
+        .step-indicator {
             display: flex;
-            align-items: flex-start;
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: rgba(1, 28, 114, 0.05);
-            border-radius: 12px;
-            border: 1px solid rgba(1, 28, 114, 0.1);
+            justify-content: space-between;
+            margin-bottom: 30px;
         }
-
-        .terms-checkbox input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary);
-            margin-right: 0.75rem;
-            margin-top: 0.1rem;
-        }
-
-        .terms-checkbox label {
-            color: var(--light-muted);
-            font-size: 0.9rem;
-            line-height: 1.4;
-            cursor: pointer;
-        }
-
-        .terms-checkbox a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .terms-checkbox a:hover {
-            color: var(--gold);
-        }
-
-        .user-type-selection {
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: rgba(1, 28, 114, 0.05);
-            border-radius: 16px;
-            border: 2px solid rgba(1, 28, 114, 0.1);
-        }
-
-        .user-type-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--light-text);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .user-type-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .user-type-option {
-            position: relative;
-        }
-
-        .user-type-option input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .user-type-label {
+        .step-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 1.5rem 1rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            cursor: pointer;
+            flex: 1;
+            position: relative;
+        }
+        .step-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 100%;
+            height: 3px;
+            background: rgba(1, 28, 114, 0.2);
+            z-index: 1;
+        }
+        .step-item.completed:not(:last-child)::after {
+            background: var(--success);
+        }
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(1, 28, 114, 0.2);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
             transition: all 0.3s ease;
-            background: white;
+        }
+        .step-item.active .step-circle {
+            background: var(--primary);
+            color: white;
+        }
+        .step-item.completed .step-circle {
+            background: var(--success);
+            color: white;
+        }
+        .step-title {
+            margin-top: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
             text-align: center;
         }
-
-        .user-type-label:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(1, 28, 114, 0.1);
+        .step-item.active .step-title {
+            color: var(--primary);
+        }
+        .step-item.completed .step-title {
+            color: var(--success);
         }
 
-        .user-type-option input[type="radio"]:checked + .user-type-label {
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #1a237e);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(1, 28, 114, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(1, 28, 114, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: var(--primary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .account-type-card {
+            transition: all 0.3s ease;
+        }
+        .account-type-card:hover {
+            transform: translateY(-5px);
+        }
+        .account-type-card.selected .card-content {
             border-color: var(--primary);
             background: rgba(1, 28, 114, 0.05);
-            box-shadow: 0 5px 15px rgba(1, 28, 114, 0.15);
+            box-shadow: 0 10px 25px rgba(1, 28, 114, 0.2);
         }
-
-        .user-type-icon {
-            width: 48px;
-            height: 48px;
+        .account-type-card.selected .card-content::before {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 0.75rem;
-            font-size: 1.5rem;
-            color: white;
+            font-weight: bold;
+            font-size: 14px;
         }
-
-        .driver-icon {
-            background: linear-gradient(135deg, var(--success), #10b981);
-        }
-
-        .passenger-icon {
-            background: linear-gradient(135deg, var(--primary), #1a237e);
-        }
-
-        .user-type-name {
-            font-weight: 600;
-            color: var(--light-text);
-            margin-bottom: 0.25rem;
-        }
-
-        .user-type-desc {
-            font-size: 0.8rem;
-            color: var(--light-muted);
-            line-height: 1.3;
-        }
-
-        .professional-fields {
-            visibility: hidden;
-            height: 0;
-            overflow: hidden;
-            margin-top: 1rem;
-            padding: 0;
-            background: rgba(212, 175, 55, 0.05);
+        .card-content {
+            position: relative;
+            border: 2px solid #e5e7eb;
             border-radius: 12px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            transition: all 0.3s ease-out;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
         }
-
-        .professional-fields.show {
-            visibility: visible;
-            height: auto;
-            padding: 1rem;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        .section-header {
-            margin: 2rem 0 1rem 0;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid rgba(212, 175, 55, 0.2);
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--gold);
-            margin: 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .section-title i {
-            margin-right: 0.5rem;
-            font-size: 1rem;
-        }
-
-        @keyframes slideDown {
+        
+        /* Error Toast Animation */
+        @keyframes slide-in {
             from {
+                transform: translateX(100%);
                 opacity: 0;
-                transform: translateY(-10px);
             }
             to {
+                transform: translateX(0);
                 opacity: 1;
-                transform: translateY(0);
             }
         }
-
-        @media (max-width: 640px) {
-            .register-card {
-                margin: 1rem;
-                padding: 2rem;
-                max-width: 100%;
-            }
-            
-            .brand-title {
-                font-size: 1.5rem;
-            }
-            
-            .user-type-options {
-                grid-template-columns: 1fr;
-                gap: 0.75rem;
-            }
-            
-            .grid.grid-cols-1.md\\:grid-cols-2 {
-                grid-template-columns: 1fr;
-            }
+        
+        .animate-slide-in {
+            animation: slide-in 0.3s ease-out;
         }
     </style>
 </head>
-<body>
+<body class="font-sans antialiased">
     <div class="register-container">
         <!-- Floating Background Shapes -->
         <div class="floating-shapes">
@@ -673,631 +533,1306 @@
             <div class="shape"></div>
             <div class="shape"></div>
             <div class="shape"></div>
-            <div class="shape"></div>
         </div>
-
-        <div class="register-card">
-            <!-- Logo and Brand -->
-            <div class="logo-section">
-                <div class="logo">
-                    <img src="{{ asset('logo.jpeg') }}" alt="Raah-e-Haq Logo" class="logo-img">
+        
+        <!-- Error Messages -->
+        @if ($errors->any())
+        <div class="fixed top-4 right-4 z-50 max-w-md">
+            @foreach ($errors->all() as $error)
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-2 shadow-lg animate-slide-in">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    <span class="text-sm font-medium">{{ $error }}</span>
                 </div>
-                <h1 class="brand-title">Raah-e-Haq</h1>
-                <p class="brand-subtitle">Join Our Ride-Sharing Community</p>
-                <p class="brand-description">Create your account to start your journey with Pakistan's most trusted ride-sharing platform</p>
             </div>
+            @endforeach
+        </div>
+        @endif
 
-            <!-- Register Form -->
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+        <!-- Registration Card -->
+        <div class="register-card">
+            <!-- Header -->
+            <div class="text-center mb-6">
+                <div class="flex items-center justify-center mb-4">
+                    <img src="{{ asset('logo.jpeg') }}" alt="Raah-e-Haq" class="h-12 w-auto mr-3">
+                    <h1 class="text-3xl font-bold text-gray-900">Join Raah-e-Haq</h1>
+                </div>
+                <p class="text-gray-600">Complete your registration in a few simple steps</p>
+            </div>
+                <!-- Progress Bar -->
+                <div class="px-6 py-4 bg-gray-50 border-b">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 20%"></div>
+                    </div>
+                </div>
 
-                <!-- User Type Selection -->
-                <div class="user-type-selection">
-                    <h3 class="user-type-title">Choose Your Role</h3>
-                    <div class="user-type-options">
-                        <div class="user-type-option">
-                            <input type="radio" id="driver" name="user_type" value="driver" required checked>
-                            <label for="driver" class="user-type-label">
-                                <div class="user-type-icon driver-icon">
-                                    <i class="fas fa-car"></i>
+                <!-- Step Indicators -->
+                <div class="px-6 py-4 bg-gray-50 border-b">
+                    <div class="step-indicator">
+                        <div class="step-item active" data-step="1">
+                            <div class="step-circle">1</div>
+                            <div class="step-title">Account Type</div>
+                        </div>
+                        <div class="step-item" data-step="2">
+                            <div class="step-circle">2</div>
+                            <div class="step-title">Basic Info</div>
+                        </div>
+                        <div class="step-item" data-step="3">
+                            <div class="step-circle">3</div>
+                            <div class="step-title">Role Details</div>
+                        </div>
+                        <div class="step-item" data-step="4">
+                            <div class="step-circle">4</div>
+                            <div class="step-title">Documents</div>
+                        </div>
+                        <div class="step-item" data-step="5">
+                            <div class="step-circle">5</div>
+                            <div class="step-title">Review</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Content -->
+                <div class="p-8">
+                    <form id="registration-form" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="user_type" id="user_type" value="driver">
+
+                        <!-- Step 1: Account Type Selection -->
+                        <div id="step-1" class="step-content active">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Choose Your Account Type</h2>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Driver Option -->
+                                <div class="account-type-card" data-type="driver">
+                                    <div class="card-content">
+                                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <i class="fas fa-car text-2xl text-blue-600"></i>
+                                        </div>
+                                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Driver</h3>
+                                        <p class="text-gray-600 mb-4">Earn money by providing rides to passengers</p>
+                                        <ul class="text-sm text-gray-500 text-left space-y-1">
+                                            <li>• Flexible working hours</li>
+                                            <li>• Earn competitive rates</li>
+                                            <li>• Meet new people</li>
+                                            <li>• Vehicle verification required</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="user-type-name">Driver</div>
-                                <div class="user-type-desc">Earn money by providing rides</div>
-                            </label>
-                        </div>
-                        <div class="user-type-option">
-                            <input type="radio" id="passenger" name="user_type" value="passenger" required>
-                            <label for="passenger" class="user-type-label">
-                                <div class="user-type-icon passenger-icon">
-                                    <i class="fas fa-user"></i>
+
+                                <!-- Passenger Option -->
+                                <div class="account-type-card" data-type="passenger">
+                                    <div class="card-content">
+                                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <i class="fas fa-user text-2xl text-green-600"></i>
+                                        </div>
+                                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Passenger</h3>
+                                        <p class="text-gray-600 mb-4">Book rides and travel conveniently</p>
+                                        <ul class="text-sm text-gray-500 text-left space-y-1">
+                                            <li>• Easy booking process</li>
+                                            <li>• Safe and reliable rides</li>
+                                            <li>• Multiple payment options</li>
+                                            <li>• Real-time tracking</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="user-type-name">Passenger</div>
-                                <div class="user-type-desc">Book rides to your destination</div>
-                            </label>
+                            </div>
                         </div>
-                    </div>
+
+                        <!-- Step 2: Basic Information -->
+                        <div id="step-2" class="step-content">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Basic Information</h2>
+                            
+                            <div class="max-w-4xl mx-auto">
+                                <div class="form-section">
+                                    <h3>
+                                        <i class="fas fa-user mr-2"></i>Personal Details
+                                    </h3>
+                                    
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-user"></i>
+                                            <label for="name">Full Name *</label>
+                                            <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" 
+                                                   placeholder="Enter your full name">
+                                            @error('name')
+                                                <p class="error-message">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-envelope"></i>
+                                            <label for="email">Email Address *</label>
+                                            <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" 
+                                                   placeholder="Enter your email address">
+                                            @error('email')
+                                                <p class="error-message">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-phone"></i>
+                                            <label for="phone">Phone Number *</label>
+                                            <input id="phone" type="tel" name="phone" value="{{ old('phone') }}" required 
+                                                   placeholder="Enter your phone number">
+                                            @error('phone')
+                                                <p class="error-message">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-calendar"></i>
+                                            <label for="date_of_birth">Date of Birth *</label>
+                                            <input id="date_of_birth" type="date" name="date_of_birth" value="{{ old('date_of_birth') }}" required>
+                                            @error('date_of_birth')
+                                                <p class="error-message">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-venus-mars"></i>
+                                            <label for="gender">Gender *</label>
+                                            <select name="gender" required>
+                                                <option value="">Select Gender</option>
+                                                <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
+                                                <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
+                                                <option value="other" {{ old('gender') == 'other' ? 'selected' : '' }}>Other</option>
+                                            </select>
+                                            @error('gender')
+                                                <p class="error-message">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-id-card"></i>
+                                            <label for="cnic">CNIC Number *</label>
+                                            <input id="cnic" type="text" name="cnic" value="{{ old('cnic') }}" required 
+                                                   placeholder="12345-1234567-1">
+                                            <small>Format: 12345-1234567-1</small>
+                                            @error('cnic')
+                                                <p class="error-message">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <label for="address">Complete Address *</label>
+                                        <textarea name="address" rows="3" required 
+                                                  placeholder="Enter your complete address">{{ old('address') }}</textarea>
+                                        @error('address')
+                                            <p class="error-message">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Role Details -->
+                        <div id="step-3" class="step-content">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Role Details</h2>
+                            
+                            <div class="max-w-4xl mx-auto">
+                                <!-- Driver Specific Information -->
+                                <div class="form-section" id="driver-fields">
+                                    <h3>
+                                        <i class="fas fa-car mr-2"></i>Driver Information
+                                    </h3>
+
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-id-badge"></i>
+                                        <label for="license_number">Driving License Number *</label>
+                                        <input id="license_number" type="text" name="license_number" value="{{ old('license_number') }}" 
+                                               placeholder="Enter your driving license number">
+                                        @error('license_number')
+                                            <p class="error-message">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-calendar-check"></i>
+                                            <label for="license_expiry_date">License Expiry Date *</label>
+                                            <input id="license_expiry_date" type="date" name="license_expiry_date" value="{{ old('license_expiry_date') }}">
+                                            @error('license_expiry_date')
+                                                <p class="error-message">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-certificate"></i>
+                                            <label for="license_type">License Type *</label>
+                                            <select name="license_type">
+                                                <option value="">Select License Type</option>
+                                                <option value="A" {{ old('license_type') == 'A' ? 'selected' : '' }}>A (Motorcycle)</option>
+                                                <option value="B" {{ old('license_type') == 'B' ? 'selected' : '' }}>B (Car)</option>
+                                                <option value="C" {{ old('license_type') == 'C' ? 'selected' : '' }}>C (Truck)</option>
+                                                <option value="D" {{ old('license_type') == 'D' ? 'selected' : '' }}>D (Bus)</option>
+                                            </select>
+                                            @error('license_type')
+                                                <p class="error-message">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-clock"></i>
+                                        <label for="driving_experience">Driving Experience *</label>
+                                        <input id="driving_experience" type="text" name="driving_experience" value="{{ old('driving_experience') }}" 
+                                               placeholder="e.g., 5 years">
+                                        <small>How many years have you been driving?</small>
+                                        @error('driving_experience')
+                                            <p class="error-message">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-car"></i>
+                                            <label for="vehicle_type">Vehicle Type *</label>
+                                            <select name="vehicle_type">
+                                                <option value="">Select Vehicle Type</option>
+                                                <option value="car" {{ old('vehicle_type') == 'car' ? 'selected' : '' }}>Car</option>
+                                                <option value="bike" {{ old('vehicle_type') == 'bike' ? 'selected' : '' }}>Bike</option>
+                                                <option value="rickshaw" {{ old('vehicle_type') == 'rickshaw' ? 'selected' : '' }}>Rickshaw</option>
+                                                <option value="van" {{ old('vehicle_type') == 'van' ? 'selected' : '' }}>Van</option>
+                                            </select>
+                                            @error('vehicle_type')
+                                                <p class="error-message">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-credit-card"></i>
+                                            <label for="preferred_payment">Preferred Payment *</label>
+                                            <select name="preferred_payment">
+                                                <option value="">Select Payment Method</option>
+                                                <option value="cash" {{ old('preferred_payment') == 'cash' ? 'selected' : '' }}>Cash</option>
+                                                <option value="card" {{ old('preferred_payment') == 'card' ? 'selected' : '' }}>Card</option>
+                                                <option value="mobile_wallet" {{ old('preferred_payment') == 'mobile_wallet' ? 'selected' : '' }}>Mobile Wallet</option>
+                                            </select>
+                                            @error('preferred_payment')
+                                                <p class="error-message">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Banking Information -->
+                                    <div class="mt-6 pt-4 border-t border-gray-200">
+                                        <h4 class="text-md font-semibold text-gray-900 mb-4">
+                                            <i class="fas fa-university mr-2"></i>Banking Information
+                                        </h4>
+
+                                        <div class="form-row">
+                                            <div class="input-wrapper">
+                                                <i class="fas fa-credit-card"></i>
+                                                <label for="bank_account_number">Bank Account Number *</label>
+                                                <input id="bank_account_number" type="text" name="bank_account_number" value="{{ old('bank_account_number') }}" 
+                                                       placeholder="Enter your bank account number">
+                                                @error('bank_account_number')
+                                                    <p class="error-message">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="input-wrapper">
+                                                <i class="fas fa-building"></i>
+                                                <label for="bank_name">Bank Name *</label>
+                                                <input id="bank_name" type="text" name="bank_name" value="{{ old('bank_name') }}" 
+                                                       placeholder="Enter your bank name">
+                                                @error('bank_name')
+                                                    <p class="error-message">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <label for="bank_branch">Bank Branch *</label>
+                                            <input id="bank_branch" type="text" name="bank_branch" value="{{ old('bank_branch') }}" 
+                                                   placeholder="Enter your bank branch">
+                                            @error('bank_branch')
+                                                <p class="error-message">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Vehicle Details -->
+                                    <div class="mt-6 pt-4 border-t border-gray-200">
+                                        <h4 class="text-md font-semibold text-gray-900 mb-4">
+                                            <i class="fas fa-car mr-2"></i>Vehicle Details
+                                        </h4>
+
+                                        <div class="form-row">
+                                            <div class="input-wrapper">
+                                                <i class="fas fa-car"></i>
+                                                <label for="vehicle_make">Vehicle Make *</label>
+                                                <input id="vehicle_make" type="text" name="vehicle_make" value="{{ old('vehicle_make') }}" 
+                                                       placeholder="e.g., Toyota, Honda, Suzuki">
+                                                @error('vehicle_make')
+                                                    <p class="error-message">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="input-wrapper">
+                                                <i class="fas fa-car"></i>
+                                                <label for="vehicle_model">Vehicle Model *</label>
+                                                <input id="vehicle_model" type="text" name="vehicle_model" value="{{ old('vehicle_model') }}" 
+                                                       placeholder="e.g., Corolla, Civic, Swift">
+                                                @error('vehicle_model')
+                                                    <p class="error-message">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="input-wrapper">
+                                                <i class="fas fa-calendar"></i>
+                                                <label for="vehicle_year">Vehicle Year *</label>
+                                                <input id="vehicle_year" type="number" name="vehicle_year" value="{{ old('vehicle_year') }}" 
+                                                       placeholder="e.g., 2020" min="1990" max="2025">
+                                                @error('vehicle_year')
+                                                    <p class="error-message">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="input-wrapper">
+                                                <i class="fas fa-palette"></i>
+                                                <label for="vehicle_color">Vehicle Color *</label>
+                                                <input id="vehicle_color" type="text" name="vehicle_color" value="{{ old('vehicle_color') }}" 
+                                                       placeholder="e.g., White, Black, Red">
+                                                @error('vehicle_color')
+                                                    <p class="error-message">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="input-wrapper">
+                                                <i class="fas fa-id-card"></i>
+                                                <label for="license_plate">License Plate *</label>
+                                                <input id="license_plate" type="text" name="license_plate" value="{{ old('license_plate') }}" 
+                                                       placeholder="e.g., ABC-123">
+                                                @error('license_plate')
+                                                    <p class="error-message">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="input-wrapper">
+                                                <i class="fas fa-file-alt"></i>
+                                                <label for="registration_number">Registration Number *</label>
+                                                <input id="registration_number" type="text" name="registration_number" value="{{ old('registration_number') }}" 
+                                                       placeholder="Enter vehicle registration number">
+                                                @error('registration_number')
+                                                    <p class="error-message">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Emergency Contact Section -->
+                                    <div class="mt-6 pt-4 border-t border-gray-200">
+                                        <h4 class="text-md font-semibold text-gray-900 mb-4">
+                                            <i class="fas fa-phone-alt mr-2"></i>Emergency Contact
+                                        </h4>
+
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-phone"></i>
+                                            <label for="emergency_contact">Emergency Contact Number *</label>
+                                            <input id="emergency_contact" type="tel" name="emergency_contact" value="{{ old('emergency_contact') }}" 
+                                                   placeholder="Enter emergency contact number">
+                                            @error('emergency_contact')
+                                                <p class="error-message">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="input-wrapper">
+                                                <i class="fas fa-user-friends"></i>
+                                                <label for="emergency_contact_name">Contact Name *</label>
+                                                <input id="emergency_contact_name" type="text" name="emergency_contact_name" value="{{ old('emergency_contact_name') }}" 
+                                                       placeholder="Enter contact name">
+                                                @error('emergency_contact_name')
+                                                    <p class="error-message">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="input-wrapper">
+                                                <i class="fas fa-heart"></i>
+                                                <label for="emergency_contact_relation">Relation *</label>
+                                                <select name="emergency_contact_relation">
+                                                    <option value="">Select Relation</option>
+                                                    <option value="father" {{ old('emergency_contact_relation') == 'father' ? 'selected' : '' }}>Father</option>
+                                                    <option value="mother" {{ old('emergency_contact_relation') == 'mother' ? 'selected' : '' }}>Mother</option>
+                                                    <option value="brother" {{ old('emergency_contact_relation') == 'brother' ? 'selected' : '' }}>Brother</option>
+                                                    <option value="sister" {{ old('emergency_contact_relation') == 'sister' ? 'selected' : '' }}>Sister</option>
+                                                    <option value="spouse" {{ old('emergency_contact_relation') == 'spouse' ? 'selected' : '' }}>Spouse</option>
+                                                    <option value="friend" {{ old('emergency_contact_relation') == 'friend' ? 'selected' : '' }}>Friend</option>
+                                                    <option value="other" {{ old('emergency_contact_relation') == 'other' ? 'selected' : '' }}>Other</option>
+                                                </select>
+                                                @error('emergency_contact_relation')
+                                                    <p class="error-message">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Passenger Specific Information -->
+                                <div class="form-section" id="passenger-fields" style="display: none;">
+                                    <h3>
+                                        <i class="fas fa-user mr-2"></i>Passenger Information
+                                    </h3>
+
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-credit-card"></i>
+                                        <label for="passenger_preferred_payment">Preferred Payment Method *</label>
+                                        <select name="passenger_preferred_payment">
+                                            <option value="">Select Payment Method</option>
+                                            <option value="cash" {{ old('passenger_preferred_payment') == 'cash' ? 'selected' : '' }}>Cash</option>
+                                            <option value="card" {{ old('passenger_preferred_payment') == 'card' ? 'selected' : '' }}>Card</option>
+                                            <option value="mobile_wallet" {{ old('passenger_preferred_payment') == 'mobile_wallet' ? 'selected' : '' }}>Mobile Wallet</option>
+                                        </select>
+                                        @error('passenger_preferred_payment')
+                                            <p class="error-message">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-language"></i>
+                                        <label for="languages">Languages Spoken</label>
+                                        <select name="languages[]" multiple>
+                                            <option value="urdu">Urdu</option>
+                                            <option value="english">English</option>
+                                            <option value="punjabi">Punjabi</option>
+                                            <option value="sindhi">Sindhi</option>
+                                            <option value="balochi">Balochi</option>
+                                            <option value="pashto">Pashto</option>
+                                        </select>
+                                        <small>Hold Ctrl to select multiple languages</small>
+                                        @error('languages')
+                                            <p class="error-message">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-user-circle"></i>
+                                        <label for="bio">Bio (Optional)</label>
+                                        <textarea name="bio" rows="3" 
+                                                  placeholder="Tell us about yourself (optional)">{{ old('bio') }}</textarea>
+                                        <small>Brief description about yourself</small>
+                                        @error('bio')
+                                            <p class="error-message">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Emergency Contact Section for Passenger -->
+                                    <div class="mt-6 pt-4 border-t border-gray-200">
+                                        <h4 class="text-md font-semibold text-gray-900 mb-4">
+                                            <i class="fas fa-phone-alt mr-2"></i>Emergency Contact
+                                        </h4>
+
+                                        <div class="input-wrapper">
+                                            <i class="fas fa-phone"></i>
+                                            <label for="passenger_emergency_contact">Emergency Contact Number *</label>
+                                            <input id="passenger_emergency_contact" type="tel" name="passenger_emergency_contact" value="{{ old('passenger_emergency_contact') }}" 
+                                                   placeholder="Enter emergency contact number">
+                                            @error('passenger_emergency_contact')
+                                                <p class="error-message">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="input-wrapper">
+                                                <i class="fas fa-user-friends"></i>
+                                                <label for="passenger_emergency_contact_name">Contact Name *</label>
+                                                <input id="passenger_emergency_contact_name" type="text" name="passenger_emergency_contact_name" value="{{ old('passenger_emergency_contact_name') }}" 
+                                                       placeholder="Enter contact name">
+                                                @error('passenger_emergency_contact_name')
+                                                    <p class="error-message">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+
+                                            <div class="input-wrapper">
+                                                <i class="fas fa-heart"></i>
+                                                <label for="passenger_emergency_contact_relation">Relation *</label>
+                                                <select name="passenger_emergency_contact_relation">
+                                                    <option value="">Select Relation</option>
+                                                    <option value="father" {{ old('passenger_emergency_contact_relation') == 'father' ? 'selected' : '' }}>Father</option>
+                                                    <option value="mother" {{ old('passenger_emergency_contact_relation') == 'mother' ? 'selected' : '' }}>Mother</option>
+                                                    <option value="brother" {{ old('passenger_emergency_contact_relation') == 'brother' ? 'selected' : '' }}>Brother</option>
+                                                    <option value="sister" {{ old('passenger_emergency_contact_relation') == 'sister' ? 'selected' : '' }}>Sister</option>
+                                                    <option value="spouse" {{ old('passenger_emergency_contact_relation') == 'spouse' ? 'selected' : '' }}>Spouse</option>
+                                                    <option value="friend" {{ old('passenger_emergency_contact_relation') == 'friend' ? 'selected' : '' }}>Friend</option>
+                                                    <option value="other" {{ old('passenger_emergency_contact_relation') == 'other' ? 'selected' : '' }}>Other</option>
+                                                </select>
+                                                @error('passenger_emergency_contact_relation')
+                                                    <p class="error-message">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Document Upload -->
+                        <div id="step-4" class="step-content">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Document Upload</h2>
+                            
+                            <!-- Driver Documents -->
+                            <div id="driver-documents" class="space-y-8">
+                                <!-- Personal Documents -->
+                                <div class="form-section">
+                                    <h3>
+                                        <i class="fas fa-id-card mr-2"></i>Personal Documents
+                                    </h3>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                        <!-- CNIC Front -->
+                                        <div class="file-upload" onclick="this.querySelector('input[type=file]').click()">
+                                            <input type="file" id="cnic_front_image" name="cnic_front_image" accept="image/*" class="hidden" onchange="previewImage(this, 'cnic_front_preview')" required>
+                                            <i class="fas fa-id-card text-3xl text-gray-400 mb-2"></i>
+                                            <p class="text-sm text-gray-600 font-medium">CNIC Front *</p>
+                                            <p class="text-xs text-gray-500">Required for verification</p>
+                                            <div id="cnic_front_preview" class="mt-2"></div>
+                                        </div>
+
+                                        <!-- CNIC Back -->
+                                        <div class="file-upload" onclick="this.querySelector('input[type=file]').click()">
+                                            <input type="file" id="cnic_back_image" name="cnic_back_image" accept="image/*" class="hidden" onchange="previewImage(this, 'cnic_back_preview')" required>
+                                            <i class="fas fa-id-card text-3xl text-gray-400 mb-2"></i>
+                                            <p class="text-sm text-gray-600 font-medium">CNIC Back *</p>
+                                            <p class="text-xs text-gray-500">Required for verification</p>
+                                            <div id="cnic_back_preview" class="mt-2"></div>
+                                        </div>
+
+                                        <!-- License -->
+                                        <div class="file-upload" onclick="this.querySelector('input[type=file]').click()">
+                                            <input type="file" id="license_image" name="license_image" accept="image/*" class="hidden" onchange="previewImage(this, 'license_preview')" required>
+                                            <i class="fas fa-id-badge text-3xl text-gray-400 mb-2"></i>
+                                            <p class="text-sm text-gray-600 font-medium">Driving License *</p>
+                                            <p class="text-xs text-gray-500">Required for drivers</p>
+                                            <div id="license_preview" class="mt-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Vehicle Images -->
+                                <div class="form-section">
+                                    <h3>
+                                        <i class="fas fa-car mr-2"></i>Vehicle Images (Minimum 4)
+                                    </h3>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                        <!-- Vehicle Front -->
+                                        <div class="file-upload" onclick="this.querySelector('input[type=file]').click()">
+                                            <input type="file" id="vehicle_front_image" name="vehicle_front_image" accept="image/*" class="hidden" onchange="previewImage(this, 'vehicle_front_preview')" required>
+                                            <i class="fas fa-car text-3xl text-gray-400 mb-2"></i>
+                                            <p class="text-sm text-gray-600 font-medium">Front View *</p>
+                                            <p class="text-xs text-gray-500">Required</p>
+                                            <div id="vehicle_front_preview" class="mt-2"></div>
+                                        </div>
+
+                                        <!-- Vehicle Back -->
+                                        <div class="file-upload" onclick="this.querySelector('input[type=file]').click()">
+                                            <input type="file" id="vehicle_back_image" name="vehicle_back_image" accept="image/*" class="hidden" onchange="previewImage(this, 'vehicle_back_preview')" required>
+                                            <i class="fas fa-car text-3xl text-gray-400 mb-2"></i>
+                                            <p class="text-sm text-gray-600 font-medium">Back View *</p>
+                                            <p class="text-xs text-gray-500">Required</p>
+                                            <div id="vehicle_back_preview" class="mt-2"></div>
+                                        </div>
+
+                                        <!-- Vehicle Left -->
+                                        <div class="file-upload" onclick="this.querySelector('input[type=file]').click()">
+                                            <input type="file" id="vehicle_left_image" name="vehicle_left_image" accept="image/*" class="hidden" onchange="previewImage(this, 'vehicle_left_preview')" required>
+                                            <i class="fas fa-car text-3xl text-gray-400 mb-2"></i>
+                                            <p class="text-sm text-gray-600 font-medium">Left Side *</p>
+                                            <p class="text-xs text-gray-500">Required</p>
+                                            <div id="vehicle_left_preview" class="mt-2"></div>
+                                        </div>
+
+                                        <!-- Vehicle Right -->
+                                        <div class="file-upload" onclick="this.querySelector('input[type=file]').click()">
+                                            <input type="file" id="vehicle_right_image" name="vehicle_right_image" accept="image/*" class="hidden" onchange="previewImage(this, 'vehicle_right_preview')" required>
+                                            <i class="fas fa-car text-3xl text-gray-400 mb-2"></i>
+                                            <p class="text-sm text-gray-600 font-medium">Right Side *</p>
+                                            <p class="text-xs text-gray-500">Required</p>
+                                            <div id="vehicle_right_preview" class="mt-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Profile Picture -->
+                                <div class="form-section">
+                                    <h3>
+                                        <i class="fas fa-user-circle mr-2"></i>Profile Picture
+                                    </h3>
+                                    
+                                    <div class="max-w-xs">
+                                        <div class="file-upload" onclick="this.querySelector('input[type=file]').click()">
+                                            <input type="file" id="profile_image" name="profile_image" accept="image/*" class="hidden" onchange="previewImage(this, 'profile_preview')" required>
+                                            <i class="fas fa-user-circle text-3xl text-gray-400 mb-2"></i>
+                                            <p class="text-sm text-gray-600 font-medium">Profile Picture *</p>
+                                            <p class="text-xs text-gray-500">Required for drivers</p>
+                                            <div id="profile_preview" class="mt-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Passenger Documents -->
+                            <div id="passenger-documents" class="space-y-8" style="display: none;">
+                                <!-- Personal Documents -->
+                                <div class="form-section">
+                                    <h3>
+                                        <i class="fas fa-id-card mr-2"></i>Personal Documents
+                                    </h3>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <!-- CNIC Front -->
+                                        <div class="file-upload" onclick="this.querySelector('input[type=file]').click()">
+                                            <input type="file" id="passenger_cnic_front_image" name="passenger_cnic_front_image" accept="image/*" class="hidden" onchange="previewImage(this, 'passenger_cnic_front_preview')" required>
+                                            <i class="fas fa-id-card text-3xl text-gray-400 mb-2"></i>
+                                            <p class="text-sm text-gray-600 font-medium">CNIC Front *</p>
+                                            <p class="text-xs text-gray-500">Required for verification</p>
+                                            <div id="passenger_cnic_front_preview" class="mt-2"></div>
+                                        </div>
+
+                                        <!-- CNIC Back -->
+                                        <div class="file-upload" onclick="this.querySelector('input[type=file]').click()">
+                                            <input type="file" id="passenger_cnic_back_image" name="passenger_cnic_back_image" accept="image/*" class="hidden" onchange="previewImage(this, 'passenger_cnic_back_preview')" required>
+                                            <i class="fas fa-id-card text-3xl text-gray-400 mb-2"></i>
+                                            <p class="text-sm text-gray-600 font-medium">CNIC Back *</p>
+                                            <p class="text-xs text-gray-500">Required for verification</p>
+                                            <div id="passenger_cnic_back_preview" class="mt-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Profile Picture (Optional for Passengers) -->
+                                <div class="form-section">
+                                    <h3>
+                                        <i class="fas fa-user-circle mr-2"></i>Profile Picture (Optional)
+                                    </h3>
+                                    
+                                    <div class="max-w-xs">
+                                        <div class="file-upload" onclick="this.querySelector('input[type=file]').click()">
+                                            <input type="file" id="passenger_profile_image" name="passenger_profile_image" accept="image/*" class="hidden" onchange="previewImage(this, 'passenger_profile_preview')">
+                                            <i class="fas fa-user-circle text-3xl text-gray-400 mb-2"></i>
+                                            <p class="text-sm text-gray-600 font-medium">Profile Picture</p>
+                                            <p class="text-xs text-gray-500">Optional but recommended</p>
+                                            <div id="passenger_profile_preview" class="mt-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Review and Submit -->
+                        <div id="step-5" class="step-content">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Review Your Information</h2>
+                            
+                            <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Account Summary</h3>
+                                <div id="review-content">
+                                    <!-- Review content will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <!-- Password Section -->
+                            <div class="form-section">
+                                <h3>
+                                    <i class="fas fa-lock mr-2"></i>Create Password
+                                </h3>
+                                
+                                <div class="form-row">
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-lock"></i>
+                                        <label for="password">Password *</label>
+                                        <input id="password" type="password" name="password" required autocomplete="new-password" 
+                                               placeholder="Enter your password">
+                                        <small>Minimum 8 characters with letters and numbers</small>
+                                        @error('password')
+                                            <p class="error-message">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-lock"></i>
+                                        <label for="password_confirmation">Confirm Password *</label>
+                                        <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" 
+                                               placeholder="Confirm your password">
+                                        <small>Re-enter your password to confirm</small>
+                                        @error('password_confirmation')
+                                            <p class="error-message">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navigation Buttons -->
+                        <div class="flex justify-between mt-8">
+                            <button type="button" id="prev-btn" class="btn-secondary" style="display: none;">
+                                <i class="fas fa-arrow-left mr-2"></i>Previous
+                            </button>
+                            
+                            <div class="ml-auto">
+                                <button type="button" id="next-btn" class="btn-primary opacity-50 cursor-not-allowed" disabled>
+                                    Next <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
+                                
+                                <button type="submit" id="submit-btn" class="btn-primary" style="display: none;">
+                                    <i class="fas fa-check mr-2"></i>Complete Registration
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Login Link -->
+                        <div class="mt-6 text-center">
+                            <p class="text-gray-600">
+                                Already have an account? 
+                                <a href="{{ route('login') }}" class="text-blue-600 hover:text-blue-500 font-medium">Sign in here</a>
+                            </p>
+                        </div>
+                    </form>
                 </div>
-
-        <!-- Name -->
-                <div class="form-group">
-                    <label for="name" class="form-label">Full Name</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-user input-icon"></i>
-                        <input id="name" 
-                               class="form-input @error('name') border-red-500 @enderror" 
-                               type="text" 
-                               name="name" 
-                               value="{{ old('name') }}" 
-                               required 
-                               autofocus 
-                               autocomplete="name"
-                               placeholder="Enter your full name">
-                    </div>
-                    @error('name')
-                        <div class="error-message">
-                            <i class="fas fa-exclamation-circle"></i>
-                            {{ $message }}
-                        </div>
-                    @enderror
-        </div>
-
-        <!-- Email Address -->
-                <div class="form-group">
-                    <label for="email" class="form-label">Email Address</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-envelope input-icon"></i>
-                        <input id="email" 
-                               class="form-input @error('email') border-red-500 @enderror" 
-                               type="email" 
-                               name="email" 
-                               value="{{ old('email') }}" 
-                               required 
-                               autocomplete="username"
-                               placeholder="Enter your email address">
-                    </div>
-                    @error('email')
-                        <div class="error-message">
-                            <i class="fas fa-exclamation-circle"></i>
-                            {{ $message }}
-                        </div>
-                    @enderror
-        </div>
-
-        <!-- Password -->
-                <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-lock input-icon"></i>
-                        <input id="password" 
-                               class="form-input @error('password') border-red-500 @enderror"
-                                type="password"
-                                name="password"
-                               required 
-                               autocomplete="new-password"
-                               placeholder="Create a strong password">
-                    </div>
-                    @error('password')
-                        <div class="error-message">
-                            <i class="fas fa-exclamation-circle"></i>
-                            {{ $message }}
-                        </div>
-                    @enderror
-                    <div class="password-strength" id="password-strength">
-                        <div class="strength-bar">
-                            <div class="strength-fill" id="strength-fill"></div>
-                        </div>
-                        <span id="strength-text">Password strength</span>
-                    </div>
-        </div>
-
-        <!-- Confirm Password -->
-                <div class="form-group">
-                    <label for="password_confirmation" class="form-label">Confirm Password</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-lock input-icon"></i>
-                        <input id="password_confirmation" 
-                               class="form-input @error('password_confirmation') border-red-500 @enderror"
-                               type="password"
-                               name="password_confirmation" 
-                               required 
-                               autocomplete="new-password"
-                               placeholder="Confirm your password">
-                    </div>
-                    @error('password_confirmation')
-                        <div class="error-message">
-                            <i class="fas fa-exclamation-circle"></i>
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-
-                <!-- Professional Fields for Drivers -->
-                <div class="professional-fields" id="driverFields">
-                    <h4 class="form-label" style="margin-bottom: 1rem; color: var(--gold);">
-                        <i class="fas fa-id-card mr-2"></i>Driver Information
-                    </h4>
-                    
-                    <!-- Personal Information Section -->
-                    <div class="section-header">
-                        <h5 class="section-title">
-                            <i class="fas fa-user mr-2"></i>Personal Information
-                        </h5>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="form-group">
-                            <label for="license_number" class="form-label">Driving License</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-id-badge input-icon"></i>
-                                <input id="license_number" 
-                                       class="form-input" 
-                                       type="text" 
-                                       name="license_number" 
-                                       placeholder="License Number">
-                            </div>
-                        </div>
-                        
-                    </div>
-                    
-                    <!-- Vehicle Information Section -->
-                    <div class="section-header">
-                        <h5 class="section-title">
-                            <i class="fas fa-car mr-2"></i>Vehicle Information
-                        </h5>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="form-group">
-                            <label for="vehicle_type" class="form-label">Vehicle Type</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-car input-icon"></i>
-                                <select id="vehicle_type" class="form-input" name="vehicle_type">
-                                    <option value="">Select Vehicle Type</option>
-                                    <option value="car">Car</option>
-                                    <option value="motorcycle">Motorcycle</option>
-                                    <option value="bike">Bike</option>
-                                    <option value="rickshaw">Rickshaw</option>
-                                    <option value="van">Van</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="vehicle_make" class="form-label">Vehicle Make</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-industry input-icon"></i>
-                                <input id="vehicle_make" 
-                                       class="form-input" 
-                                       type="text" 
-                                       name="vehicle_make" 
-                                       placeholder="e.g., Toyota, Honda, Suzuki">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="vehicle_model" class="form-label">Vehicle Model</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-car-side input-icon"></i>
-                                <input id="vehicle_model" 
-                                       class="form-input" 
-                                       type="text" 
-                                       name="vehicle_model" 
-                                       placeholder="e.g., Corolla, Civic, Mehran">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="vehicle_year" class="form-label">Vehicle Year</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-calendar input-icon"></i>
-                                <input id="vehicle_year" 
-                                       class="form-input" 
-                                       type="number" 
-                                       name="vehicle_year" 
-                                       min="1990" 
-                                       max="2025"
-                                       placeholder="2020">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="vehicle_color" class="form-label">Vehicle Color</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-palette input-icon"></i>
-                                <input id="vehicle_color" 
-                                       class="form-input" 
-                                       type="text" 
-                                       name="vehicle_color" 
-                                       placeholder="e.g., White, Black, Red">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="license_plate" class="form-label">License Plate</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-id-card input-icon"></i>
-                                <input id="license_plate" 
-                                       class="form-input" 
-                                       type="text" 
-                                       name="license_plate" 
-                                       placeholder="e.g., KHI-2023-1234">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="registration_number" class="form-label">Registration Number</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-file-alt input-icon"></i>
-                                <input id="registration_number" 
-                                       class="form-input" 
-                                       type="text" 
-                                       name="registration_number" 
-                                       placeholder="Vehicle Registration Number">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Contact & Payment Section -->
-                    <div class="section-header">
-                        <h5 class="section-title">
-                            <i class="fas fa-phone mr-2"></i>Contact & Payment
-                        </h5>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        
-                        <div class="form-group">
-                            <label for="emergency_contact" class="form-label">Emergency Contact</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-phone-alt input-icon"></i>
-                                <input id="emergency_contact" 
-                                       class="form-input" 
-                                       type="tel" 
-                                       name="emergency_contact" 
-                                       placeholder="+92 300 1234567">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="preferred_payment" class="form-label">Preferred Payment</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-credit-card input-icon"></i>
-                                <select id="preferred_payment" class="form-input" name="preferred_payment">
-                                    <option value="">Select Payment Method</option>
-                                    <option value="cash">Cash</option>
-                                    <option value="card">Credit/Debit Card</option>
-                                    <option value="mobile">Mobile Payment</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Professional Fields for Passengers -->
-                <div class="professional-fields" id="passengerFields">
-                    <h4 class="form-label" style="margin-bottom: 1rem; color: var(--primary);">
-                        <i class="fas fa-user mr-2"></i>Passenger Information
-                    </h4>
-                    
-                    <!-- Personal Information Section -->
-                    <div class="section-header">
-                        <h5 class="section-title" style="color: var(--primary);">
-                            <i class="fas fa-user mr-2"></i>Personal Information
-                        </h5>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="form-group">
-                            <label for="phone" class="form-label">Phone Number</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-phone input-icon"></i>
-                                <input id="phone" 
-                                       class="form-input" 
-                                       type="tel" 
-                                       name="phone" 
-                                       placeholder="+92 300 1234567">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="cnic" class="form-label">CNIC Number</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-id-card input-icon"></i>
-                                <input id="cnic" 
-                                       class="form-input" 
-                                       type="text" 
-                                       name="cnic" 
-                                       placeholder="12345-1234567-1">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group md:col-span-2">
-                            <label for="address" class="form-label">Address</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-map-marker-alt input-icon" style="top: 2rem; z-index: 2; pointer-events: none;"></i>
-                                <textarea id="address" 
-                                          class="form-input" 
-                                          name="address" 
-                                          rows="3" 
-                                          placeholder="Enter your complete address"
-                                          style="padding-top: 2.5rem; resize: vertical;"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Contact & Payment Section -->
-                    <div class="section-header">
-                        <h5 class="section-title" style="color: var(--primary);">
-                            <i class="fas fa-phone mr-2"></i>Contact & Payment
-                        </h5>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="form-group">
-                            <label for="emergency_contact" class="form-label">Emergency Contact</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-phone-alt input-icon"></i>
-                                <input id="emergency_contact" 
-                                       class="form-input" 
-                                       type="tel" 
-                                       name="emergency_contact" 
-                                       placeholder="+92 300 1234567">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="preferred_payment" class="form-label">Preferred Payment</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-credit-card input-icon"></i>
-                                <select id="preferred_payment" class="form-input" name="preferred_payment">
-                                    <option value="">Select Payment Method</option>
-                                    <option value="cash">Cash</option>
-                                    <option value="card">Credit/Debit Card</option>
-                                    <option value="mobile">Mobile Payment</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Terms and Conditions -->
-                <div class="terms-checkbox">
-                    <input id="terms" type="checkbox" name="terms" required>
-                    <label for="terms">
-                        I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a>
-                    </label>
-                </div>
-
-                <!-- Register Button -->
-                <button type="submit" class="register-btn" id="registerBtn">
-                    <i class="fas fa-user-plus mr-2" id="registerIcon"></i>
-                    <span id="registerText">Create Account</span>
-                </button>
-            </form>
-
-            <!-- Login Link -->
-            <div class="login-link">
-                <p>Already have an account?</p>
-                <a href="{{ route('login') }}" class="login-btn">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Sign In
-                </a>
             </div>
         </div>
     </div>
 
     <script>
-        // Form elements
-        const nameInput = document.getElementById('name');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const confirmPasswordInput = document.getElementById('password_confirmation');
-        const registerBtn = document.getElementById('registerBtn');
-        const registerIcon = document.getElementById('registerIcon');
-        const registerText = document.getElementById('registerText');
-        const termsCheckbox = document.getElementById('terms');
-        const userTypeRadios = document.querySelectorAll('input[name="user_type"]');
-        const driverFields = document.getElementById('driverFields');
-        const passengerFields = document.getElementById('passengerFields');
+        let currentStep = 1;
+        const totalSteps = 5;
 
-        // Initialize: Show driver fields by default since driver is selected by default
-        driverFields.classList.add('show');
-        passengerFields.classList.remove('show');
-
-        // User type selection handler
-        userTypeRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.value === 'driver') {
-                    driverFields.classList.add('show');
-                    passengerFields.classList.remove('show');
-                } else if (this.value === 'passenger') {
-                    passengerFields.classList.add('show');
-                    driverFields.classList.remove('show');
-                }
-                validateForm();
-            });
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStepDisplay();
+            setupAccountTypeSelection();
+            setupFileUploads();
         });
 
-        // Live validation function
-        function validateForm() {
-            const name = nameInput.value.trim();
-            const email = emailInput.value.trim();
-            const password = passwordInput.value.trim();
-            const confirmPassword = confirmPasswordInput.value.trim();
-            const userType = document.querySelector('input[name="user_type"]:checked');
-            const terms = termsCheckbox.checked;
-            
-            const isValid = name.length > 0 && 
-                           email.length > 0 && 
-                           email.includes('@') && 
-                           password.length >= 6 && 
-                           password === confirmPassword && 
-                           userType && 
-                           terms;
-            
-            registerBtn.disabled = !isValid;
-            registerBtn.style.opacity = isValid ? '1' : '0.6';
-            registerBtn.style.cursor = isValid ? 'pointer' : 'not-allowed';
+        // Account type selection
+        function setupAccountTypeSelection() {
+            const accountCards = document.querySelectorAll('.account-type-card');
+            accountCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Remove selected class from all cards
+                    accountCards.forEach(c => c.classList.remove('selected'));
+                    
+                    // Add selected class to clicked card
+                    this.classList.add('selected');
+                    
+                    // Update user type
+                    const userType = this.dataset.type;
+                    document.getElementById('user_type').value = userType;
+                    
+                    // Show/hide relevant fields
+                    if (userType === 'driver') {
+                        document.getElementById('driver-fields').style.display = 'block';
+                        document.getElementById('passenger-fields').style.display = 'none';
+                        document.getElementById('driver-documents').style.display = 'block';
+                        document.getElementById('passenger-documents').style.display = 'none';
+                    } else {
+                        document.getElementById('driver-fields').style.display = 'none';
+                        document.getElementById('passenger-fields').style.display = 'block';
+                        document.getElementById('driver-documents').style.display = 'none';
+                        document.getElementById('passenger-documents').style.display = 'block';
+                    }
+                    
+                    // Enable next button
+                    document.getElementById('next-btn').disabled = false;
+                    document.getElementById('next-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+                });
+            });
         }
 
-        // Password strength checker
-        passwordInput.addEventListener('input', function() {
-            const password = this.value;
-            const strengthFill = document.getElementById('strength-fill');
-            const strengthText = document.getElementById('strength-text');
-            
-            let strength = 0;
-            let strengthLabel = '';
-            
-            if (password.length >= 8) strength++;
-            if (/[a-z]/.test(password)) strength++;
-            if (/[A-Z]/.test(password)) strength++;
-            if (/[0-9]/.test(password)) strength++;
-            if (/[^A-Za-z0-9]/.test(password)) strength++;
-            
-            strengthFill.className = 'strength-fill';
-            
-            if (strength < 2) {
-                strengthFill.classList.add('strength-weak');
-                strengthLabel = 'Weak';
-            } else if (strength < 3) {
-                strengthFill.classList.add('strength-fair');
-                strengthLabel = 'Fair';
-            } else if (strength < 4) {
-                strengthFill.classList.add('strength-good');
-                strengthLabel = 'Good';
+        // File upload setup
+        function setupFileUploads() {
+            document.querySelectorAll('.file-upload').forEach(upload => {
+                // Drag and drop events
+                upload.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.add('dragover');
+                });
+
+                upload.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.remove('dragover');
+                });
+
+                upload.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.remove('dragover');
+                    
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        const input = this.querySelector('input[type="file"]');
+                        if (input) {
+                            input.files = files;
+                            const previewDiv = this.querySelector('[id$="_preview"]');
+                            const previewId = previewDiv ? previewDiv.id : null;
+                            previewImage(input, previewId);
+                        }
+                    }
+                });
+
+                // Click to upload - handled by onclick attribute
+                // upload.addEventListener('click', function(e) {
+                //     e.preventDefault();
+                //     e.stopPropagation();
+                //     const input = this.querySelector('input[type="file"]');
+                //     if (input) {
+                //         console.log('File upload clicked, opening file dialog...', input.id);
+                //         input.focus();
+                //         setTimeout(() => {
+                //             input.click();
+                //         }, 10);
+                //     } else {
+                //         console.log('No file input found in upload area');
+                //     }
+                // });
+
+                // File input change event
+                const input = upload.querySelector('input[type="file"]');
+                if (input) {
+                    input.addEventListener('change', function(e) {
+                        console.log('File selected:', this.files[0]);
+                        const previewDiv = this.closest('.file-upload').querySelector('[id$="_preview"]');
+                        const previewId = previewDiv ? previewDiv.id : null;
+                        console.log('Preview ID:', previewId);
+                        if (previewId) {
+                            previewImage(this, previewId);
+                        }
+                    });
+                }
+            });
+        }
+
+        // Image preview functionality
+        function previewImage(input, previewId) {
+            console.log('previewImage called with:', input.id, previewId);
+            const file = input.files[0];
+            if (file) {
+                console.log('File found:', file.name, file.type, file.size);
+                
+                // Check if file is an image
+                if (!file.type.startsWith('image/')) {
+                    console.log('Not an image file:', file.type);
+                    showToast('Please select an image file', 'error');
+                    return;
+                }
+                
+                // Check file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    console.log('File too large:', file.size);
+                    showToast('Image size should be less than 5MB', 'error');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    console.log('FileReader loaded, looking for preview element:', previewId);
+                    const preview = document.getElementById(previewId);
+                    if (preview) {
+                        console.log('Preview element found, creating preview');
+                        preview.innerHTML = `
+                            <div class="preview-container">
+                                <img src="${e.target.result}" class="preview-image" alt="Preview">
+                                <button type="button" class="remove-preview" onclick="removePreview('${previewId}', '${input.id}')">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        `;
+                        
+                        // Add success feedback
+                        const uploadArea = input.closest('.file-upload');
+                        if (uploadArea) {
+                            uploadArea.classList.add('uploaded');
+                        }
+                        console.log('Preview created successfully');
+                    } else {
+                        console.log('Preview element not found:', previewId);
+                    }
+                };
+                reader.readAsDataURL(file);
             } else {
-                strengthFill.classList.add('strength-strong');
-                strengthLabel = 'Strong';
+                console.log('No file selected');
+            }
+        }
+        
+        // Remove preview function
+        function removePreview(previewId, inputId) {
+            const preview = document.getElementById(previewId);
+            const input = document.getElementById(inputId);
+            
+            if (preview) {
+                preview.innerHTML = '';
+            }
+            if (input) {
+                input.value = '';
             }
             
-            strengthText.textContent = `Password strength: ${strengthLabel}`;
-            validateForm();
-        });
-
-        // Email validation
-        emailInput.addEventListener('blur', function() {
-            const email = this.value.trim();
-            if (email && !email.includes('@')) {
-                this.style.borderColor = 'var(--warning)';
-                showFieldError(this, 'Please enter a valid email address');
-            } else {
-                this.style.borderColor = '#e5e7eb';
-                hideFieldError(this);
+            // Remove uploaded class
+            const uploadArea = input.closest('.file-upload');
+            if (uploadArea) {
+                uploadArea.classList.remove('uploaded');
             }
-            validateForm();
+        }
+
+        // Navigation
+        document.getElementById('next-btn').addEventListener('click', function() {
+            if (validateCurrentStep()) {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    updateStepDisplay();
+                }
+            }
         });
 
-        // Password confirmation validation
-        confirmPasswordInput.addEventListener('input', function() {
-            const password = passwordInput.value;
-            const confirmPassword = this.value;
+        document.getElementById('prev-btn').addEventListener('click', function() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+            }
+        });
+
+        // Update step display
+        function updateStepDisplay() {
+            // Hide all steps
+            document.querySelectorAll('.step-content').forEach(step => {
+                step.classList.remove('active');
+            });
+
+            // Show current step
+            document.getElementById(`step-${currentStep}`).classList.add('active');
+
+            // Update step indicators
+            document.querySelectorAll('.step-item').forEach((item, index) => {
+                const stepNumber = index + 1;
+                item.classList.remove('active', 'completed');
+                
+                if (stepNumber < currentStep) {
+                    item.classList.add('completed');
+                } else if (stepNumber === currentStep) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Update progress bar
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+
+            // Update navigation buttons
+            document.getElementById('prev-btn').style.display = currentStep > 1 ? 'block' : 'none';
             
-            if (confirmPassword && password !== confirmPassword) {
-                this.style.borderColor = 'var(--warning)';
-                showFieldError(this, 'Passwords do not match');
+            // Update navigation buttons
+            if (currentStep === totalSteps) {
+                document.getElementById('next-btn').style.display = 'none';
+                document.getElementById('submit-btn').style.display = 'block';
+                updateReviewContent();
             } else {
-                this.style.borderColor = '#e5e7eb';
-                hideFieldError(this);
+                document.getElementById('next-btn').style.display = 'block';
+                document.getElementById('submit-btn').style.display = 'none';
             }
-            validateForm();
-        });
+        }
 
-        // Name validation
-        nameInput.addEventListener('blur', function() {
-            const name = this.value.trim();
-            if (name && name.length < 2) {
-                this.style.borderColor = 'var(--warning)';
-                showFieldError(this, 'Name must be at least 2 characters');
-            } else {
-                this.style.borderColor = '#e5e7eb';
-                hideFieldError(this);
+        // Validate current step
+        function validateCurrentStep() {
+            const currentStepElement = document.getElementById(`step-${currentStep}`);
+            let isValid = true;
+            const missingFields = [];
+
+            console.log('Validating step:', currentStep);
+            console.log('Current step element:', currentStepElement);
+
+            // Special validation for step 1 (account type selection)
+            if (currentStep === 1) {
+                const selectedCard = document.querySelector('.account-type-card.selected');
+                if (!selectedCard) {
+                    showToast('Please select an account type before proceeding.', 'warning');
+                    return false;
+                }
+                return true;
             }
-            validateForm();
-        });
 
-        // Terms checkbox validation
-        termsCheckbox.addEventListener('change', validateForm);
+            // Regular validation for other steps
+            const requiredFields = currentStepElement.querySelectorAll('[required]');
+            console.log('Found required fields:', requiredFields.length);
+            
+            requiredFields.forEach(field => {
+                // Skip validation for hidden fields
+                const fieldContainer = field.closest('.form-section') || field.closest('div');
+                if (fieldContainer && fieldContainer.style.display === 'none') {
+                    console.log('Skipping hidden field:', field.id);
+                    return;
+                }
+                
+                // Get user type from selected account type card
+                const selectedCard = document.querySelector('.account-type-card.selected');
+                let userType = null;
+                if (selectedCard) {
+                    userType = selectedCard.getAttribute('data-type');
+                }
+                
+                console.log('User type detected:', userType);
+                
+                // Skip validation for driver fields when passenger is selected
+                if (userType === 'passenger') {
+                    const driverFields = ['cnic_front_image', 'cnic_back_image', 'license_image', 'vehicle_front_image', 'vehicle_back_image', 'vehicle_left_image', 'vehicle_right_image', 'profile_image'];
+                    if (driverFields.includes(field.id)) {
+                        console.log('Skipping driver field for passenger:', field.id);
+                        return;
+                    }
+                }
+                
+                // Skip validation for passenger fields when driver is selected
+                if (userType === 'driver') {
+                    const passengerFields = ['passenger_cnic_front_image', 'passenger_cnic_back_image', 'passenger_profile_image'];
+                    if (passengerFields.includes(field.id)) {
+                        console.log('Skipping passenger field for driver:', field.id);
+                        return;
+                    }
+                }
+                
+                const wrapper = field.closest('.input-wrapper') || field.closest('.file-upload');
+                let hasValue = false;
+                
+                if (field.type === 'file') {
+                    hasValue = field.files && field.files.length > 0;
+                    console.log('File field:', field.id, 'hasValue:', hasValue, 'files:', field.files.length);
+                    
+                    // For file inputs, also check if the field is actually visible/required for current user type
+                    if (!hasValue && field.offsetParent === null) {
+                        console.log('File field is hidden, skipping validation:', field.id);
+                        return;
+                    }
+                } else {
+                    hasValue = field.value.trim() !== '';
+                    console.log('Text field:', field.id, 'hasValue:', hasValue, 'value:', field.value);
+                }
+                
+                if (!hasValue) {
+                    field.classList.add('error');
+                    if (wrapper) {
+                        wrapper.classList.add('error');
+                    }
+                    isValid = false;
+                    missingFields.push(field.id || field.name || 'Unknown field');
+                } else {
+                    field.classList.remove('error');
+                    if (wrapper) {
+                        wrapper.classList.remove('error');
+                    }
+                }
+            });
 
-        // Show field error
-        function showFieldError(input, message) {
-            hideFieldError(input);
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'field-error';
-            errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
-            errorDiv.style.cssText = `
-                color: var(--warning);
-                font-size: 0.875rem;
-                margin-top: 0.5rem;
-                display: flex;
-                align-items: center;
-                animation: shake 0.5s ease-in-out;
+            console.log('Missing fields:', missingFields);
+            console.log('Is valid:', isValid);
+
+            if (!isValid) {
+                showToast(`Please fill in all required fields before proceeding. Missing: ${missingFields.join(', ')}`, 'error');
+            }
+
+            return isValid;
+        }
+
+        // Toast notification function
+        function showToast(message, type = 'success', duration = 5000) {
+            // Create toast container if it doesn't exist
+            let toastContainer = document.getElementById('toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.id = 'toast-container';
+                toastContainer.className = 'fixed top-4 right-4 z-50 space-y-2';
+                document.body.appendChild(toastContainer);
+            }
+
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `transform transition-all duration-300 ease-in-out translate-x-full opacity-0`;
+            
+            // Set colors based on type
+            let bgColor, textColor, icon;
+            switch(type) {
+                case 'success':
+                    bgColor = 'bg-green-500';
+                    textColor = 'text-white';
+                    icon = 'fas fa-check-circle';
+                    break;
+                case 'error':
+                    bgColor = 'bg-red-500';
+                    textColor = 'text-white';
+                    icon = 'fas fa-exclamation-circle';
+                    break;
+                case 'warning':
+                    bgColor = 'bg-yellow-500';
+                    textColor = 'text-white';
+                    icon = 'fas fa-exclamation-triangle';
+                    break;
+                default:
+                    bgColor = 'bg-blue-500';
+                    textColor = 'text-white';
+                    icon = 'fas fa-info-circle';
+            }
+
+            toast.innerHTML = `
+                <div class="${bgColor} ${textColor} px-6 py-4 rounded-lg shadow-lg max-w-sm w-full">
+                    <div class="flex items-center">
+                        <i class="${icon} mr-3"></i>
+                        <span class="font-medium">${message}</span>
+                    </div>
+                </div>
             `;
-            input.parentElement.appendChild(errorDiv);
-        }
 
-        // Hide field error
-        function hideFieldError(input) {
-            const existingError = input.parentElement.querySelector('.field-error');
-            if (existingError) {
-                existingError.remove();
-            }
-        }
+            toastContainer.appendChild(toast);
 
-        // Form submission with loading state
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Ensure all fields are included in form submission
-            const userType = document.querySelector('input[name="user_type"]:checked');
-            
-            if (userType && userType.value === 'driver') {
-                // Make sure driver fields are visible and enabled
-                driverFields.classList.add('show');
-                driverFields.querySelectorAll('input, select').forEach(field => {
-                    field.disabled = false;
-                });
-            } else if (userType && userType.value === 'passenger') {
-                // Make sure passenger fields are visible and enabled
-                passengerFields.classList.add('show');
-                passengerFields.querySelectorAll('input, select').forEach(field => {
-                    field.disabled = false;
-                });
-            }
-            
-            // Disable button and show loading
-            registerBtn.disabled = true;
-            registerIcon.className = 'fas fa-spinner fa-spin mr-2';
-            registerText.textContent = 'Creating Account...';
-            
-            // Submit the form after a short delay for UX
+            // Animate in
             setTimeout(() => {
-                this.submit();
-            }, 500);
-        });
+                toast.classList.remove('translate-x-full', 'opacity-0');
+            }, 100);
 
-        // Add focus animations
-        document.querySelectorAll('.form-input').forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.classList.add('focused');
-                this.style.borderColor = 'var(--primary)';
-            });
+            // Auto remove
+            setTimeout(() => {
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, duration);
+        }
+
+        // Update review content
+        function updateReviewContent() {
+            const userType = document.getElementById('user_type').value;
+            const reviewContent = document.getElementById('review-content');
             
-            input.addEventListener('blur', function() {
-                if (!this.value) {
-                    this.parentElement.classList.remove('focused');
-                }
-                this.style.borderColor = '#e5e7eb';
-            });
+            let html = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p><strong>Account Type:</strong> ${userType.charAt(0).toUpperCase() + userType.slice(1)}</p>
+                        <p><strong>Name:</strong> ${document.getElementById('name').value}</p>
+                        <p><strong>Email:</strong> ${document.getElementById('email').value}</p>
+                        <p><strong>Phone:</strong> ${document.getElementById('phone').value}</p>
+                        <p><strong>CNIC:</strong> ${document.getElementById('cnic').value}</p>
+                    </div>
+                    <div>
+                        <p><strong>Date of Birth:</strong> ${document.getElementById('date_of_birth').value}</p>
+                        <p><strong>Gender:</strong> ${document.querySelector('[name="gender"]').value}</p>
+                        <p><strong>Address:</strong> ${document.querySelector('[name="address"]').value}</p>
+            `;
+
+            if (userType === 'driver') {
+                html += `
+                        <p><strong>License Number:</strong> ${document.getElementById('license_number').value}</p>
+                        <p><strong>Vehicle Type:</strong> ${document.querySelector('[name="vehicle_type"]').value}</p>
+                `;
+            }
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            reviewContent.innerHTML = html;
+        }
+
+        // Form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registration-form');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    console.log('Submit button clicked, starting form submission...');
+                    console.log('Current step:', currentStep);
+                    
+                    // Only allow submission on final step
+                    if (currentStep !== totalSteps) {
+                        console.log('Not on final step, preventing submission');
+                        return;
+                    }
+                    
+                    // Get user type and remove required from irrelevant fields
+                    const selectedCard = document.querySelector('.account-type-card.selected');
+                    if (selectedCard) {
+                        const userType = selectedCard.getAttribute('data-type');
+                        console.log('User type for form submission:', userType);
+                        
+                        if (userType === 'passenger') {
+                            const driverFields = ['cnic_front_image', 'cnic_back_image', 'license_image', 'vehicle_front_image', 'vehicle_back_image', 'vehicle_left_image', 'vehicle_right_image', 'profile_image'];
+                            driverFields.forEach(fieldId => {
+                                const field = document.getElementById(fieldId);
+                                if (field) {
+                                    console.log('Removing required from driver field:', fieldId);
+                                    field.removeAttribute('required');
+                                }
+                            });
+                        } else if (userType === 'driver') {
+                            const passengerFields = ['passenger_cnic_front_image', 'passenger_cnic_back_image', 'passenger_profile_image'];
+                            passengerFields.forEach(fieldId => {
+                                const field = document.getElementById(fieldId);
+                                if (field) {
+                                    console.log('Removing required from passenger field:', fieldId);
+                                    field.removeAttribute('required');
+                                }
+                            });
+                        }
+                    }
+                    
+                    // Remove required attribute from all hidden fields
+                    const allFileFields = document.querySelectorAll('input[type="file"][required]');
+                    allFileFields.forEach(field => {
+                        const fieldContainer = field.closest('.form-section') || field.closest('div');
+                        if (fieldContainer && fieldContainer.style.display === 'none') {
+                            console.log('Removing required from hidden field:', field.id);
+                            field.removeAttribute('required');
+                        }
+                    });
+                    
+                    if (validateCurrentStep()) {
+                        console.log('Validation passed, submitting form...');
+                        
+                        // Convert languages array to comma-separated string
+                        const languagesField = document.querySelector('select[name="languages[]"]');
+                        if (languagesField) {
+                            const selectedOptions = Array.from(languagesField.selectedOptions);
+                            const languagesArray = selectedOptions.map(option => option.value);
+                            
+                            // Create a hidden input with the converted value
+                            const hiddenInput = document.createElement('input');
+                            hiddenInput.type = 'hidden';
+                            hiddenInput.name = 'languages';
+                            hiddenInput.value = languagesArray.join(',');
+                            form.appendChild(hiddenInput);
+                            
+                            // Remove the original array input
+                            languagesField.remove();
+                            
+                            console.log('Languages converted to string:', hiddenInput.value);
+                        }
+                        
+                        // Show loading state
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Creating Account...';
+                        this.disabled = true;
+                        
+                        // Submit form
+                        if (form) {
+                            form.submit();
+                        }
+                    } else {
+                        console.log('Validation failed, not submitting form');
+                    }
+                });
+            }
         });
-
-        // Add event listeners for live validation
-        nameInput.addEventListener('input', validateForm);
-        emailInput.addEventListener('input', validateForm);
-        confirmPasswordInput.addEventListener('input', validateForm);
-
-        // Initial validation
-        validateForm();
     </script>
 </body>
 </html>

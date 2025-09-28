@@ -31,6 +31,25 @@ class User extends Authenticatable
         'license_number',
         'vehicle_type',
         'preferred_payment',
+        'date_of_birth',
+        'gender',
+        'emergency_contact_name',
+        'emergency_contact_relation',
+        'license_type',
+        'license_expiry_date',
+        'driving_experience',
+        'bank_account_number',
+        'bank_name',
+        'bank_branch',
+        'bio',
+        'languages',
+        'is_available',
+        'rating',
+        'total_rides',
+        'cnic_front_image',
+        'cnic_back_image',
+        'license_image',
+        'profile_image',
     ];
 
     /**
@@ -53,6 +72,11 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'date_of_birth' => 'date',
+            'license_expiry_date' => 'date',
+            'languages' => 'array',
+            'is_available' => 'boolean',
+            'rating' => 'decimal:2',
         ];
     }
 

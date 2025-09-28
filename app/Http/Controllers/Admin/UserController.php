@@ -154,7 +154,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $user->load('roles');
+        $user->load(['roles', 'vehicles']);
         return view('admin.users.show', compact('user'));
     }
 
