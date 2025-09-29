@@ -17,6 +17,13 @@ class SecuritySeeder extends Seeder
     public function run(): void
     {
         $users = User::all();
+        
+        // Skip if no users exist
+        if ($users->isEmpty()) {
+            $this->command->info('No users found. Skipping SecuritySeeder.');
+            return;
+        }
+        
         $actions = ['login', 'logout', 'create', 'update', 'delete', 'view', 'export'];
         $severities = ['low', 'medium', 'high', 'critical'];
         $eventTypes = ['suspicious_login', 'multiple_failed_attempts', 'unauthorized_access', 'suspicious_activity'];

@@ -14,18 +14,34 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            // Core system seeders
             RoleSeeder::class,
+            AppSettingsSeeder::class,
+            
+            // User related seeders
+            AdminUserSeeder::class,
             UserSeeder::class,
-            DriverTrackingSeeder::class,
-            ReferralSeeder::class,
-            SupportTicketSeeder::class,
+            
+            // Security seeder (runs after users are created)
+            SecuritySeeder::class,
+            
+            // Vehicle and driver seeders
             VehiclesSeeder::class,
-            RidesSeeder::class,
-            SupportTicketsSeeder::class,
-            AnalyticsSeeder::class,
-            ReferralsSeeder::class,
             DriverLocationSeeder::class,
+            DriverTrackingSeeder::class,
+            
+            // Ride and payment seeders
+            RidesSeeder::class,
             PaymentSeeder::class,
+            
+            // Referral system seeders
+            ReferralsSeeder::class,
+            
+            // Support system seeders
+            SupportTicketsSeeder::class,
+            
+            // Analytics seeder
+            AnalyticsSeeder::class,
         ]);
     }
 }
