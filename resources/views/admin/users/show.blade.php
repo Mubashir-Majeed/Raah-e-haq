@@ -196,9 +196,13 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-600 mb-2">CNIC Front</label>
                         <div class="border border-gray-200 rounded-lg p-2">
-                            <img src="{{ asset('storage/' . str_replace('public/', '', $user->cnic_front_image)) }}" 
+                            <img src="{{ Storage::url($user->cnic_front_image) }}" 
                                  alt="CNIC Front" 
-                                 class="w-full h-32 object-cover rounded">
+                                 class="w-full h-32 object-cover rounded"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div style="display:none;" class="w-full h-32 bg-gray-100 flex items-center justify-center text-gray-500">
+                                Image not found
+                            </div>
                         </div>
                     </div>
                     @endif
@@ -207,9 +211,13 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-600 mb-2">CNIC Back</label>
                         <div class="border border-gray-200 rounded-lg p-2">
-                            <img src="{{ asset('storage/' . str_replace('public/', '', $user->cnic_back_image)) }}" 
+                            <img src="{{ Storage::url($user->cnic_back_image) }}" 
                                  alt="CNIC Back" 
-                                 class="w-full h-32 object-cover rounded">
+                                 class="w-full h-32 object-cover rounded"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div style="display:none;" class="w-full h-32 bg-gray-100 flex items-center justify-center text-gray-500">
+                                Image not found
+                            </div>
                         </div>
                     </div>
                     @endif
@@ -218,9 +226,13 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-600 mb-2">Profile Picture</label>
                         <div class="border border-gray-200 rounded-lg p-2">
-                            <img src="{{ asset('storage/' . str_replace('public/', '', $user->profile_image)) }}" 
+                            <img src="{{ Storage::url($user->profile_image) }}" 
                                  alt="Profile Picture" 
-                                 class="w-full h-32 object-cover rounded">
+                                 class="w-full h-32 object-cover rounded"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div style="display:none;" class="w-full h-32 bg-gray-100 flex items-center justify-center text-gray-500">
+                                Image not found
+                            </div>
                         </div>
                     </div>
                     @endif
@@ -310,7 +322,7 @@
                 <div class="mt-6">
                     <label class="block text-sm font-medium text-gray-600 mb-2">License Image</label>
                     <div class="border border-gray-200 rounded-lg p-2 max-w-xs">
-                        <img src="{{ asset('storage/' . str_replace('public/', '', $user->license_image)) }}" 
+                        <img src="{{ asset('storage/' . str_replace('public/uploads/', 'uploads/', $user->license_image)) }}" 
                              alt="License Image" 
                              class="w-full h-32 object-cover rounded">
                     </div>
@@ -499,7 +511,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-600 mb-2">Front View</label>
                                 <div class="border border-gray-200 rounded-lg p-2">
-                                    <img src="{{ asset('storage/' . str_replace('public/', '', $vehicle->front_image)) }}" 
+                                    <img src="{{ Storage::url($vehicle->front_image) }}" 
                                          alt="Vehicle Front" 
                                          class="w-full h-32 object-cover rounded">
                                 </div>
@@ -510,7 +522,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-600 mb-2">Back View</label>
                                 <div class="border border-gray-200 rounded-lg p-2">
-                                    <img src="{{ asset('storage/' . str_replace('public/', '', $vehicle->back_image)) }}" 
+                                    <img src="{{ Storage::url($vehicle->back_image) }}" 
                                          alt="Vehicle Back" 
                                          class="w-full h-32 object-cover rounded">
                                 </div>
@@ -521,7 +533,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-600 mb-2">Left View</label>
                                 <div class="border border-gray-200 rounded-lg p-2">
-                                    <img src="{{ asset('storage/' . str_replace('public/', '', $vehicle->left_image)) }}" 
+                                    <img src="{{ asset('storage/' . str_replace('public/uploads/', 'uploads/', $vehicle->left_image)) }}" 
                                          alt="Vehicle Left" 
                                          class="w-full h-32 object-cover rounded">
                                 </div>
@@ -532,7 +544,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-600 mb-2">Right View</label>
                                 <div class="border border-gray-200 rounded-lg p-2">
-                                    <img src="{{ asset('storage/' . str_replace('public/', '', $vehicle->right_image)) }}" 
+                                    <img src="{{ asset('storage/' . str_replace('public/uploads/', 'uploads/', $vehicle->right_image)) }}" 
                                          alt="Vehicle Right" 
                                          class="w-full h-32 object-cover rounded">
                                 </div>
@@ -554,7 +566,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-600 mb-2">Front View</label>
                         <div class="border border-gray-200 rounded-lg p-2">
-                            <img src="{{ asset('storage/' . str_replace('public/', '', $user->vehicle_front_image)) }}" 
+                            <img src="{{ Storage::url($user->vehicle_front_image) }}" 
                                  alt="Vehicle Front" 
                                  class="w-full h-32 object-cover rounded">
                         </div>
@@ -565,7 +577,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-600 mb-2">Back View</label>
                         <div class="border border-gray-200 rounded-lg p-2">
-                            <img src="{{ asset('storage/' . str_replace('public/', '', $user->vehicle_back_image)) }}" 
+                            <img src="{{ Storage::url($user->vehicle_back_image) }}" 
                                  alt="Vehicle Back" 
                                  class="w-full h-32 object-cover rounded">
                         </div>
@@ -576,7 +588,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-600 mb-2">Left View</label>
                         <div class="border border-gray-200 rounded-lg p-2">
-                            <img src="{{ asset('storage/' . str_replace('public/', '', $user->vehicle_left_image)) }}" 
+                            <img src="{{ Storage::url($user->vehicle_left_image) }}" 
                                  alt="Vehicle Left" 
                                  class="w-full h-32 object-cover rounded">
                         </div>
@@ -587,7 +599,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-600 mb-2">Right View</label>
                         <div class="border border-gray-200 rounded-lg p-2">
-                            <img src="{{ asset('storage/' . str_replace('public/', '', $user->vehicle_right_image)) }}" 
+                            <img src="{{ Storage::url($user->vehicle_right_image) }}" 
                                  alt="Vehicle Right" 
                                  class="w-full h-32 object-cover rounded">
                         </div>

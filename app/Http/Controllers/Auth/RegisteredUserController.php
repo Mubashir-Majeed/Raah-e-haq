@@ -108,8 +108,22 @@ class RegisteredUserController extends Controller
             if ($request->hasFile($field)) {
                 $file = $request->file($field);
                 $filename = time() . '_' . $field . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('public/uploads', $filename);
-                $filePaths[$field] = 'public/uploads/' . $filename;
+
+                // Determine folder based on field type (relative to the public disk)
+                $folder = 'uploads/';
+                if (strpos($field, 'passenger_') === 0) {
+                    $folder = 'uploads/passengers/';
+                } elseif (in_array($field, ['cnic_front_image', 'cnic_back_image', 'license_image', 'profile_image', 'vehicle_front_image', 'vehicle_back_image', 'vehicle_left_image', 'vehicle_right_image'])) {
+                    $folder = 'uploads/drivers/';
+                }
+
+                \Log::info("Uploading file: {$field} to folder: {$folder} with filename: {$filename}");
+
+                // Save to the public disk so it's accessible via /storage symlink
+                $path = $file->store($folder, 'public');
+                $filePaths[$field] = $path;
+
+                \Log::info("File uploaded successfully: {$path}");
             }
         }
 
