@@ -14,8 +14,14 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Production Assets -->
+    @php
+        $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
+        $cssFile = $manifest['resources/css/app.css']['file'] ?? 'assets/app-DdX-XK6w.css';
+        $jsFile = $manifest['resources/js/app.js']['file'] ?? 'assets/app-CXDpL9bK.js';
+    @endphp
+    <link rel="stylesheet" href="{{ asset('build/' . $cssFile) }}">
+    <script src="{{ asset('build/' . $jsFile) }}" defer></script>
     
     <style>
         :root {

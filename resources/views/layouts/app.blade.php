@@ -17,8 +17,14 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <!-- Production Assets -->
+        @php
+            $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
+            $cssFile = $manifest['resources/css/app.css']['file'] ?? 'assets/app-DdX-XK6w.css';
+            $jsFile = $manifest['resources/js/app.js']['file'] ?? 'assets/app-CXDpL9bK.js';
+        @endphp
+        <link rel="stylesheet" href="{{ asset('build/' . $cssFile) }}">
+        <script src="{{ asset('build/' . $jsFile) }}" defer></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
