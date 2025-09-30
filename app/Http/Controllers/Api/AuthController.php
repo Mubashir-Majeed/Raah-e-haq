@@ -304,7 +304,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Register a new user
+     * Register a new user (mirrors web registration fields & uploads)
      */
     public function register(Request $request): JsonResponse
     {
@@ -313,19 +313,50 @@ class AuthController extends Controller
             'email' => 'required|string|lowercase|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'user_type' => 'required|in:driver,passenger',
-            'phone' => 'nullable|string|max:20',
-            'cnic' => 'nullable|string|max:20',
-            'address' => 'nullable|string',
-            'emergency_contact' => 'nullable|string|max:20',
+            'phone' => 'required|string|max:20',
+            'date_of_birth' => 'nullable|date',
+            'gender' => 'nullable|in:male,female,other',
+            'cnic' => 'required|string|max:20',
+            'address' => 'required|string',
+
+            // Passenger specific
+            'passenger_preferred_payment' => 'nullable|in:cash,card,mobile_wallet',
+            'passenger_emergency_contact' => 'nullable|string|max:20',
+            'passenger_emergency_contact_name' => 'nullable|string|max:255',
+            'passenger_emergency_contact_relation' => 'nullable|string|max:50',
+            'passenger_cnic_front_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'passenger_cnic_back_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'passenger_profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+
+            // Driver specific
             'license_number' => 'nullable|string|max:50',
+            'license_type' => 'nullable|string|max:10',
+            'license_expiry_date' => 'nullable|date',
+            'driving_experience' => 'nullable|string',
+            'bank_account_number' => 'nullable|string|max:50',
+            'bank_name' => 'nullable|string|max:100',
+            'bank_branch' => 'nullable|string|max:100',
             'vehicle_type' => 'nullable|string|max:50',
             'vehicle_make' => 'nullable|string|max:100',
             'vehicle_model' => 'nullable|string|max:100',
             'vehicle_year' => 'nullable|integer|min:1990|max:2025',
             'vehicle_color' => 'nullable|string|max:50',
-            'license_plate' => 'nullable|string|max:20|unique:vehicles',
+            'license_plate' => 'nullable|string|max:20|unique:vehicles,license_plate',
             'registration_number' => 'nullable|string|max:50',
-            'preferred_payment' => 'nullable|string|max:50',
+            'preferred_payment' => 'nullable|in:cash,card,mobile_wallet',
+            'cnic_front_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'cnic_back_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'license_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'vehicle_front_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'vehicle_back_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'vehicle_left_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'vehicle_right_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+
+            // Shared optional
+            'languages' => 'nullable|array',
+            'languages.*' => 'string',
+            'bio' => 'nullable|string|max:500',
         ]);
 
         if ($validator->fails()) {
@@ -336,20 +367,93 @@ class AuthController extends Controller
             ], 422);
         }
 
+        // Additional conditional requirements
+        if ($request->user_type === 'driver') {
+            $driverRequired = Validator::make($request->all(), [
+                'license_number' => 'required|string|max:50',
+                'vehicle_type' => 'required|string|max:50',
+                'license_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                'cnic_front_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                'cnic_back_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                'vehicle_front_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                'vehicle_back_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                'vehicle_left_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                'vehicle_right_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            ]);
+            if ($driverRequired->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation Error (driver requirements)',
+                    'errors' => $driverRequired->errors()
+                ], 422);
+            }
+        }
+        if ($request->user_type === 'passenger') {
+            $passengerRequired = Validator::make($request->all(), [
+                'passenger_cnic_front_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                'passenger_cnic_back_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            ]);
+            if ($passengerRequired->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation Error (passenger requirements)',
+                    'errors' => $passengerRequired->errors()
+                ], 422);
+            }
+        }
+
         try {
-            // Create user with pending status
+            // Handle file uploads similar to admin create
+            $fileFields = [
+                'cnic_front_image', 'cnic_back_image', 'license_image', 'profile_image',
+                'vehicle_front_image', 'vehicle_back_image', 'vehicle_left_image', 'vehicle_right_image',
+                'passenger_cnic_front_image', 'passenger_cnic_back_image', 'passenger_profile_image'
+            ];
+            $filePaths = [];
+            foreach ($fileFields as $field) {
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);
+                    $folder = 'uploads/';
+                    if (str_starts_with($field, 'passenger_')) {
+                        $folder = 'uploads/passengers/';
+                    } elseif (in_array($field, ['cnic_front_image','cnic_back_image','license_image','profile_image','vehicle_front_image','vehicle_back_image','vehicle_left_image','vehicle_right_image'])) {
+                        $folder = 'uploads/drivers/';
+                    }
+                    $filePaths[$field] = $file->store($folder, 'public');
+                }
+            }
+
+            // Compose user data
             $userData = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
+                'date_of_birth' => $request->date_of_birth,
+                'gender' => $request->gender,
                 'cnic' => $request->cnic,
                 'address' => $request->address,
-                'emergency_contact' => $request->emergency_contact,
+                'country' => $request->country,
+                'status' => 'pending',
+                'preferred_payment' => $request->user_type === 'passenger' ? ($request->passenger_preferred_payment ?? null) : ($request->preferred_payment ?? null),
+                'emergency_contact' => $request->user_type === 'passenger' ? ($request->passenger_emergency_contact ?? null) : ($request->emergency_contact ?? null),
+                'emergency_contact_name' => $request->user_type === 'passenger' ? ($request->passenger_emergency_contact_name ?? null) : ($request->emergency_contact_name ?? null),
+                'emergency_contact_relation' => $request->user_type === 'passenger' ? ($request->passenger_emergency_contact_relation ?? null) : ($request->emergency_contact_relation ?? null),
                 'license_number' => $request->license_number,
+                'license_type' => $request->license_type,
+                'license_expiry_date' => $request->license_expiry_date,
+                'driving_experience' => $request->driving_experience,
+                'bank_account_number' => $request->bank_account_number,
+                'bank_name' => $request->bank_name,
+                'bank_branch' => $request->bank_branch,
                 'vehicle_type' => $request->vehicle_type,
-                'preferred_payment' => $request->preferred_payment,
-                'status' => 'pending', // Set status to pending for admin approval
+                'bio' => $request->bio,
+                'languages' => $request->languages ? json_encode($request->languages) : null,
+                'cnic_front_image' => $filePaths['cnic_front_image'] ?? $filePaths['passenger_cnic_front_image'] ?? null,
+                'cnic_back_image' => $filePaths['cnic_back_image'] ?? $filePaths['passenger_cnic_back_image'] ?? null,
+                'license_image' => $filePaths['license_image'] ?? null,
+                'profile_image' => $filePaths['profile_image'] ?? $filePaths['passenger_profile_image'] ?? null,
             ];
             
             $user = User::create($userData);
@@ -357,7 +461,7 @@ class AuthController extends Controller
             // Assign role based on user type
             $user->assignRole($request->user_type);
 
-            // Create vehicle record for drivers
+            // Create vehicle record for drivers including images
             if ($request->user_type === 'driver' && $request->vehicle_type) {
                 Vehicle::create([
                     'driver_id' => $user->id,
@@ -368,6 +472,10 @@ class AuthController extends Controller
                     'color' => $request->vehicle_color,
                     'license_plate' => $request->license_plate,
                     'registration_number' => $request->registration_number,
+                    'front_image' => $filePaths['vehicle_front_image'] ?? null,
+                    'back_image' => $filePaths['vehicle_back_image'] ?? null,
+                    'left_image' => $filePaths['vehicle_left_image'] ?? null,
+                    'right_image' => $filePaths['vehicle_right_image'] ?? null,
                     'verification_status' => 'pending',
                 ]);
             }
