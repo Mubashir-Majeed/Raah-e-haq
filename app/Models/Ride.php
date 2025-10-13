@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ride extends Model
 {
@@ -88,6 +89,16 @@ class Ride extends Model
         return $this->belongsTo(User::class, 'cancelled_by');
     }
 
+    public function stops(): HasMany
+    {
+        return $this->hasMany(RideStop::class)->orderBy('stop_order');
+    }
+
+    public function tracking(): HasMany
+    {
+        return $this->hasMany(RideTracking::class)->orderBy('tracked_at');
+    }
+
     // Generate unique ride ID
     public static function generateRideId(): string
     {
@@ -127,5 +138,107 @@ class Ride extends Model
     public function isCancelled(): bool
     {
         return $this->status === 'cancelled';
+    }
+
+    // Get current stop index
+    public function getCurrentStopIndex(): int
+    {
+        $completedStops = $this->stops()->where('status', 'completed')->count();
+        return $completedStops;
+    }
+
+    // Get next stop
+    public function getNextStop(): ?RideStop
+    {
+        return $this->stops()->where('status', 'active')->orderBy('stop_order')->first();
+    }
+
+    // Get active stops count
+    public function getActiveStopsCount(): int
+    {
+        return $this->stops()->where('status', 'active')->count();
+    }
+
+    // Get completed stops count
+    public function getCompletedStopsCount(): int
+    {
+        return $this->stops()->where('status', 'completed')->count();
+    }
+
+    // Check if all stops are completed
+    public function areAllStopsCompleted(): bool
+    {
+        return $this->stops()->where('status', '!=', 'completed')->count() === 0;
+    }
+
+    // Calculate total fare with stops
+    public function calculateTotalFareWithStops(): float
+    {
+        $baseFare = $this->base_fare + $this->distance_fare + $this->time_fare;
+        $stopCount = $this->stops()->where('status', '!=', 'cancelled')->count();
+        $stopFee = $stopCount * 25; // PKR 25 per stop
+        
+        return $baseFare + $stopFee;
+    }
+
+    // Get estimated arrival time for next stop
+    public function getEstimatedArrivalForNextStop(): ?string
+    {
+        $nextStop = $this->getNextStop();
+        if (!$nextStop) {
+            return null;
+        }
+
+        // Simple calculation - in real app, use Google Maps API
+        $distance = $this->calculateDistance(
+            $this->pickup_latitude,
+            $this->pickup_longitude,
+            $nextStop->latitude,
+            $nextStop->longitude
+        );
+        
+        $estimatedMinutes = round($distance * 2); // Rough estimate
+        return "{$estimatedMinutes} minutes";
+    }
+
+    // Calculate distance between two points
+    private function calculateDistance($lat1, $lon1, $lat2, $lon2): float
+    {
+        $earthRadius = 6371; // Earth's radius in kilometers
+        
+        $dLat = deg2rad($lat2 - $lat1);
+        $dLon = deg2rad($lon2 - $lon1);
+        
+        $a = sin($dLat/2) * sin($dLat/2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon/2) * sin($dLon/2);
+        $c = 2 * atan2(sqrt($a), sqrt(1-$a));
+        
+        return $earthRadius * $c;
+    }
+
+    // Get ride status for API
+    public function getStatusForApi(): string
+    {
+        return match($this->status) {
+            'pending' => 'requested',
+            'searching' => 'requested',
+            'accepted' => 'accepted',
+            'arrived' => 'accepted',
+            'started' => 'ongoing',
+            'completed' => 'completed',
+            'cancelled' => 'cancelled',
+            default => 'requested',
+        };
+    }
+
+    // Check if ride can be modified
+    public function canBeModified(): bool
+    {
+        return in_array($this->status, ['pending', 'searching', 'accepted']);
+    }
+
+    // Check if ride can be cancelled
+    public function canBeCancelled(): bool
+    {
+        return in_array($this->status, ['pending', 'searching', 'accepted', 'arrived']);
     }
 }

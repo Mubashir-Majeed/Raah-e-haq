@@ -8,102 +8,69 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Notification extends Model
 {
     protected $fillable = [
+        'user_id',
+        'type',
         'title',
         'message',
-        'type',
-        'target_audience',
-        'target_user_ids',
-        'delivery_method',
-        'status',
-        'scheduled_at',
-        'sent_at',
-        'delivery_stats',
-        'image_url',
-        'action_url',
-        'action_text',
+        'data',
+        'read_at',
         'created_by',
     ];
 
     protected $casts = [
-        'target_user_ids' => 'array',
-        'delivery_stats' => 'array',
-        'scheduled_at' => 'datetime',
-        'sent_at' => 'datetime',
+        'data' => 'array',
+        'read_at' => 'datetime',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    // Get target users based on audience
-    public function getTargetUsers()
+    // Mark notification as read
+    public function markAsRead(): void
     {
-        switch ($this->target_audience) {
-            case 'all':
-                return User::all();
-            case 'passengers':
-                return User::whereHas('roles', function($query) {
-                    $query->where('name', 'passenger');
-                })->get();
-            case 'drivers':
-                return User::whereHas('roles', function($query) {
-                    $query->where('name', 'driver');
-                })->get();
-            case 'specific_users':
-                return User::whereIn('id', $this->target_user_ids ?? [])->get();
-            default:
-                return collect();
-        }
+        $this->update(['read_at' => now()]);
     }
 
-    // Mark notification as sent
-    public function markAsSent($stats = [])
+    // Check if notification is read
+    public function isRead(): bool
     {
-        $this->update([
-            'status' => 'sent',
-            'sent_at' => now(),
-            'delivery_stats' => $stats,
-        ]);
+        return !is_null($this->read_at);
     }
 
-    // Check if notification is ready to send
-    public function isReadyToSend(): bool
+    // Check if notification is unread
+    public function isUnread(): bool
     {
-        if ($this->status !== 'scheduled') {
-            return false;
-        }
-
-        if ($this->scheduled_at && $this->scheduled_at->isFuture()) {
-            return false;
-        }
-
-        return true;
+        return is_null($this->read_at);
     }
 
-    // Get notification type color
-    public function getTypeColor(): string
+    // Scope for unread notifications
+    public function scopeUnread($query)
     {
-        return match($this->type) {
-            'success' => 'green',
-            'warning' => 'yellow',
-            'error' => 'red',
-            'promotion' => 'purple',
-            'announcement' => 'blue',
-            default => 'gray',
-        };
+        return $query->whereNull('read_at');
     }
 
-    // Get status color
-    public function getStatusColor(): string
+    // Scope for read notifications
+    public function scopeRead($query)
     {
-        return match($this->status) {
-            'sent' => 'green',
-            'scheduled' => 'blue',
-            'draft' => 'gray',
-            'failed' => 'red',
-            'cancelled' => 'yellow',
-            default => 'gray',
-        };
+        return $query->whereNotNull('read_at');
+    }
+
+    // Scope for specific user
+    public function scopeForUser($query, $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
+
+    // Scope for specific type
+    public function scopeOfType($query, $type)
+    {
+        return $query->where('type', $type);
     }
 }

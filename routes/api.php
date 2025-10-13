@@ -66,6 +66,31 @@ Route::middleware(['auth:sanctum','throttle:120,1'])->group(function () {
     Route::apiResource('rides', RidesController::class);
     Route::post('rides/{ride}/assign-driver', [RidesController::class, 'assignDriver']);
     Route::post('rides/{ride}/cancel', [RidesController::class, 'cancel']);
+    
+    // Ride Management Endpoints
+    Route::get('rides/pending', [RidesController::class, 'getPendingRides']);
+    Route::get('rides/nearby-drivers', [RidesController::class, 'getNearbyDrivers']);
+    
+    // Stop Management Endpoints
+    Route::post('rides/{ride}/stops', [RidesController::class, 'addStop']);
+    Route::delete('rides/{ride}/stops/{stop}', [RidesController::class, 'removeStop']);
+    Route::put('rides/{ride}/stops/reorder', [RidesController::class, 'reorderStops']);
+    
+    // Driver Navigation Endpoints
+    Route::post('rides/{ride}/navigate-next-stop', [RidesController::class, 'navigateNextStop']);
+    Route::post('rides/{ride}/stops/{stop}/complete', [RidesController::class, 'completeStop']);
+    Route::get('rides/{ride}/navigation-instructions', [RidesController::class, 'getNavigationInstructions']);
+
+    // Notifications API
+    Route::get('notifications', [App\Http\Controllers\Api\NotificationController::class, 'getUserNotifications']);
+    Route::post('notifications/{notification}/read', [App\Http\Controllers\Api\NotificationController::class, 'markAsRead']);
+    Route::post('notifications/read-all', [App\Http\Controllers\Api\NotificationController::class, 'markAllAsRead']);
+    Route::get('notifications/unread-count', [App\Http\Controllers\Api\NotificationController::class, 'getUnreadCount']);
+
+    // WebSocket API
+    Route::post('websocket/subscribe-ride', [App\Http\Controllers\Api\WebSocketController::class, 'subscribeToRideUpdates']);
+    Route::post('websocket/subscribe-driver', [App\Http\Controllers\Api\WebSocketController::class, 'subscribeToDriverRequests']);
+    Route::get('websocket/events', [App\Http\Controllers\Api\WebSocketController::class, 'getWebSocketEvents']);
 
     // Payments API
     Route::get('payments/transactions', [PaymentsController::class, 'transactions']);

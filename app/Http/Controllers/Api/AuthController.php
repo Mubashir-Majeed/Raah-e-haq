@@ -425,6 +425,7 @@ class AuthController extends Controller
             }
 
             // Compose user data
+            $userStatus = $request->user_type === 'passenger' ? 'active' : 'pending';
             $userData = [
                 'name' => $request->name,
                 'email' => $request->email,
@@ -435,7 +436,8 @@ class AuthController extends Controller
                 'cnic' => $request->cnic,
                 'address' => $request->address,
                 'country' => $request->country,
-                'status' => 'pending',
+                // Passengers are activated immediately (matches web behavior), drivers remain pending
+                'status' => $userStatus,
                 'preferred_payment' => $request->user_type === 'passenger' ? ($request->passenger_preferred_payment ?? null) : ($request->preferred_payment ?? null),
                 'emergency_contact' => $request->user_type === 'passenger' ? ($request->passenger_emergency_contact ?? null) : ($request->emergency_contact ?? null),
                 'emergency_contact_name' => $request->user_type === 'passenger' ? ($request->passenger_emergency_contact_name ?? null) : ($request->emergency_contact_name ?? null),
@@ -484,6 +486,12 @@ class AuthController extends Controller
             $roles = $user->roles->pluck('name')->toArray();
             $primaryRole = $roles[0] ?? null;
 
+            // If passenger is activated immediately, also return auth token to allow instant login
+            $token = null;
+            if ($userStatus === 'active') {
+                $token = $user->createToken('auth-token')->plainTextToken;
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Registration successful! Your account is pending admin approval. You will be able to login once approved.',
@@ -497,7 +505,9 @@ class AuthController extends Controller
                         'roles' => $roles,
                         'status' => $user->status,
                         'created_at' => $user->created_at,
-                    ]
+                    ],
+                    'token' => $token,
+                    'token_type' => $token ? 'Bearer' : null,
                 ]
             ], 201);
 
