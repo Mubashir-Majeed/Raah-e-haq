@@ -220,10 +220,12 @@ class Ride extends Model
     {
         return match($this->status) {
             'pending' => 'requested',
+            'requested' => 'requested',
             'searching' => 'requested',
             'accepted' => 'accepted',
             'arrived' => 'accepted',
             'started' => 'ongoing',
+            'ongoing' => 'ongoing',
             'completed' => 'completed',
             'cancelled' => 'cancelled',
             default => 'requested',
@@ -233,12 +235,12 @@ class Ride extends Model
     // Check if ride can be modified
     public function canBeModified(): bool
     {
-        return in_array($this->status, ['pending', 'searching', 'accepted']);
+        return in_array($this->status, ['pending', 'requested', 'searching', 'accepted']);
     }
 
     // Check if ride can be cancelled
     public function canBeCancelled(): bool
     {
-        return in_array($this->status, ['pending', 'searching', 'accepted', 'arrived']);
+        return in_array($this->status, ['pending', 'requested', 'searching', 'accepted', 'arrived']);
     }
 }

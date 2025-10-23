@@ -1,0 +1,399 @@
+# 🚗 **RAW DATA FOR POSTMAN - COPY & PASTE**
+
+## 📱 **1. PASSENGER REGISTRATION DATA**
+
+### **Passenger 1 - Ahmed Ali Khan**
+```
+name: Ahmed Ali Khan
+email: ahmed.ali@email.com
+password: Password123!
+password_confirmation: Password123!
+user_type: passenger
+phone: +92-300-1234567
+date_of_birth: 1990-05-15
+gender: male
+cnic: 42101-1234567-8
+address: House 45, Block 6, PECHS, Karachi
+country: Pakistan
+passenger_preferred_payment: mobile_wallet
+passenger_emergency_contact: +92-301-9876543
+passenger_emergency_contact_name: Fatima Khan
+passenger_emergency_contact_relation: Sister
+languages: ["urdu", "english"]
+bio: Professional working in IT sector, need reliable transportation for daily commute.
+```
+
+### **Passenger 2 - Ayesha Fatima**
+```
+name: Ayesha Fatima
+email: ayesha.fatima@email.com
+password: SecurePass456!
+password_confirmation: SecurePass456!
+user_type: passenger
+phone: +92-303-3456789
+date_of_birth: 1992-03-22
+gender: female
+cnic: 42101-3456789-0
+address: Apartment 7B, Clifton Block 2, Karachi
+country: Pakistan
+passenger_preferred_payment: card
+passenger_emergency_contact: +92-304-4567890
+passenger_emergency_contact_name: Ali Ahmed
+passenger_emergency_contact_relation: Brother
+languages: ["urdu", "english", "punjabi"]
+bio: Marketing professional, frequently travels for work meetings.
+```
+
+### **Passenger 3 - Usman Sheikh**
+```
+name: Usman Sheikh
+email: usman.sheikh@email.com
+password: StrongPass789!
+password_confirmation: StrongPass789!
+user_type: passenger
+phone: +92-305-4567890
+date_of_birth: 1988-07-12
+gender: male
+cnic: 42101-4567890-1
+address: House 23, DHA Phase 5, Karachi
+country: Pakistan
+passenger_preferred_payment: cash
+passenger_emergency_contact: +92-306-5678901
+passenger_emergency_contact_name: Saima Sheikh
+passenger_emergency_contact_relation: Wife
+languages: ["urdu", "english"]
+bio: Business owner, needs reliable transport for client meetings.
+```
+
+---
+
+## 🚗 **2. DRIVER REGISTRATION DATA**
+
+### **Driver 1 - Muhammad Hassan (Car Driver)**
+```
+name: Muhammad Hassan
+email: m.hassan@email.com
+password: DriverPass123!
+password_confirmation: DriverPass123!
+user_type: driver
+phone: +92-302-2345678
+date_of_birth: 1985-08-20
+gender: male
+cnic: 42101-2345678-9
+address: Flat 12, Building 5, Gulshan-e-Iqbal, Karachi
+country: Pakistan
+license_number: LIC-2023-001234
+license_type: LTV
+license_expiry_date: 2028-12-31
+driving_experience: 5 years
+bank_account_number: 1234567890123456
+bank_name: Habib Bank Limited
+bank_branch: Gulshan-e-Iqbal Branch
+vehicle_type: car
+vehicle_make: Toyota
+vehicle_model: Corolla
+vehicle_year: 2020
+vehicle_color: White
+license_plate: KHI-2020-1234
+registration_number: REG-2020-5678
+preferred_payment: mobile_wallet
+languages: ["urdu", "english", "sindhi"]
+bio: Professional driver with 5 years experience. Available 24/7 for reliable service.
+```
+
+### **Driver 2 - Abdul Rehman (Bike Driver)**
+```
+name: Abdul Rehman
+email: abdul.rehman@email.com
+password: DriverPass456!
+password_confirmation: DriverPass456!
+user_type: driver
+phone: +92-307-5678901
+date_of_birth: 1988-11-10
+gender: male
+cnic: 42101-5678901-2
+address: House 89, North Nazimabad, Karachi
+country: Pakistan
+license_number: LIC-2023-002345
+license_type: MC
+license_expiry_date: 2027-06-15
+driving_experience: 3 years
+bank_account_number: 2345678901234567
+bank_name: United Bank Limited
+bank_branch: North Nazimabad Branch
+vehicle_type: bike
+vehicle_make: Honda
+vehicle_model: CD-70
+vehicle_year: 2021
+vehicle_color: Red
+license_plate: KHI-2021-5678
+registration_number: REG-2021-9012
+preferred_payment: cash
+languages: ["urdu", "english"]
+bio: Experienced bike rider, specializes in quick city deliveries and short rides.
+```
+
+### **Driver 3 - Sana Khan (Rickshaw Driver)**
+```
+name: Sana Khan
+email: sana.khan@email.com
+password: DriverPass789!
+password_confirmation: DriverPass789!
+user_type: driver
+phone: +92-308-6789012
+date_of_birth: 1990-04-18
+gender: female
+cnic: 42101-6789012-3
+address: Street 15, Orangi Town, Karachi
+country: Pakistan
+license_number: LIC-2023-003456
+license_type: LTV
+license_expiry_date: 2026-09-20
+driving_experience: 2 years
+bank_account_number: 3456789012345678
+bank_name: MCB Bank
+bank_branch: Orangi Town Branch
+vehicle_type: rickshaw
+vehicle_make: Qingqi
+vehicle_model: QS125T-2D
+vehicle_year: 2022
+vehicle_color: Green
+license_plate: KHI-2022-9012
+registration_number: REG-2022-3456
+preferred_payment: mobile_wallet
+languages: ["urdu", "punjabi"]
+bio: Friendly rickshaw driver, comfortable with local routes and short distance trips.
+```
+
+### **Driver 4 - Ali Raza (Van Driver)**
+```
+name: Ali Raza
+email: ali.raza@email.com
+password: DriverPass999!
+password_confirmation: DriverPass999!
+user_type: driver
+phone: +92-309-7890123
+date_of_birth: 1987-12-05
+gender: male
+cnic: 42101-7890123-4
+address: Block 8, Malir, Karachi
+country: Pakistan
+license_number: LIC-2023-004567
+license_type: LTV
+license_expiry_date: 2029-03-10
+driving_experience: 7 years
+bank_account_number: 4567890123456789
+bank_name: Allied Bank Limited
+bank_branch: Malir Branch
+vehicle_type: van
+vehicle_make: Suzuki
+vehicle_model: Bolan
+vehicle_year: 2019
+vehicle_color: Blue
+license_plate: KHI-2019-3456
+registration_number: REG-2019-7890
+preferred_payment: card
+languages: ["urdu", "english", "sindhi"]
+bio: Experienced van driver, specializes in group transportation and airport transfers.
+```
+
+---
+
+## 🔐 **3. LOGIN DATA**
+
+### **Email/Password Login**
+```json
+{
+  "email": "ahmed.ali@email.com",
+  "password": "Password123!"
+}
+```
+
+### **OTP Login - Send OTP**
+```json
+{
+  "phone": "+92-300-1234567"
+}
+```
+
+### **OTP Login - Verify OTP**
+```json
+{
+  "phone": "+92-300-1234567",
+  "otp_code": "123456"
+}
+```
+
+---
+
+## 🔄 **4. PASSWORD RESET DATA**
+
+### **Forgot Password**
+```json
+{
+  "email": "ahmed.ali@email.com"
+}
+```
+
+### **Reset Password**
+```json
+{
+  "token": "reset_token_from_email",
+  "email": "ahmed.ali@email.com",
+  "password": "NewPassword123!",
+  "password_confirmation": "NewPassword123!"
+}
+```
+
+---
+
+## 📸 **5. IMAGE FILE PATHS**
+
+### **Passenger Images:**
+```
+passenger_cnic_front_image: test_images/passengers/cnic_front_sample.jpg
+passenger_cnic_back_image: test_images/passengers/cnic_back_sample.jpg
+passenger_profile_image: test_images/passengers/profile_sample.jpg
+```
+
+### **Driver Images:**
+```
+cnic_front_image: test_images/drivers/cnic_front_sample.jpg
+cnic_back_image: test_images/drivers/cnic_back_sample.jpg
+license_image: test_images/drivers/license_sample.jpg
+profile_image: test_images/drivers/profile_sample.jpg
+vehicle_front_image: test_images/vehicles/front_sample.jpg
+vehicle_back_image: test_images/vehicles/back_sample.jpg
+vehicle_left_image: test_images/vehicles/left_sample.jpg
+vehicle_right_image: test_images/vehicles/right_sample.jpg
+```
+
+---
+
+## 🌐 **6. API ENDPOINTS**
+
+### **Registration:**
+```
+POST http://127.0.0.1:9000/api/auth/register
+```
+
+### **Login:**
+```
+POST http://127.0.0.1:9000/api/auth/login
+```
+
+### **Send OTP:**
+```
+POST http://127.0.0.1:9000/api/auth/send-otp
+```
+
+### **Verify OTP:**
+```
+POST http://127.0.0.1:9000/api/auth/verify-otp
+```
+
+### **Profile:**
+```
+GET http://127.0.0.1:9000/api/auth/profile
+Authorization: Bearer YOUR_TOKEN_HERE
+```
+
+### **Logout:**
+```
+POST http://127.0.0.1:9000/api/auth/logout
+Authorization: Bearer YOUR_TOKEN_HERE
+```
+
+### **Forgot Password:**
+```
+POST http://127.0.0.1:9000/api/auth/forgot-password
+```
+
+### **Reset Password:**
+```
+POST http://127.0.0.1:9000/api/auth/reset-password
+```
+
+---
+
+## 📋 **7. QUICK COPY-PASTE FORMS**
+
+### **Passenger Registration Form (Copy All):**
+```
+name: Ahmed Ali Khan
+email: ahmed.ali@email.com
+password: Password123!
+password_confirmation: Password123!
+user_type: passenger
+phone: +92-300-1234567
+date_of_birth: 1990-05-15
+gender: male
+cnic: 42101-1234567-8
+address: House 45, Block 6, PECHS, Karachi
+country: Pakistan
+passenger_preferred_payment: mobile_wallet
+passenger_emergency_contact: +92-301-9876543
+passenger_emergency_contact_name: Fatima Khan
+passenger_emergency_contact_relation: Sister
+languages: ["urdu", "english"]
+bio: Professional working in IT sector, need reliable transportation for daily commute.
+```
+
+### **Driver Registration Form (Copy All):**
+```
+name: Muhammad Hassan
+email: m.hassan@email.com
+password: DriverPass123!
+password_confirmation: DriverPass123!
+user_type: driver
+phone: +92-302-2345678
+date_of_birth: 1985-08-20
+gender: male
+cnic: 42101-2345678-9
+address: Flat 12, Building 5, Gulshan-e-Iqbal, Karachi
+country: Pakistan
+license_number: LIC-2023-001234
+license_type: LTV
+license_expiry_date: 2028-12-31
+driving_experience: 5 years
+bank_account_number: 1234567890123456
+bank_name: Habib Bank Limited
+bank_branch: Gulshan-e-Iqbal Branch
+vehicle_type: car
+vehicle_make: Toyota
+vehicle_model: Corolla
+vehicle_year: 2020
+vehicle_color: White
+license_plate: KHI-2020-1234
+registration_number: REG-2020-5678
+preferred_payment: mobile_wallet
+languages: ["urdu", "english", "sindhi"]
+bio: Professional driver with 5 years experience. Available 24/7 for reliable service.
+```
+
+---
+
+## 🎯 **8. TESTING SEQUENCE**
+
+1. **Copy passenger registration data** → Paste in Postman form-data
+2. **Upload passenger images** from test_images/passengers/
+3. **Send request** → Get token
+4. **Copy driver registration data** → Paste in Postman form-data  
+5. **Upload driver images** from test_images/drivers/ and test_images/vehicles/
+6. **Send request** → Get pending status
+7. **Test login** with passenger credentials
+8. **Test profile** with token
+9. **Test logout**
+
+---
+
+## ⚠️ **9. IMPORTANT NOTES**
+
+- **Passengers:** Get `status: "active"` (can login immediately)
+- **Drivers:** Get `status: "pending"` (need admin approval)
+- **Images:** Must upload from test_images/ directory
+- **Phone format:** +92-XXX-XXXXXXX
+- **CNIC format:** XXXXX-XXXXXXX-X
+- **License plate:** KHI-YYYY-XXXX
+
+**Ready to copy and paste! 🚀**

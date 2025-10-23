@@ -168,7 +168,7 @@ class RidesController extends Controller
     public function update(Request $request, Ride $ride): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'status' => 'sometimes|string|in:requested,accepted,ongoing,completed,cancelled',
+            'status' => 'sometimes|string|in:pending,requested,searching,accepted,arrived,started,ongoing,completed,cancelled',
             'driver_id' => 'nullable|exists:users,id',
             'fare' => 'nullable|numeric|min:0',
             'distance_km' => 'nullable|numeric|min:0',

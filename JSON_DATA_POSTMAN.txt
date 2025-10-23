@@ -1,0 +1,339 @@
+# 🚗 **JSON DATA FOR POSTMAN - COPY & PASTE**
+
+## 📱 **1. PASSENGER REGISTRATION - JSON DATA**
+
+### **Method:** POST
+### **URL:** `http://127.0.0.1:9000/api/auth/register`
+### **Body Type:** `raw` (JSON)
+
+**Copy and paste this JSON:**
+
+```json
+{
+  "name": "Ahmed Ali Khan",
+  "email": "ahmed.ali@email.com",
+  "password": "Password123!",
+  "password_confirmation": "Password123!",
+  "user_type": "passenger",
+  "phone": "+92-300-1234567",
+  "cnic": "42101-1234567-8",
+  "address": "House 45, Block 6, PECHS, Karachi",
+  "date_of_birth": "1990-05-15",
+  "gender": "male",
+  "passenger_preferred_payment": "mobile_wallet",
+  "passenger_emergency_contact": "+92-301-9876543",
+  "passenger_emergency_contact_name": "Fatima Khan",
+  "passenger_emergency_contact_relation": "sister",
+  "languages": "urdu,english",
+  "bio": "Professional working in IT sector, need reliable transportation for daily commute."
+}
+```
+
+---
+
+## 🚗 **2. DRIVER REGISTRATION - JSON DATA**
+
+### **Method:** POST
+### **URL:** `http://127.0.0.1:9000/api/auth/register`
+### **Body Type:** `raw` (JSON)
+
+**Copy and paste this JSON:**
+
+```json
+{
+  "name": "Muhammad Hassan",
+  "email": "m.hassan@email.com",
+  "password": "DriverPass123!",
+  "password_confirmation": "DriverPass123!",
+  "user_type": "driver",
+  "phone": "+92-302-2345678",
+  "cnic": "42101-2345678-9",
+  "address": "Flat 12, Building 5, Gulshan-e-Iqbal, Karachi",
+  "date_of_birth": "1985-08-20",
+  "gender": "male",
+  "license_number": "LIC-2023-001234",
+  "license_type": "LTV",
+  "license_expiry_date": "2028-12-31",
+  "driving_experience": "5 years",
+  "bank_account_number": "1234567890123456",
+  "bank_name": "Habib Bank Limited",
+  "bank_branch": "Gulshan-e-Iqbal Branch",
+  "vehicle_type": "car",
+  "vehicle_make": "Toyota",
+  "vehicle_model": "Corolla",
+  "vehicle_year": "2020",
+  "vehicle_color": "White",
+  "license_plate": "KHI-2020-1234",
+  "registration_number": "REG-2020-5678",
+  "preferred_payment": "mobile_wallet",
+  "languages": "urdu,english,sindhi",
+  "bio": "Professional driver with 5 years experience. Available 24/7 for reliable service."
+}
+```
+
+---
+
+## 🚗 **3. BIKE DRIVER REGISTRATION - JSON DATA**
+
+### **Method:** POST
+### **URL:** `http://127.0.0.1:9000/api/auth/register`
+### **Body Type:** `raw` (JSON)
+
+**Copy and paste this JSON:**
+
+```json
+{
+  "name": "Abdul Rehman",
+  "email": "abdul.rehman@email.com",
+  "password": "DriverPass456!",
+  "password_confirmation": "DriverPass456!",
+  "user_type": "driver",
+  "phone": "+92-307-5678901",
+  "cnic": "42101-5678901-2",
+  "address": "House 89, North Nazimabad, Karachi",
+  "date_of_birth": "1988-11-10",
+  "gender": "male",
+  "license_number": "LIC-2023-002345",
+  "license_type": "MC",
+  "license_expiry_date": "2027-06-15",
+  "driving_experience": "3 years",
+  "bank_account_number": "2345678901234567",
+  "bank_name": "United Bank Limited",
+  "bank_branch": "North Nazimabad Branch",
+  "vehicle_type": "bike",
+  "vehicle_make": "Honda",
+  "vehicle_model": "CD-70",
+  "vehicle_year": "2021",
+  "vehicle_color": "Red",
+  "license_plate": "KHI-2021-5678",
+  "registration_number": "REG-2021-9012",
+  "preferred_payment": "cash",
+  "languages": "urdu,english",
+  "bio": "Experienced bike rider, specializes in quick city deliveries and short rides."
+}
+```
+
+---
+
+## 🚗 **4. RICKSHAW DRIVER REGISTRATION - JSON DATA**
+
+### **Method:** POST
+### **URL:** `http://127.0.0.1:9000/api/auth/register`
+### **Body Type:** `raw` (JSON)
+
+**Copy and paste this JSON:**
+
+```json
+{
+  "name": "Sana Khan",
+  "email": "sana.khan@email.com",
+  "password": "DriverPass789!",
+  "password_confirmation": "DriverPass789!",
+  "user_type": "driver",
+  "phone": "+92-308-6789012",
+  "cnic": "42101-6789012-3",
+  "address": "Street 15, Orangi Town, Karachi",
+  "date_of_birth": "1990-04-18",
+  "gender": "female",
+  "license_number": "LIC-2023-003456",
+  "license_type": "LTV",
+  "license_expiry_date": "2026-09-20",
+  "driving_experience": "2 years",
+  "bank_account_number": "3456789012345678",
+  "bank_name": "MCB Bank",
+  "bank_branch": "Orangi Town Branch",
+  "vehicle_type": "rickshaw",
+  "vehicle_make": "Qingqi",
+  "vehicle_model": "QS125T-2D",
+  "vehicle_year": "2022",
+  "vehicle_color": "Green",
+  "license_plate": "KHI-2022-9012",
+  "registration_number": "REG-2022-3456",
+  "preferred_payment": "mobile_wallet",
+  "languages": "urdu,punjabi",
+  "bio": "Friendly rickshaw driver, comfortable with local routes and short distance trips."
+}
+```
+
+---
+
+## 📱 **5. ADDITIONAL PASSENGER PROFILES - JSON DATA**
+
+### **Passenger 2 - Ayesha Fatima:**
+
+```json
+{
+  "name": "Ayesha Fatima",
+  "email": "ayesha.fatima@email.com",
+  "password": "SecurePass456!",
+  "password_confirmation": "SecurePass456!",
+  "user_type": "passenger",
+  "phone": "+92-303-3456789",
+  "cnic": "42101-3456789-0",
+  "address": "Apartment 7B, Clifton Block 2, Karachi",
+  "date_of_birth": "1992-03-22",
+  "gender": "female",
+  "passenger_preferred_payment": "card",
+  "passenger_emergency_contact": "+92-304-4567890",
+  "passenger_emergency_contact_name": "Ali Ahmed",
+  "passenger_emergency_contact_relation": "brother",
+  "languages": "urdu,english,punjabi",
+  "bio": "Marketing professional, frequently travels for work meetings."
+}
+```
+
+### **Passenger 3 - Usman Sheikh:**
+
+```json
+{
+  "name": "Usman Sheikh",
+  "email": "usman.sheikh@email.com",
+  "password": "StrongPass789!",
+  "password_confirmation": "StrongPass789!",
+  "user_type": "passenger",
+  "phone": "+92-305-4567890",
+  "cnic": "42101-4567890-1",
+  "address": "House 23, DHA Phase 5, Karachi",
+  "date_of_birth": "1988-07-12",
+  "gender": "male",
+  "passenger_preferred_payment": "cash",
+  "passenger_emergency_contact": "+92-306-5678901",
+  "passenger_emergency_contact_name": "Saima Sheikh",
+  "passenger_emergency_contact_relation": "spouse",
+  "languages": "urdu,english",
+  "bio": "Business owner, needs reliable transport for client meetings."
+}
+```
+
+---
+
+## 🔐 **6. LOGIN DATA - JSON FORMAT**
+
+### **Email/Password Login:**
+
+**Method:** POST  
+**URL:** `http://127.0.0.1:9000/api/auth/login`  
+**Body Type:** `raw` (JSON)
+
+```json
+{
+  "email": "ahmed.ali@email.com",
+  "password": "Password123!"
+}
+```
+
+### **OTP Login - Send OTP:**
+
+**Method:** POST  
+**URL:** `http://127.0.0.1:9000/api/auth/send-otp`  
+**Body Type:** `raw` (JSON)
+
+```json
+{
+  "phone": "+92-300-1234567"
+}
+```
+
+### **OTP Login - Verify OTP:**
+
+**Method:** POST  
+**URL:** `http://127.0.0.1:9000/api/auth/verify-otp`  
+**Body Type:** `raw` (JSON)
+
+```json
+{
+  "phone": "+92-300-1234567",
+  "otp_code": "123456"
+}
+```
+
+---
+
+## 📋 **7. POSTMAN SETUP INSTRUCTIONS**
+
+### **For Registration:**
+1. **Open Postman**
+2. **Create new request**
+3. **Method:** POST
+4. **URL:** `http://127.0.0.1:9000/api/auth/register`
+5. **Body tab:** Select `raw`
+6. **Content-Type:** Select `JSON`
+7. **Copy the JSON data** from above
+8. **Send request**
+
+### **For Login:**
+1. **Method:** POST
+2. **URL:** `http://127.0.0.1:9000/api/auth/login`
+3. **Body tab:** Select `raw`
+4. **Content-Type:** Select `JSON`
+5. **Copy the JSON data** from above
+6. **Send request**
+
+---
+
+## ⚠️ **8. IMPORTANT NOTES**
+
+- **Use `raw` JSON body type** for all requests
+- **Set Content-Type to `application/json`**
+- **No file uploads** in JSON format (images need to be handled separately)
+- **Passengers get `active` status** (can login immediately)
+- **Drivers get `pending` status** (need admin approval)
+
+---
+
+## 🎯 **9. QUICK TEST SEQUENCE**
+
+1. **Test Passenger Registration** → Should get `status: "active"` and token
+2. **Test Driver Registration** → Should get `status: "pending"` and no token
+3. **Test Login with Passenger** → Should get token
+4. **Test Login with Driver** → Should get error (pending status)
+
+---
+
+## 📝 **10. SAMPLE RESPONSES**
+
+### **Successful Passenger Registration:**
+```json
+{
+  "success": true,
+  "message": "Registration successful! Your account is now active. You can login immediately.",
+  "data": {
+    "user": {
+      "id": 1,
+      "name": "Ahmed Ali Khan",
+      "email": "ahmed.ali@email.com",
+      "user_type": "passenger",
+      "role": "passenger",
+      "roles": ["passenger"],
+      "status": "active",
+      "created_at": "2025-01-15T10:30:00.000000Z"
+    },
+    "token": "1|abc123def456...",
+    "token_type": "Bearer"
+  }
+}
+```
+
+### **Successful Driver Registration:**
+```json
+{
+  "success": true,
+  "message": "Registration successful! Your account is pending admin approval. You will be able to login once approved.",
+  "data": {
+    "user": {
+      "id": 2,
+      "name": "Muhammad Hassan",
+      "email": "m.hassan@email.com",
+      "user_type": "driver",
+      "role": "driver",
+      "roles": ["driver"],
+      "status": "pending",
+      "created_at": "2025-01-15T10:35:00.000000Z"
+    },
+    "token": null,
+    "token_type": null
+  }
+}
+```
+
+**Ready to copy and paste! 🚀**

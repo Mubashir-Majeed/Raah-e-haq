@@ -1,0 +1,1059 @@
+{
+  "info": {
+    "name": "ReH - Driver & Passenger Registration APIs",
+    "description": "Complete authentication and registration APIs for ReH ride-sharing platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:9000/api",
+      "type": "string"
+    },
+    {
+      "key": "passenger_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "driver_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Passenger Registration",
+      "item": [
+        {
+          "name": "Register New Passenger",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Ahmed Ali Khan",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "ahmed.ali@email.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "Password123!",
+                  "type": "text"
+                },
+                {
+                  "key": "password_confirmation",
+                  "value": "Password123!",
+                  "type": "text"
+                },
+                {
+                  "key": "user_type",
+                  "value": "passenger",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "+92-300-1234567",
+                  "type": "text"
+                },
+                {
+                  "key": "date_of_birth",
+                  "value": "1990-05-15",
+                  "type": "text"
+                },
+                {
+                  "key": "gender",
+                  "value": "male",
+                  "type": "text"
+                },
+                {
+                  "key": "cnic",
+                  "value": "42101-1234567-8",
+                  "type": "text"
+                },
+                {
+                  "key": "address",
+                  "value": "House 45, Block 6, PECHS, Karachi",
+                  "type": "text"
+                },
+                {
+                  "key": "country",
+                  "value": "Pakistan",
+                  "type": "text"
+                },
+                {
+                  "key": "passenger_preferred_payment",
+                  "value": "mobile_wallet",
+                  "type": "text"
+                },
+                {
+                  "key": "passenger_emergency_contact",
+                  "value": "+92-301-9876543",
+                  "type": "text"
+                },
+                {
+                  "key": "passenger_emergency_contact_name",
+                  "value": "Fatima Khan",
+                  "type": "text"
+                },
+                {
+                  "key": "passenger_emergency_contact_relation",
+                  "value": "Sister",
+                  "type": "text"
+                },
+                {
+                  "key": "passenger_cnic_front_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "passenger_cnic_back_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "passenger_profile_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "languages",
+                  "value": "[\"urdu\", \"english\"]",
+                  "type": "text"
+                },
+                {
+                  "key": "bio",
+                  "value": "Professional working in IT sector, need reliable transportation for daily commute.",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register Passenger 2",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Ayesha Fatima",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "ayesha.fatima@email.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "SecurePass456!",
+                  "type": "text"
+                },
+                {
+                  "key": "password_confirmation",
+                  "value": "SecurePass456!",
+                  "type": "text"
+                },
+                {
+                  "key": "user_type",
+                  "value": "passenger",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "+92-303-3456789",
+                  "type": "text"
+                },
+                {
+                  "key": "date_of_birth",
+                  "value": "1992-03-22",
+                  "type": "text"
+                },
+                {
+                  "key": "gender",
+                  "value": "female",
+                  "type": "text"
+                },
+                {
+                  "key": "cnic",
+                  "value": "42101-3456789-0",
+                  "type": "text"
+                },
+                {
+                  "key": "address",
+                  "value": "Apartment 7B, Clifton Block 2, Karachi",
+                  "type": "text"
+                },
+                {
+                  "key": "country",
+                  "value": "Pakistan",
+                  "type": "text"
+                },
+                {
+                  "key": "passenger_preferred_payment",
+                  "value": "card",
+                  "type": "text"
+                },
+                {
+                  "key": "passenger_emergency_contact",
+                  "value": "+92-304-4567890",
+                  "type": "text"
+                },
+                {
+                  "key": "passenger_emergency_contact_name",
+                  "value": "Ali Ahmed",
+                  "type": "text"
+                },
+                {
+                  "key": "passenger_emergency_contact_relation",
+                  "value": "Brother",
+                  "type": "text"
+                },
+                {
+                  "key": "passenger_cnic_front_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "passenger_cnic_back_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "passenger_profile_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "languages",
+                  "value": "[\"urdu\", \"english\", \"punjabi\"]",
+                  "type": "text"
+                },
+                {
+                  "key": "bio",
+                  "value": "Marketing professional, frequently travels for work meetings.",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Driver Registration",
+      "item": [
+        {
+          "name": "Register New Driver",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Muhammad Hassan",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "m.hassan@email.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "DriverPass123!",
+                  "type": "text"
+                },
+                {
+                  "key": "password_confirmation",
+                  "value": "DriverPass123!",
+                  "type": "text"
+                },
+                {
+                  "key": "user_type",
+                  "value": "driver",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "+92-302-2345678",
+                  "type": "text"
+                },
+                {
+                  "key": "date_of_birth",
+                  "value": "1985-08-20",
+                  "type": "text"
+                },
+                {
+                  "key": "gender",
+                  "value": "male",
+                  "type": "text"
+                },
+                {
+                  "key": "cnic",
+                  "value": "42101-2345678-9",
+                  "type": "text"
+                },
+                {
+                  "key": "address",
+                  "value": "Flat 12, Building 5, Gulshan-e-Iqbal, Karachi",
+                  "type": "text"
+                },
+                {
+                  "key": "country",
+                  "value": "Pakistan",
+                  "type": "text"
+                },
+                {
+                  "key": "license_number",
+                  "value": "LIC-2023-001234",
+                  "type": "text"
+                },
+                {
+                  "key": "license_type",
+                  "value": "LTV",
+                  "type": "text"
+                },
+                {
+                  "key": "license_expiry_date",
+                  "value": "2028-12-31",
+                  "type": "text"
+                },
+                {
+                  "key": "driving_experience",
+                  "value": "5 years",
+                  "type": "text"
+                },
+                {
+                  "key": "bank_account_number",
+                  "value": "1234567890123456",
+                  "type": "text"
+                },
+                {
+                  "key": "bank_name",
+                  "value": "Habib Bank Limited",
+                  "type": "text"
+                },
+                {
+                  "key": "bank_branch",
+                  "value": "Gulshan-e-Iqbal Branch",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_type",
+                  "value": "car",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_make",
+                  "value": "Toyota",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_model",
+                  "value": "Corolla",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_year",
+                  "value": "2020",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_color",
+                  "value": "White",
+                  "type": "text"
+                },
+                {
+                  "key": "license_plate",
+                  "value": "KHI-2020-1234",
+                  "type": "text"
+                },
+                {
+                  "key": "registration_number",
+                  "value": "REG-2020-5678",
+                  "type": "text"
+                },
+                {
+                  "key": "preferred_payment",
+                  "value": "mobile_wallet",
+                  "type": "text"
+                },
+                {
+                  "key": "cnic_front_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "cnic_back_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "license_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "profile_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "vehicle_front_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "vehicle_back_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "vehicle_left_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "vehicle_right_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "languages",
+                  "value": "[\"urdu\", \"english\", \"sindhi\"]",
+                  "type": "text"
+                },
+                {
+                  "key": "bio",
+                  "value": "Professional driver with 5 years experience. Available 24/7 for reliable service.",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register Bike Driver",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Abdul Rehman",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "abdul.rehman@email.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "DriverPass456!",
+                  "type": "text"
+                },
+                {
+                  "key": "password_confirmation",
+                  "value": "DriverPass456!",
+                  "type": "text"
+                },
+                {
+                  "key": "user_type",
+                  "value": "driver",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "+92-307-5678901",
+                  "type": "text"
+                },
+                {
+                  "key": "date_of_birth",
+                  "value": "1988-11-10",
+                  "type": "text"
+                },
+                {
+                  "key": "gender",
+                  "value": "male",
+                  "type": "text"
+                },
+                {
+                  "key": "cnic",
+                  "value": "42101-5678901-2",
+                  "type": "text"
+                },
+                {
+                  "key": "address",
+                  "value": "House 89, North Nazimabad, Karachi",
+                  "type": "text"
+                },
+                {
+                  "key": "country",
+                  "value": "Pakistan",
+                  "type": "text"
+                },
+                {
+                  "key": "license_number",
+                  "value": "LIC-2023-002345",
+                  "type": "text"
+                },
+                {
+                  "key": "license_type",
+                  "value": "MC",
+                  "type": "text"
+                },
+                {
+                  "key": "license_expiry_date",
+                  "value": "2027-06-15",
+                  "type": "text"
+                },
+                {
+                  "key": "driving_experience",
+                  "value": "3 years",
+                  "type": "text"
+                },
+                {
+                  "key": "bank_account_number",
+                  "value": "2345678901234567",
+                  "type": "text"
+                },
+                {
+                  "key": "bank_name",
+                  "value": "United Bank Limited",
+                  "type": "text"
+                },
+                {
+                  "key": "bank_branch",
+                  "value": "North Nazimabad Branch",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_type",
+                  "value": "bike",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_make",
+                  "value": "Honda",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_model",
+                  "value": "CD-70",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_year",
+                  "value": "2021",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_color",
+                  "value": "Red",
+                  "type": "text"
+                },
+                {
+                  "key": "license_plate",
+                  "value": "KHI-2021-5678",
+                  "type": "text"
+                },
+                {
+                  "key": "registration_number",
+                  "value": "REG-2021-9012",
+                  "type": "text"
+                },
+                {
+                  "key": "preferred_payment",
+                  "value": "cash",
+                  "type": "text"
+                },
+                {
+                  "key": "cnic_front_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "cnic_back_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "license_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "profile_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "vehicle_front_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "vehicle_back_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "vehicle_left_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "vehicle_right_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "languages",
+                  "value": "[\"urdu\", \"english\"]",
+                  "type": "text"
+                },
+                {
+                  "key": "bio",
+                  "value": "Experienced bike rider, specializes in quick city deliveries and short rides.",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register Rickshaw Driver",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Sana Khan",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "sana.khan@email.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "DriverPass789!",
+                  "type": "text"
+                },
+                {
+                  "key": "password_confirmation",
+                  "value": "DriverPass789!",
+                  "type": "text"
+                },
+                {
+                  "key": "user_type",
+                  "value": "driver",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "+92-308-6789012",
+                  "type": "text"
+                },
+                {
+                  "key": "date_of_birth",
+                  "value": "1990-04-18",
+                  "type": "text"
+                },
+                {
+                  "key": "gender",
+                  "value": "female",
+                  "type": "text"
+                },
+                {
+                  "key": "cnic",
+                  "value": "42101-6789012-3",
+                  "type": "text"
+                },
+                {
+                  "key": "address",
+                  "value": "Street 15, Orangi Town, Karachi",
+                  "type": "text"
+                },
+                {
+                  "key": "country",
+                  "value": "Pakistan",
+                  "type": "text"
+                },
+                {
+                  "key": "license_number",
+                  "value": "LIC-2023-003456",
+                  "type": "text"
+                },
+                {
+                  "key": "license_type",
+                  "value": "LTV",
+                  "type": "text"
+                },
+                {
+                  "key": "license_expiry_date",
+                  "value": "2026-09-20",
+                  "type": "text"
+                },
+                {
+                  "key": "driving_experience",
+                  "value": "2 years",
+                  "type": "text"
+                },
+                {
+                  "key": "bank_account_number",
+                  "value": "3456789012345678",
+                  "type": "text"
+                },
+                {
+                  "key": "bank_name",
+                  "value": "MCB Bank",
+                  "type": "text"
+                },
+                {
+                  "key": "bank_branch",
+                  "value": "Orangi Town Branch",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_type",
+                  "value": "rickshaw",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_make",
+                  "value": "Qingqi",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_model",
+                  "value": "QS125T-2D",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_year",
+                  "value": "2022",
+                  "type": "text"
+                },
+                {
+                  "key": "vehicle_color",
+                  "value": "Green",
+                  "type": "text"
+                },
+                {
+                  "key": "license_plate",
+                  "value": "KHI-2022-9012",
+                  "type": "text"
+                },
+                {
+                  "key": "registration_number",
+                  "value": "REG-2022-3456",
+                  "type": "text"
+                },
+                {
+                  "key": "preferred_payment",
+                  "value": "mobile_wallet",
+                  "type": "text"
+                },
+                {
+                  "key": "cnic_front_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "cnic_back_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "license_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "profile_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "vehicle_front_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "vehicle_back_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "vehicle_left_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "vehicle_right_image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "languages",
+                  "value": "[\"urdu\", \"punjabi\"]",
+                  "type": "text"
+                },
+                {
+                  "key": "bio",
+                  "value": "Friendly rickshaw driver, comfortable with local routes and short distance trips.",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login with Email/Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ahmed.ali@email.com\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Send OTP to Phone",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"+92-300-1234567\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/send-otp",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "send-otp"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify OTP and Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"+92-300-1234567\",\n  \"otp_code\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/verify-otp",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "verify-otp"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{passenger_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/profile",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{passenger_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/logout",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "logout"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout from All Devices",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{passenger_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/logout-all",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "logout-all"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{passenger_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/refresh",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "refresh"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Password Reset",
+      "item": [
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ahmed.ali@email.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/forgot-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "forgot-password"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"reset_token_from_email\",\n  \"email\": \"ahmed.ali@email.com\",\n  \"password\": \"NewPassword123!\",\n  \"password_confirmation\": \"NewPassword123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/reset-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "reset-password"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
