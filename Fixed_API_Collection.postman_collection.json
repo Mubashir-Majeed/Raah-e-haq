@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "Raah-e-Haq Fixed API Collection",
+    "description": "Fixed API collection with correct endpoints"
+  },
+  "item": [
+    {
+      "name": "Driver Tracking - GET Location",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tracking/driver/{{driver_id}}/latest",
+          "host": ["{{base_url}}"],
+          "path": ["api", "tracking", "driver", "{{driver_id}}", "latest"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://10.191.138.184:8000"
+    },
+    {
+      "key": "auth_token",
+      "value": "your_token_here"
+    },
+    {
+      "key": "driver_id",
+      "value": "3"
+    }
+  ]
+}

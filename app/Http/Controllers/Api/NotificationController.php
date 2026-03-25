@@ -71,6 +71,7 @@ class NotificationController extends Controller
             'message' => $this->getNotificationMessage($type, $data),
             'data' => $data,
             'read_at' => null,
+            'created_by' => $userId, // Add created_by field
         ]);
     }
 
